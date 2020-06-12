@@ -1,0 +1,14 @@
+.DS_Store
+requirements-specification.pdf
+traceability-matrix.pdf
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rprofile
+check_dir
+*.tar.gz
+inst/doc
+all_tests.csv
+*.md
+*.docx

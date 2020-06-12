@@ -1,0 +1,221 @@
+---
+title: "Basic Usage of mrgvalidate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic_usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+The purpose of the `mrgvalidate` package is specifically to generate three documents that are necessary for the software validation process at Mertrum Research Group. Those documents are:
+
+* requirements-specification.docx
+* validation-testing.docx
+* traceability-matrix.docx
+
+This vignette demonstrates how to generate these with a few simple library calls.
+
+```{r setup}
+library(mrgvalidate)
+```
+
+# Initial setup
+
+First you will need to have `ghpm` installed on your system. This is an internal Metrum package that handles calls to the Github API. You can try `library(ghpm)` if you're not sure if you have it. If you do not, install it with:
+
+```{r get ghpm, eval = FALSE}
+devtools::install_github("metrumresearchgroup/ghpm")
+```
+
+Next, you will need to make sure you have a valid token assigned to the relevant environment variable so that `ghpm` can access the Github API. Depending on whether the package you are validating is on Github Enterprise or public Github, you will either need to set `GHE_PAT` or `GITHUB_PAT` respectively. **If you do not have a token** see [this KB article](https://ghe.metrumrg.com/pages/mrg/knowledgebase/Tech_Solutions/mac_setup/setup_new_mac/#generate-tokens) for instuctions on getting one. Then use the following code to set the variable (substituting `GHE_PAT` if appropriate).
+
+```{r set token, eval = FALSE}
+Sys.setenv(GITHUB_PAT="your-token") # "your-token" will be the alphanumeric OAuth token you get from Github
+```
+
+
+# Configuration
+
+## Github issues
+The `mrgvalidate` package depends on the issues in Github being in a very specific format. All functionality that is going to be validated must be defined in a Github issue, formatted as described below.
+
+### Release tag
+The commit that represents your release must be tagged, ideally as the version number that you are validating with only numbers and decimals. The name of this tag will be used both to pull the correct commit from the repo for testing _and_ to identify the version number in the output documents.
+
+### Milestone
+All issues relevant to the release you are validating _must_ be associated with the same milestone. You will pass the name of this milestone to the functions below. This may be the same as the tag for the release commit, but it does not necessarily need to be.
+
+### Issue format
+The issue parser for creating validation documents requires a very specific format for _all_ issues that are being validated (i.e. associated with the milestone discussed above).
+
+* Summary section
+  * There must be a top-level heading entitled `# Summary`
+  * This should contain a "user story" describing the functionality
+* Tests section
+  * There must be a top-level heading entitled `# Tests`
+  * This should contain a bulleted list of all the tests that are relevant to this functionality
+  * The list will have test file paths at the top level and test names (i.e. the first arguement to the `test_that()` function) on the second level.
+  
+There should be no other top-level headings. Examples of correctly formatted issues can be seen in the [test reference repo](https://ghe.metrumrg.com/tech-solutions/mrgvalidatetestreference/issues) used by `mrgvalidate`.
+  
+## testthat tests
+Similarly, the package you are validating must use the `testthat` package and the tests must be specified in the following way:
+
+* All test files must have a unique `context()` specified (as in, no two files have the same context)
+* All tests must have a unique name specified as the first arguement to the `test_that()` function (as in, no two tests have the same name).
+* As a word of caution, when you change the names of your tests in future versions, you will have to go back and change the names in the issues as well (as described in the "Issue format" section above), so try to avoid doing so unless necessary.
+
+# Generating the docs
+
+The "happy path" to generating the docs is a single function call.
+
+```{r input vars, eval = FALSE}
+mrgvalidate::generate_docs(
+  org = "metrumresearchgroup",
+  repo = "rbabylon",
+  milestone = "v0.6.0", # the name of the milestone in github
+  version = "0.6.0"     # the tag that will be pulled for testing
+)
+
+```
+
+The `generate_docs()` function is a simple wrapper around the functions you'll see below. It uses the defaults to write out three `.docx` files, as well as the `.md` files that are used to render each.
+
+* validation-testing.docx
+* requirements-specification.docx
+* traceability-matrix.docx
+
+If these three documents look correct after human inspection, you're done!
+
+## Domain argument
+
+There is only one other argument to `generate_docs()`:
+
+* `domain` -- Domain where the repo lives. Either "github.com" or "ghe.metrum.com", defaulting to "github.com"
+
+## Slightly more detail
+The specified repo will be cloned at the tag passed to the `version` argument. By default it is cloned to `tempdir()`. The repo is then built and tested with the following:
+
+```
+# build, install, and load from current folder
+source_path <- devtools::build()
+pkg_name <- unlist(strsplit(basename(source_path), "_"))[1]
+install.packages(source_path, lib = ".", repos = NULL)
+library(pkg_name, lib.loc = ".", character.only = TRUE)
+testthat::test_check(pkg_name)
+```
+
+The results of these tests are captured and joined against the tests in the Github issues associated with the milestone passed to the `milestone` argument. This data, combined with the user stories in those issues, are used to create the documents.
+
+# Step by step
+
+If the documents produced by `generate_docs()` don't look right, or you need to debug for any reason, you can run the pieces step-by-step. For the demonstration below, we will use the following constants:
+
+```{r vars}
+ORG <- "metrumresearchgroup"
+REPO <- "rbabylon"
+MILESTONE <- "v0.6.0"
+TAG <- "0.6.0"
+print(glue::glue("{ORG}/{REPO} -- version: {TAG} -- milestone: {MILESTONE}"))
+```
+
+## Validation testing
+
+The `write_validation_testing()` function will do the following:
+
+* clone the repo with the specified tag locally (to `tempdir()` by default)
+* run `test_check()` in the `"tests"` folder of the cloned repo
+* save the tests results to a file (by default `"all_tests.csv"`)
+* render the `validation-testing.md` and corresponding `.docx` from those results
+
+```{r val testing, eval = FALSE}
+write_validation_testing(
+  org = ORG,
+  repo = REPO,
+  version = TAG
+)
+```
+
+If you would like to debug each of these steps manually, you can use the following
+
+```{r pull repo}
+# pull the repo for a specific tag to a temp directory
+commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG)
+print(glue::glue("Pulled tag {TAG} -- commit hash: {commit_hash}"))
+```
+
+```{r run tests, eval = FALSE}
+# run the tests on it
+validate_tests(pkg = REPO)
+```
+
+The `validate_tests()` function will save the test results to `"all_tests.csv"` by default. Then you can render the markdown from the saved file with the `dry_run = TRUE` argument.
+
+```{r write val fake, eval=FALSE}
+# render markdown from previously run tests
+write_validation_testing(
+  org = ORG,
+  repo = REPO,
+  version = TAG,
+  dry_run = TRUE
+)
+```
+
+The files output from `dry_run = TRUE` will be marked with a `DRYRUN` identifier at the top, to indicate that the included date stamp does _not_ in fact match when the repo was cloned and the tests were run.
+
+## Release issues
+
+Before rendering either of the other two documents, you will need to create the tibble of issues assigned to this milestone.
+
+```{r release issues, eval=FALSE}
+# get issues from Github
+release_issues <- get_issues(org = ORG, repo = REPO, mile = MILESTONE)
+stories_df <- process_stories(release_issues, org = ORG, repo = REPO)
+```
+
+The tibble returned from `get_issues()` will have information relating to each issue in the specified milestone. That is passed to `process_stories()` which joins it to the test results, and `risk` field, and formats them to be rendered into markdown.
+
+## Requirements specification
+
+The `write_requirements()` function takes the tibble returned from `process_stories()` and renders `requirements-specification.md` and corresponding `.docx` file. This document summarizes the requirements detailed in the Github issues.
+
+```{r req, eval=FALSE}
+  write_requirements(
+    df = stories_df,
+    pkg = REPO,
+    version = TAG
+  )
+```
+
+## Traceability matrix
+
+Likewise, the `write_traceability_matrix()` function takes the tibble returned from `process_stories()` and renders `traceability-matrix.md` and corresponding `.docx` file. This document matches the test results against the corresponding Github issues.
+
+```{r trace, eval=FALSE}
+  write_traceability_matrix(
+    df = stories_df,
+    pkg = REPO,
+    version = TAG
+  )
+```
+
+
+```{r cleanup, include = FALSE}
+# I don't actually eval any of these here, but if they are run piece-by-piece this will cleanup the created files
+if (fs::file_exists("all_tests.csv")) fs::file_delete("all_tests.csv")
+if (fs::file_exists("requirements-specification.docx")) fs::file_delete("requirements-specification.docx")
+if (fs::file_exists("validation-testing.docx")) fs::file_delete("validation-testing.docx")
+if (fs::file_exists("traceability-matrix.docx")) fs::file_delete("traceability-matrix.docx")
+if (fs::file_exists("requirements-specification.md")) fs::file_delete("requirements-specification.md")
+if (fs::file_exists("validation-testing.md")) fs::file_delete("validation-testing.md")
+if (fs::file_exists("traceability-matrix.md")) fs::file_delete("traceability-matrix.md")
+```

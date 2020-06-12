@@ -1,0 +1,38 @@
+Package: mrgvalidate
+Type: Package
+Title: Create Validation Docs For R Packages
+Version: 0.1.0.7000
+Authors@R: 
+    c(person(given = "Devin",
+           family = "Pastoor",
+           role = c("aut", "cre"),
+           email = "devin.pastoor@gmail.com"),
+    person(given = "Seth",
+           family = "Green",
+           role = c("aut"),
+           email = "seth127@gmail.com"))
+Description: R package for generating validation documents for other R packages developed by Metrum.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 7.0.2
+Imports: 
+    callr,
+    devtools,
+    dplyr,
+    fs,
+    glue,
+    ghpm,
+    knitr,
+    magrittr,
+    processx,
+    purrr,
+    readr,
+    rlang,
+    rmarkdown,
+    stringr,
+    testthat,
+    tibble,
+    tidyr,
+    withr
