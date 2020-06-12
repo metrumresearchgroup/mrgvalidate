@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.7000</span>
       </span>
     </div>
 
@@ -124,9 +124,10 @@
     <pre class="usage"><span class='fu'>validate_tests</span>(
   <span class='no'>pkg</span>,
   <span class='kw'>root_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  <span class='kw'>write_path</span> <span class='kw'>=</span> <span class='no'>ALL_TESTS</span>,
+  <span class='kw'>out_file</span> <span class='kw'>=</span> <span class='no'>ALL_TESTS</span>,
+  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
   <span class='kw'>return_df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
+  <span class='kw'>extra_test_dirs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -141,16 +142,20 @@
       <td><p>The directory path to where the package has been cloned. `file.path(root_dir, pkg)` should lead to the cloned repo that will be tested.</p></td>
     </tr>
     <tr>
-      <th>write_path</th>
-      <td><p>File path to write out the test results to. Should be .csv extension.</p></td>
+      <th>out_file</th>
+      <td><p>File path to write out the test results to. Any extension will be ignored and replaced with .csv</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>Directory to write the output documents to. Defaults to working directory.</p></td>
     </tr>
     <tr>
       <th>return_df</th>
-      <td><p>Boolean indicating whether to return the tibble that is written to `write_path`. Defaults to FALSE and returns nothing.</p></td>
+      <td><p>Boolean indicating whether to return the tibble that is written to `out_file`. Defaults to FALSE and returns nothing.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments passed through to `run_tests()`</p></td>
+      <th>extra_test_dirs</th>
+      <td><p>Character vector of paths (relative to package root dir) to directories that contain additional tests to run</p></td>
     </tr>
     </table>
 

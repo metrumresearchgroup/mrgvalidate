@@ -36,7 +36,10 @@
 
 
 <meta property="og:title" content="Run test_check on package directory — run_tests" />
-<meta property="og:description" content="Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build." />
+<meta property="og:description" content="Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
+If `build_package = FALSE` this assumes that the package being tested has already been built and
+installed at `file.path(root_dir, &quot;mrgvalidate_lib&quot;)`, and it attempts to load the package from there.
+This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.7000</span>
       </span>
     </div>
 
@@ -118,10 +121,18 @@
     </div>
 
     <div class="ref-description">
-    <p>Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.</p>
+    <p>Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
+If `build_package = FALSE` this assumes that the package being tested has already been built and
+installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
+This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_tests</span>(<span class='no'>pkg</span>, <span class='kw'>test_dir</span> <span class='kw'>=</span> <span class='st'>"tests"</span>, <span class='kw'>root_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</pre>
+    <pre class="usage"><span class='fu'>run_tests</span>(
+  <span class='no'>pkg</span>,
+  <span class='kw'>test_path</span> <span class='kw'>=</span> <span class='st'>"tests/testthat"</span>,
+  <span class='kw'>root_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
+  <span class='kw'>build_package</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,12 +142,16 @@
       <td><p>name of the package to test</p></td>
     </tr>
     <tr>
-      <th>test_dir</th>
+      <th>test_path</th>
       <td><p>Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".</p></td>
     </tr>
     <tr>
       <th>root_dir</th>
-      <td><p>The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_dir)` should lead to the directory that will be tested.</p></td>
+      <td><p>The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.</p></td>
+    </tr>
+    <tr>
+      <th>build_package</th>
+      <td><p>Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`</p></td>
     </tr>
     </table>
 

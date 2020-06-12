@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build the Requirements Specification and write it to a markdown file — write_requirements • mrgvalidate</title>
+<title>Helper for setting up package environment for testing — setup_package_env • mrgvalidate</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Build the Requirements Specification and write it to a markdown file — write_requirements" />
-<meta property="og:description" content="Build the Requirements Specification and write it to a markdown file" />
+<meta property="og:title" content="Helper for setting up package environment for testing — setup_package_env" />
+<meta property="og:description" content="These are all things that were copied out of internal functions called by testthat::test_check to set up the package environment.
+They are necessary because testthat::test_dir does NOT do this, which causes some tests to fail.
+Specifically, this code came mostly from testthat:::test_package_dir and testthat:::test_pkg_env and some from test_check itself." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,50 +114,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build the Requirements Specification and write it to a markdown file</h1>
+    <h1>Helper for setting up package environment for testing</h1>
     
-    <div class="hidden name"><code>write_requirements.Rd</code></div>
+    <div class="hidden name"><code>setup_package_env.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Build the Requirements Specification and write it to a markdown file</p>
+    <p>These are all things that were copied out of internal functions called by testthat::test_check to set up the package environment.
+They are necessary because testthat::test_dir does NOT do this, which causes some tests to fail.
+Specifically, this code came mostly from testthat:::test_package_dir and testthat:::test_pkg_env and some from test_check itself.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_requirements</span>(
-  <span class='no'>df</span>,
-  <span class='no'>pkg</span>,
-  <span class='no'>version</span>,
-  <span class='kw'>out_file</span> <span class='kw'>=</span> <span class='no'>REQ_FILE</span>,
-  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
-  <span class='kw'>word_document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>setup_package_env</span>(<span class='no'>package</span>, <span class='no'>test_path</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>Tibble output from `process_stories()`</p></td>
+      <th>package</th>
+      <td><p>the package name</p></td>
     </tr>
     <tr>
-      <th>pkg</th>
-      <td><p>The name of the package you are validating, to be included in the output document.</p></td>
-    </tr>
-    <tr>
-      <th>version</th>
-      <td><p>The version number of the package you are validating, to be included in the output document.</p></td>
-    </tr>
-    <tr>
-      <th>out_file</th>
-      <td><p>filename to write markdown file out to. Any extension will be ignored and replaced with .md</p></td>
-    </tr>
-    <tr>
-      <th>output_dir</th>
-      <td><p>Directory to write the output documents to. Defaults to working directory.</p></td>
-    </tr>
-    <tr>
-      <th>word_document</th>
-      <td><p>Logical scaler indicating whether to render a docx document</p></td>
+      <th>test_path</th>
+      <td><p>path to folder with tests in it</p></td>
     </tr>
     </table>
 

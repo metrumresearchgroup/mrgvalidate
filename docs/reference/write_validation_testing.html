@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.7000</span>
       </span>
     </div>
 
@@ -126,7 +126,9 @@
   <span class='no'>repo</span>,
   <span class='no'>version</span>,
   <span class='kw'>domain</span> <span class='kw'>=</span> <span class='no'>VALID_DOMAINS</span>,
+  <span class='kw'>extra_test_dirs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>out_file</span> <span class='kw'>=</span> <span class='no'>VAL_FILE</span>,
+  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
   <span class='kw'>word_document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>dry_run</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
@@ -151,8 +153,16 @@
       <td><p>Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"</p></td>
     </tr>
     <tr>
+      <th>extra_test_dirs</th>
+      <td><p>Character vector of paths (relative to package root dir) to directories that contain additional tests to run</p></td>
+    </tr>
+    <tr>
       <th>out_file</th>
       <td><p>filename to write markdown file out to. Any extension will be ignored and replaced with .md</p></td>
+    </tr>
+    <tr>
+      <th>output_dir</th>
+      <td><p>Directory to write the output documents to. Defaults to working directory.</p></td>
     </tr>
     <tr>
       <th>word_document</th>

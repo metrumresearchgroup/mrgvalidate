@@ -1,7 +1,7 @@
 # mrgvalidate
 R package for generating validation documents for other R packages developed by Metrum.
 
-See [the "Basic Usage" vignette](dead) for details on how to use for your package, as well as the documents that will be generated.
+See [the "Basic Usage" vignette](https://metrumresearchgroup.github.io/mrgvalidate/articles/basic_usage.html) for details on how to use for your package, as well as the documents that will be generated.
 
 ## Installation
 

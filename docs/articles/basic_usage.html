@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.7000</span>
       </span>
     </div>
 
@@ -161,8 +161,8 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mrgvalidate<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/mrgvalidate/man/generate_docs.html">generate_docs</a></span>(</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">org =</span> <span class="st">"metrumresearchgroup"</span>,</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">repo =</span> <span class="st">"rbabylon"</span>,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">milestone =</span> <span class="st">"v0.6.0"</span> <span class="co"># the name of the milestone in github</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">version =</span> <span class="st">"0.6.0"</span>    <span class="co"># the tag that will be pulled for testing</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">milestone =</span> <span class="st">"v0.6.0"</span>, <span class="co"># the name of the milestone in github</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="dt">version =</span> <span class="st">"0.6.0"</span>     <span class="co"># the tag that will be pulled for testing</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">)</a></code></pre></div>
 <p>The <code><a href="../reference/generate_docs.html">generate_docs()</a></code> function is a simple wrapper around the functions you’ll see below. It uses the defaults to write out three <code>.docx</code> files, as well as the <code>.md</code> files that are used to render each.</p>
 <ul>
@@ -221,8 +221,9 @@ testthat::test_check(pkg_name)</code></pre>
 <p>If you would like to debug each of these steps manually, you can use the following</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># pull the repo for a specific tag to a temp directory</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">commit_hash &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pull_tagged_repo.html">pull_tagged_repo</a></span>(<span class="dt">org =</span> ORG, <span class="dt">repo =</span> REPO, <span class="dt">tag =</span> TAG)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(<span class="st">"Pulled tag {TAG} -- commit hash: {commit_hash}"</span>))</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Pulled tag 0.6.0 -- commit hash: 9587b7e0c58d12012b2e1f2becb2d5b561a44514</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Getting repo with `git clone --branch 0.6.0 git@github.com:metrumresearchgroup/rbabylon.git --depth=1`</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(<span class="st">"Pulled tag {TAG} -- commit hash: {commit_hash}"</span>))</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Pulled tag 0.6.0 -- commit hash: 9587b7e0c58d12012b2e1f2becb2d5b561a44514</span></a></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># run the tests on it</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/validate_tests.html">validate_tests</a></span>(<span class="dt">pkg =</span> REPO)</a></code></pre></div>
 <p>The <code><a href="../reference/validate_tests.html">validate_tests()</a></code> function will save the test results to <code>"all_tests.csv"</code> by default. Then you can render the markdown from the saved file with the <code>dry_run = TRUE</code> argument.</p>
