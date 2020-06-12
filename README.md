@@ -1,14 +1,14 @@
 # mrgvalidate
 R package for generating validation documents for other R packages developed by Metrum.
 
-See [the "Basic Usage" vignette](https://ghe.metrumrg.com/pages/tech-solutions/mrgvalidate/articles/basic_usage.html) for details on how to use for your package, as well as the documents that will be generated.
+See [the "Basic Usage" vignette](dead) for details on how to use for your package, as well as the documents that will be generated.
 
 ## Installation
 
-Install from source by pulling the tarball from either [github](https://ghe.metrumrg.com/tech-solutions/mrgvalidate/releases) or [Metrum S3]( https://s3.amazonaws.com/mpn.metworx.dev/releases/mrgvalidate/) and installing with the following:
+Install from source by [pulling the tarball](https://github.com/metrumresearchgroup/mrgvalidate/releases) or use:
 
 ```
-install.packages("/path/to/mrgvalidate_0.1.0.tar.gz", repos = NULL)
+devtools::install_github("metrumresearchgroup/mrgvalidate")
 ```
 
 ## One liner usage
