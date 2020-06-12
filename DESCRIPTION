@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.0.7000
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",
@@ -10,7 +10,11 @@ Authors@R:
     person(given = "Seth",
            family = "Green",
            role = c("aut"),
-           email = "seth127@gmail.com"))
+           email = "seth127@gmail.com")),
+    person(given = "Kyle T",
+           family = "Baron",
+           role = c("aut"),
+           email = "kyleb@metrumrg.com"))
 Description: R package for generating validation documents for other R packages developed by Metrum.
 License: MIT + file LICENSE
 Encoding: UTF-8
