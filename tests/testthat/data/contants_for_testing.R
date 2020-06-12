@@ -2,11 +2,17 @@
 # constants for test input
 ###########################
 
-DOMAIN <- "ghe.metrumrg.com"
-ORG <- "tech-solutions"
+DOMAIN <- "github.com"
+ORG <- "metrumresearchgroup"
 REPO <- "mrgvalidatetestreference"
 MILESTONE <- "v0.6.0"
 TAG <- "0.6.0"
+
+GHE_DOMAIN <- "ghe.metrumrg.com"
+GHE_ORG <- "tech-solutions"
+GHE_REPO <- "mrgvalidatetestreference"
+GHE_MILESTONE <- "v0.6.0"
+GHE_TAG <- "0.6.0"
 
 STORY_RDS <- "stories_df.RDS"
 
@@ -32,7 +38,8 @@ cleanup <- function() {
 # reference for test results
 #############################
 
-COMMIT_REF <- "0817f579b2858cfce24975776f83302bff9162ba"
+COMMIT_REF <- "15430d3a6d77adc2e955d4f1e22209e63e6d7f60"
+GHE_COMMIT_REF <- "0817f579b2858cfce24975776f83302bff9162ba"
 
 TEST_DF_ROWS <- 169
 TEST_DF_COLS <- 6
