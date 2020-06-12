@@ -8,19 +8,20 @@ REPO <- "mrgvalidatetestreference"
 MILESTONE <- "v0.6.0"
 TAG <- "0.6.0"
 
-GHE_DOMAIN <- "ghe.metrumrg.com"
-GHE_ORG <- "tech-solutions"
-GHE_REPO <- "mrgvalidatetestreference"
-GHE_MILESTONE <- "v0.6.0"
-GHE_TAG <- "0.6.0"
-
 STORY_RDS <- "stories_df.RDS"
 
 OUTPUT_DIR <- "level2"
 
 EXTRA_TESTS <- "inst/extra-tests"
 
+# for optional GHE test in test-ghe.R
+GHE_DOMAIN <- "ghe.metrumrg.com"
+GHE_ORG <- "tech-solutions"
+GHE_REPO <- "mrgvalidatetestreference"
+GHE_MILESTONE <- "v0.6.0"
+GHE_TAG <- "0.6.0"
 
+# cleanup function for after each test
 cleanup <- function() {
   if (fs::file_exists("all_tests.csv")) fs::file_delete("all_tests.csv")
   if (fs::file_exists("requirements-specification.docx")) fs::file_delete("requirements-specification.docx")
