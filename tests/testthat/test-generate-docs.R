@@ -42,7 +42,6 @@ test_that("generate_docs() renders", {
 test_that("generate_docs() renders into output_dir", {
   on.exit({ cleanup() })
   cleanup()
-  fs::dir_create(OUTPUT_DIR)
 
   mrgvalidate::generate_docs(
     org = ORG,
