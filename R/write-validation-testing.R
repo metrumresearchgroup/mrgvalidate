@@ -86,11 +86,17 @@ Date: {date_stamp}
 
 ')
 
+  val_tests <- '
+
+## Test details
+
+Full report of all tests run.
+'
+
   # run test_check
   if (isTRUE(dry_run)) {
     test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
   } else {
-    message(glue("Running tests on {root_dir}/{repo}..."))
     test_df <- validate_tests(
       pkg = repo,
       root_dir = root_dir,
@@ -134,11 +140,13 @@ Testing session information is captured.
   cat(file = out_file,  val_boiler,"\n")
 
   cat(file = out_file,  val_candidate,"\n", append = TRUE)
-  tab <- knitr::kable(test_df)
-  cat(file = out_file, tab, sep = "\n", append = TRUE)
 
   cat(file = out_file,  val_summary,"\n", append = TRUE)
   tab <- knitr::kable(sum_df)
+  cat(file = out_file, tab, sep = "\n", append = TRUE)
+
+  cat(file = out_file,  val_tests,"\n", append = TRUE)
+  tab <- knitr::kable(test_df)
   cat(file = out_file, tab, sep = "\n", append = TRUE)
 
   cat(file = out_file,  val_session,"\n", append = TRUE)
