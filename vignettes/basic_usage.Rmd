@@ -36,7 +36,7 @@ First you will need to have `ghpm` installed on your system. This is an internal
 devtools::install_github("metrumresearchgroup/ghpm")
 ```
 
-Next, you will need to make sure you have a valid token assigned to the relevant environment variable so that `ghpm` can access the Github API. Depending on whether the package you are validating is on Github Enterprise or public Github, you will either need to set `GHE_PAT` or `GITHUB_PAT` respectively. **If you do not have a token** see [this KB article](https://ghe.metrumrg.com/pages/mrg/knowledgebase/Tech_Solutions/mac_setup/setup_new_mac/#generate-tokens) for instuctions on getting one. Then use the following code to set the variable (substituting `GHE_PAT` if appropriate).
+Next, you will need to make sure you have a valid token assigned to the relevant environment variable so that `ghpm` can access the Github API. Depending on whether the package you are validating is on Github Enterprise or public Github, you will either need to set `GHE_PAT` or `GITHUB_PAT` respectively. **If you do not have a token** please read an article like [this](https://happygitwithr.com/github-pat.html#github-pat) for instuctions on getting one set up. Then use the following code to set the variable (substituting `GHE_PAT` if appropriate).
 
 ```{r set token, eval = FALSE}
 Sys.setenv(GITHUB_PAT="your-token") # "your-token" will be the alphanumeric OAuth token you get from Github
