@@ -46,7 +46,8 @@ proc_issue <- function(txt) {
   test_end <- c((file_start - 1)[-1],length(ts))
 
   if (length(file_start) == 0) {
-    return(tibble(test_file = NO_TESTS_STRING, test_name = NO_TESTS_STRING, story = story))
+    no_tests_text <- paste0("\n\n_", NO_TESTS_STRING, " - ", paste(ts, collapse = " "), "_")
+    return(tibble(test_file = NO_TESTS_STRING, test_name = NO_TESTS_STRING, story = paste0(story, no_tests_text)))
   }
 
   labs <- rm_h(ts[file_start])
