@@ -35,8 +35,15 @@ Imports:
     readr,
     rlang,
     rmarkdown,
-    stringr,
     testthat,
     tibble,
     tidyr,
     withr
+Suggests:
+    checkmate,
+    digest,
+    jsonlite,
+    stringr,
+    yaml,
+    forcats,
+    cli

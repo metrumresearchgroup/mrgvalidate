@@ -97,7 +97,7 @@ sp_sections <- function(x) {
   x <- strsplit(x,"(\\# *Test\\w*|\\# *Summ\\w*)") %>% flatten_chr
   x <- rm_blank(x)
   if(length(x)!=2) {
-    stop(paste("sp_sections() failed by splitting into wrong number of sections. Please check formatting in the following issue: ", x, collapse = " -------- "))
+    stop(paste("sp_sections() failed by splitting into wrong number of sections. Please see 'Basic Usage' vignette and check formatting in the following issue: ", x, collapse = " -------- "))
   }
   x
 }
