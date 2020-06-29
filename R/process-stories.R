@@ -32,11 +32,16 @@ process_stories <- function(
     df <- left_join(df,tst,by=c("test_name", "test_file"))
 
     if(any(is.na(df$number))) {
-      warning(paste(
-        glue("process_stories() tibble has {sum(is.na(df$number))} rows with NA's for tests. The following tests were not found in {test_path}"),
-        paste(paste(df$title[is.na(df$number)], df$test_name[is.na(df$number)], sep = " -- "), collapse = "\n"),
-        sep = "\n"
-      ))
+      # check if any of them explictly have no tests
+      missing_tests <- filter(df, is.na(.data$number) & .data$test_name != NO_TESTS_STRING)
+
+      if (nrow(missing_tests) > 0) {
+        warning(paste(
+          glue("process_stories() tibble has {nrow(missing_tests)} rows with NA's for tests. The following tests were not found in {test_path}"),
+          paste(paste(missing_tests$title, missing_tests$test_name, sep = " -- "), collapse = "\n"),
+          sep = "\n"
+        ))
+      }
     }
   }
 
