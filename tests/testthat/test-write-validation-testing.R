@@ -1,5 +1,6 @@
 context("Test validation testing function")
 
+library(stringr)
 source("data/contants_for_testing.R")
 
 test_that("write_validation_testing() renders", {

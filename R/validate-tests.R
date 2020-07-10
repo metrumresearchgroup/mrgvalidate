@@ -213,12 +213,20 @@ parse_test_output <- function(result) {
   if (is.null(result$context)) {
     stop("no context specified in file: ", result$file)
   }
-  tibble::tibble(context = result$context,
+  out <- tibble::tibble(context = result$context,
                  file = result$file,
                  tests = map_chr(result$results, ~ .x$test),
                  success = map_lgl(result$results, ~ inherits(.x, "expectation_success")),
                  res_msg = map_chr(result$results, ~ paste(class(.x), collapse = ", "))
   )
+
+  if (!all(map_lgl(result$results, ~ inherits(.x, "expectation_success")))) {
+    #browser()
+    #str(result)
+    loser_msg <- result$results[[which(!map_lgl(result$results, ~ inherits(.x, "expectation_success")))]]
+    message(paste(result$file, "--", result$test, "--\n", paste(loser_msg, collapse = "\n")))
+  }
+  return(out)
 }
 
 #' @importFrom glue trim

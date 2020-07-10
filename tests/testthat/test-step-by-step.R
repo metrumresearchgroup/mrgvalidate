@@ -1,5 +1,6 @@
 context("Test step-by-step functions")
 
+library(stringr)
 source("data/contants_for_testing.R")
 
 test_that("no docs exist at the beginning", {
