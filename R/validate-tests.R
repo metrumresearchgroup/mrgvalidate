@@ -50,7 +50,8 @@ validate_tests <- function(
   }
 
   ##########
-  cat(results[results$passed > 1, c("file", "tests", "failed")])
+  print(results[results$passed > 1, c("file", "tests", "failed")])
+  message(results[results$passed > 1, c("file", "tests", "failed")])
   ##########
 
   if (isTRUE(return_df)) {
