@@ -50,8 +50,8 @@ validate_tests <- function(
   }
 
   ##########
-  print(results[results$passed > 1, c("file", "tests", "failed")])
-  message(results[results$passed > 1, c("file", "tests", "failed")])
+  print(results[results$failed > 0, c("file", "tests", "failed")])
+  #message(results[results$failed > 0, c("file", "tests", "failed")])
   ##########
 
   if (isTRUE(return_df)) {
