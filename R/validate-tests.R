@@ -51,7 +51,6 @@ validate_tests <- function(
 
   ##########
   print(results[results$failed > 0, c("file", "tests", "failed")])
-  #message(results[results$failed > 0, c("file", "tests", "failed")])
   ##########
 
   if (isTRUE(return_df)) {
@@ -224,7 +223,7 @@ parse_test_output <- function(result) {
     #browser()
     #str(result)
     loser_msg <- result$results[[which(!map_lgl(result$results, ~ inherits(.x, "expectation_success")))]]
-    message(paste(result$file, "--", result$test, "--\n", paste(loser_msg, collapse = "\n")))
+    print(paste(result$file, "--", result$test, "--\n", paste(loser_msg, collapse = "\n")))
   }
   return(out)
 }
