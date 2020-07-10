@@ -23,7 +23,6 @@ test_that("validate_tests() writes csv results", {
   expect_true(fs::file_exists(ALL_TESTS))
 
   test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
-  print(test_df[test_df$failed > 0, c("file", "tests", "failed")])
   expect_equal(nrow(test_df), TEST_DF_ROWS)
   expect_equal(ncol(test_df), TEST_DF_COLS)
   expect_equal(sum(test_df$failed), 0)

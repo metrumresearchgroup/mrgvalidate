@@ -49,6 +49,10 @@ validate_tests <- function(
     readr::write_csv(results, path=out_file)
   }
 
+  ##########
+  cat(results[results$passed > 1, c("file", "tests", "failed")])
+  ##########
+
   if (isTRUE(return_df)) {
     return(results)
   }
