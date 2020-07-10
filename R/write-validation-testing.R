@@ -9,6 +9,7 @@
 #' @importFrom rmarkdown render
 #' @importFrom rlang .data
 #' @importFrom devtools session_info
+#' @importFrom fs dir_exists dir_create
 #' @param org Github organization that the repo is under
 #' @param repo The name of the repo for the package you are validating
 #' @param version The version number of the package you are validating. This must correspond to a tag in the repo.
@@ -30,6 +31,7 @@ write_validation_testing <- function(
   word_document = TRUE,
   dry_run = FALSE
 ) {
+  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".md"))
   root_dir <- tempdir()
   domain <- match.arg(domain)
@@ -84,11 +86,17 @@ Date: {date_stamp}
 
 ')
 
+  val_tests <- '
+
+## Test details
+
+Full report of all tests run.
+'
+
   # run test_check
   if (isTRUE(dry_run)) {
     test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
   } else {
-    message(glue("Running tests on {root_dir}/{repo}..."))
     test_df <- validate_tests(
       pkg = repo,
       root_dir = root_dir,
@@ -132,11 +140,13 @@ Testing session information is captured.
   cat(file = out_file,  val_boiler,"\n")
 
   cat(file = out_file,  val_candidate,"\n", append = TRUE)
-  tab <- knitr::kable(test_df)
-  cat(file = out_file, tab, sep = "\n", append = TRUE)
 
   cat(file = out_file,  val_summary,"\n", append = TRUE)
   tab <- knitr::kable(sum_df)
+  cat(file = out_file, tab, sep = "\n", append = TRUE)
+
+  cat(file = out_file,  val_tests,"\n", append = TRUE)
+  tab <- knitr::kable(test_df)
   cat(file = out_file, tab, sep = "\n", append = TRUE)
 
   cat(file = out_file,  val_session,"\n", append = TRUE)

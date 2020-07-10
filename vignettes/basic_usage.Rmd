@@ -64,6 +64,7 @@ The issue parser for creating validation documents requires a very specific form
   * There must be a top-level heading entitled `# Tests`
   * This should contain a bulleted list of all the tests that are relevant to this functionality
   * The list will have test file paths at the top level and test names (i.e. the first arguement to the `test_that()` function) on the second level.
+  * Note that **if an issue has no tests** associated with it, you _still_ need a top-level heading entitled `# Tests` but it should contain only some brief text about why tests are not necessary.
 * Milestone
   * Issue must be assigned to a milestone. The name of this milestone is passed to various functions referenced elsewhere in this vignette.
 * Risk

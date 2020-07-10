@@ -40,14 +40,21 @@ proc_issue <- function(txt) {
   sp <- sp_sections(txt)
   ts <- strsplit(sp[2], "[\n\r]+") %>% flatten_chr %>% rm_blank
   story <- trimws(gsub("^ *[\r\n]+ *", "", sp[1]))
+
   file_start <- which(grepl("test-.*\\.R$", ts))
   test_start <- file_start+1
   test_end <- c((file_start - 1)[-1],length(ts))
+
+  if (length(file_start) == 0) {
+    no_tests_text <- paste0("\n\n_", NO_TESTS_STRING, " - ", paste(ts, collapse = " "), "_")
+    return(tibble(test_file = NO_TESTS_STRING, test_name = NO_TESTS_STRING, story = paste0(story, no_tests_text)))
+  }
+
   labs <- rm_h(ts[file_start])
   .lab <- basename(labs)
   dd <- map_df(seq_along(file_start), function(i) {
     se <- seq(test_start[i],test_end[i])
-    tibble(test_file = .lab[i], test_name = rm_s(rm_h(ts[se])),story = story)
+    tibble(test_file = .lab[i], test_name = rm_s(rm_h(ts[se])), story = story)
   })
   dd
 }
@@ -91,7 +98,7 @@ sp_sections <- function(x) {
   x <- strsplit(x,"(\\# *Test\\w*|\\# *Summ\\w*)") %>% flatten_chr
   x <- rm_blank(x)
   if(length(x)!=2) {
-    stop(paste("sp_sections() failed by splitting into too many sections: ", x, collapse = " -------- "))
+    stop(paste("sp_sections() failed by splitting into wrong number of sections. Please see 'Basic Usage' vignette and check formatting in the following issue: ", x, collapse = " -------- "))
   }
   x
 }

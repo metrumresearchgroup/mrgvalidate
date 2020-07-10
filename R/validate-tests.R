@@ -3,6 +3,7 @@
 #' @importFrom dplyr group_by summarize bind_rows
 #' @importFrom purrr map_df map
 #' @importFrom rlang .data
+#' @importFrom fs dir_exists dir_create
 #' @param pkg The name of the package you are validating, to be included in the output document.
 #' @param root_dir The directory path to where the package has been cloned. `file.path(root_dir, pkg)` should lead to the cloned repo that will be tested.
 #' @param out_file File path to write out the test results to. Any extension will be ignored and replaced with .csv
@@ -43,6 +44,7 @@ validate_tests <- function(
   }
 
   if (!is.null(out_file)) {
+    if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
     out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".csv"))
     readr::write_csv(results, path=out_file)
   }
@@ -76,7 +78,13 @@ pull_tagged_repo <- function(
 
   domain <- match.arg(domain)
 
-  clone_string <- as.character(glue("git@{domain}:{org}/{repo}.git"))
+  if (domain == "github.com") {
+    clone_string <- as.character(glue("git://github.com/{org}/{repo}.git"))
+  } else {
+    # need to use SSH for GHE
+    clone_string <- as.character(glue("git@{domain}:{org}/{repo}.git"))
+  }
+
   cmd_args <- c("clone", "--branch", tag, clone_string, "--depth=1")
 
   message(glue("Getting repo with `git {paste(cmd_args, collapse = ' ')}`"))

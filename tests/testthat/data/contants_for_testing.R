@@ -8,19 +8,20 @@ REPO <- "mrgvalidatetestreference"
 MILESTONE <- "v0.6.0"
 TAG <- "0.6.0"
 
-GHE_DOMAIN <- "ghe.metrumrg.com"
-GHE_ORG <- "tech-solutions"
-GHE_REPO <- "mrgvalidatetestreference"
-GHE_MILESTONE <- "v0.6.0"
-GHE_TAG <- "0.6.0"
-
 STORY_RDS <- "stories_df.RDS"
 
 OUTPUT_DIR <- "level2"
 
 EXTRA_TESTS <- "inst/extra-tests"
 
+# for optional GHE test in test-ghe.R
+GHE_DOMAIN <- "ghe.metrumrg.com"
+GHE_ORG <- "tech-solutions"
+GHE_REPO <- "mrgvalidatetestreference"
+GHE_MILESTONE <- "v0.6.0"
+GHE_TAG <- "0.6.0"
 
+# cleanup function for after each test
 cleanup <- function() {
   if (fs::file_exists("all_tests.csv")) fs::file_delete("all_tests.csv")
   if (fs::file_exists("requirements-specification.docx")) fs::file_delete("requirements-specification.docx")
@@ -45,8 +46,9 @@ TEST_DF_ROWS <- 169
 TEST_DF_COLS <- 6
 TEST_DF_ROWS_EXTRA_TESTS <- 173
 
-STORIES_DF_ROWS <- 5
+STORIES_DF_ROWS <- 6 # this will change when new stories are added for new test cases
 STORIES_DF_COLS <- 5
+STORIES_DF_ROWS_GHE <- 5 # this shouldn't ever change because the GHE repo is static
 
 VAL_TITLE <- "Validation Testing"
 VAL_BOILER <- '
