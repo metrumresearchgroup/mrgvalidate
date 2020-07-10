@@ -29,6 +29,8 @@ steps:
   pull: never
   environment:
     R_LIBS_USER: "/opt/rpkgs/40"
+    GITHUB_PAT:
+      from_secret: drone-pat
   commands:
     - /opt/R/4.0.1/bin/R -e "devtools::install_deps(upgrade = 'never')"
     - /opt/R/4.0.1/bin/R -e "devtools::test()"
@@ -46,6 +48,8 @@ steps:
   pull: never
   environment:
     R_LIBS_USER: "/opt/rpkgs/4.0/"
+    GITHUB_PAT:
+      from_secret: drone-pat
   commands:
     - git config --global user.email "drone@metrumrg.com"
     - git config --global user.name "Drony"
