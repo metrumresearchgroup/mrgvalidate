@@ -78,7 +78,13 @@ pull_tagged_repo <- function(
 
   domain <- match.arg(domain)
 
-  clone_string <- as.character(glue("git://{domain}/{org}/{repo}.git"))
+  if (domain == "github.com") {
+    clone_string <- as.character(glue("git://github.com/{org}/{repo}.git"))
+  } else {
+    # need to use SSH for GHE
+    clone_string <- as.character(glue("git@{domain}:{org}/{repo}.git"))
+  }
+
   cmd_args <- c("clone", "--branch", tag, clone_string, "--depth=1")
 
   message(glue("Getting repo with `git {paste(cmd_args, collapse = ' ')}`"))

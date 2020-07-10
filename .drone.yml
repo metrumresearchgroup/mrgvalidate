@@ -17,6 +17,8 @@ steps:
   pull: never
   environment:
     R_LIBS_USER: "/opt/rpkgs/3.6"
+    GITHUB_PAT:
+      from_secret: drone-pat
   commands:
     - /opt/R/3.6.3/bin/R -e "devtools::install_github('https://github.com/metrumresearchgroup/ghpm')"
     - /opt/R/3.6.3/bin/R -e "devtools::install_deps(upgrade = 'never')"
