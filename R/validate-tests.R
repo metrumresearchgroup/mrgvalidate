@@ -176,12 +176,14 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
         lib = tmp_lib
       )
       withr::with_libpaths(
-        tmp_lib, {
+        tmp_lib,
+        {
           devtools::test(
             pkg = target_pkg,
             reporter = testthat::ListReporter$new()
           )
-        }
+        },
+        action = "prefix"
       )
     },
     args = list( # this is how you pass things into the callr::r() session
