@@ -69,7 +69,8 @@ and Validation Plan.
     rmarkdown::render(
       out_file,
       output_format = "word_document",
-      output_dir = dirname(out_file)
+      output_dir = dirname(out_file),
+      quiet = TRUE
     )
     message("  Finished rendering")
   }
