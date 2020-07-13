@@ -166,18 +166,17 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       # })
       tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
       fs::dir_create(tmp_lib)
-
       target_pkg <- file.path(root_dir, pkg)
 
-      devtools::install_deps(
-        pkg = target_pkg,
-        upgrade = "never",
-        quiet = TRUE,
-        lib = tmp_lib
-      )
       withr::with_libpaths(
         tmp_lib,
         {
+          devtools::install(
+            pkg = target_pkg,
+            build = build_package,
+            upgrade = "never",
+            # quiet = TRUE
+          )
           devtools::test(
             pkg = target_pkg,
             reporter = testthat::ListReporter$new()
@@ -185,6 +184,16 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
         },
         action = "prefix"
       )
+
+
+
+
+      # devtools::install_deps(
+      #   pkg = target_pkg,
+      #   upgrade = "never",
+      #   quiet = TRUE,
+      #   lib = tmp_lib
+      # )
     },
     args = list( # this is how you pass things into the callr::r() session
       root_dir = root_dir,
