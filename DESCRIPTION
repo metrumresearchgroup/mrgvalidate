@@ -26,6 +26,7 @@ Imports:
     devtools,
     dplyr,
     fs,
+    ggplot2,
     glue,
     ghpm (>= 0.3.1),
     knitr,
