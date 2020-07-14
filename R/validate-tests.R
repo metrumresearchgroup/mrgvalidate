@@ -128,11 +128,7 @@ pull_tagged_repo <- function(
 run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), build_package = TRUE) {
   message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
 
-  R_LIBS_USER <- Sys.getenv("R_LIBS_USER", NA_character_)
-  if (is.na(R_LIBS_USER)) {
-    R_LIBS_USER <- NULL
-  }
-  print(paste0("R_LIBS_USER: ", R_LIBS_USER))
+  print(.libPaths())
   # Run build and tests in new R session using callr::r()
   results_list <- callr::r(
     function(root_dir, pkg, test_path, build_package, setup_package_env) {
