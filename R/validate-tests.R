@@ -169,12 +169,18 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       fs::dir_create(tmp_lib)
       target_pkg <- file.path(root_dir, pkg)
 
-      withr::local_libpaths(tmp_lib, action = "prefix")
-      remotes::install_deps(
-        pkgdir = target_pkg,
-        upgrade = "never"
+      # withr::local_libpaths(tmp_lib, action = "prefix")
+      devtools::install_deps(
+        pkg = target_pkg,
+        upgrade = "never",
+        lib = tmp_lib
       )
-      devtools::test(target_pkg)
+      withr::with_libpaths(
+        tmp_lib,
+        devtools::test(target_pkg),
+        action = "prefix"
+      )
+
       # rcmdcheck::rcmdcheck(target_pkg)
       # withr::with_libpaths(
       #   tmp_lib,
