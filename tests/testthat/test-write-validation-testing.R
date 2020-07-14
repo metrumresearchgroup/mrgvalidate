@@ -4,6 +4,7 @@ library(stringr)
 source("data/contants_for_testing.R")
 
 test_that("write_validation_testing() renders", {
+  skip("foo")
   on.exit({ cleanup() })
   cleanup()
 

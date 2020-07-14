@@ -4,6 +4,7 @@ library(stringr)
 source("data/contants_for_testing.R")
 
 test_that("no docs exist at the beginning", {
+  skip("foo")
   expect_false(fs::file_exists(ALL_TESTS))
   expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(REQ_FILE), ".docx")))
   expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(VAL_FILE), ".docx")))
@@ -15,11 +16,13 @@ test_that("no docs exist at the beginning", {
 })
 
 test_that("pull_tagged_repo() gets clones and gets commit hash", {
+  skip("foo")
   commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
   expect_identical(commit_hash, COMMIT_REF)
 })
 
 test_that("validate_tests() writes csv results", {
+  skip("foo")
   validate_tests(pkg = REPO)
   expect_true(fs::file_exists(ALL_TESTS))
 
@@ -31,6 +34,7 @@ test_that("validate_tests() writes csv results", {
 })
 
 test_that("write_validation_testing() dry_run renders", {
+  skip("foo")
 
   write_validation_testing(
     org = ORG,
@@ -49,6 +53,7 @@ test_that("write_validation_testing() dry_run renders", {
 
 
 test_that("get_issues() and process_stories() pull from github", {
+  skip("foo")
   release_issues <- get_issues(org = ORG, repo = REPO, mile = MILESTONE, domain = DOMAIN)
   stories_df <- process_stories(release_issues, org = ORG, repo = REPO, domain = DOMAIN)
 
@@ -59,6 +64,7 @@ test_that("get_issues() and process_stories() pull from github", {
 })
 
 test_that("write_requirements() renders", {
+  skip("foo")
   stories_df <- readRDS(STORY_RDS)
 
   write_requirements(
@@ -76,6 +82,7 @@ test_that("write_requirements() renders", {
 })
 
 test_that("write_traceability_matrix() renders", {
+  skip("foo")
   stories_df <- readRDS(STORY_RDS)
 
   write_traceability_matrix(
