@@ -184,6 +184,7 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
         {
           devtools::test(
             pkg = target_pkg,
+            filter = "classes",
             reporter = testthat::ListReporter$new()
           )
         },
