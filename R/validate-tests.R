@@ -173,27 +173,28 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       fs::dir_create(tmp_lib)
       target_pkg <- file.path(root_dir, pkg)
 
-      withr::with_libpaths(
-        tmp_lib,
-        {
-          devtools::install(
-            pkg = target_pkg,
-            build = build_package,
-            dependencies = FALSE
-          )
-        }
-      )
+      rcmdcheck::rcmdcheck(target_pkg)
+      # withr::with_libpaths(
+      #   tmp_lib,
+      #   {
+      #     devtools::install(
+      #       pkg = target_pkg,
+      #       build = build_package,
+      #       dependencies = FALSE
+      #     )
+      #   }
+      # )
 
-      withr::with_libpaths(
-        tmp_lib,
-        {
-          devtools::test(
-            pkg = target_pkg,
-            reporter = testthat::ListReporter$new()
-          )
-        },
-        action = "prefix"
-      )
+      # withr::with_libpaths(
+      #   tmp_lib,
+      #   {
+      #     devtools::test(
+      #       pkg = target_pkg,
+      #       reporter = testthat::ListReporter$new()
+      #     )
+      #   },
+      #   action = "prefix"
+      # )
     },
     args = list( # this is how you pass things into the callr::r() session
       root_dir = root_dir,
