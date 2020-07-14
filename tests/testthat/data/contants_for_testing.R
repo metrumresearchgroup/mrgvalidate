@@ -6,7 +6,7 @@ DOMAIN <- "github.com"
 ORG <- "metrumresearchgroup"
 REPO <- "mrgvalidatetestreference"
 MILESTONE <- "v0.6.0"
-TAG <- "0.6.0"
+TAG <- "0.6.1"
 
 STORY_RDS <- "stories_df.RDS"
 
@@ -39,7 +39,7 @@ cleanup <- function() {
 # reference for test results
 #############################
 
-COMMIT_REF <- "15430d3a6d77adc2e955d4f1e22209e63e6d7f60"
+COMMIT_REF <- "29f61d41b2e467a4b1fd1197805b6fa5f7d25351"
 GHE_COMMIT_REF <- "0817f579b2858cfce24975776f83302bff9162ba"
 
 TEST_DF_ROWS <- 169
