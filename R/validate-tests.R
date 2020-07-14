@@ -132,15 +132,17 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
   fs::dir_create(tmp_lib)
   withr::local_libpaths(tmp_lib, action = "prefix")
 
-  target_pkg <- file.path(root_dir, pkg)
+  withr::local_dir(root_dir)
   devtools::install(
-    pkg = target_pkg,
+    pkg,
+    quiet = TRUE,
     upgrade = "never"
   )
-  devtools::test(
-    pkg = target_pkg,
-    reporter = testthat::ListReporter$new()
-  )
+  devtools::test(pkg, reporter = testthat::ListReporter$new())
+  # testthat::test_check(
+  #   pkg,
+  #   reporter = testthat::ListReporter$new()
+  # )
   # Run build and tests in new R session using callr::r()
   # results_list <- callr::r(
   #   function(root_dir, pkg, test_path, build_package, setup_package_env) {
