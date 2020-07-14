@@ -128,10 +128,22 @@ pull_tagged_repo <- function(
 run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), build_package = TRUE) {
   message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
 
-  print(.libPaths())
+  tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
+  fs::dir_create(tmp_lib)
+  withr::local_libpaths(tmp_lib, action = "prefix")
+
+  target_pkg <- file.path(root_dir, pkg)
+  devtools::install(
+    pkg = target_pkg,
+    upgrade = "never"
+  )
+  devtools::test(
+    pkg = target_pkg,
+    reporter = testthat::ListReporter$new()
+  )
   # Run build and tests in new R session using callr::r()
-  results_list <- callr::r(
-    function(root_dir, pkg, test_path, build_package, setup_package_env) {
+  # results_list <- callr::r(
+  #   function(root_dir, pkg, test_path, build_package, setup_package_env) {
       # withr::with_dir(file.path(root_dir, pkg) ,{
       #
       #   # create temp folder to install into
@@ -165,21 +177,21 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       #   )
       #
       # })
-      tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
-      fs::dir_create(tmp_lib)
-      target_pkg <- file.path(root_dir, pkg)
+      # tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
+      # fs::dir_create(tmp_lib)
+      # target_pkg <- file.path(root_dir, pkg)
 
       # withr::local_libpaths(tmp_lib, action = "prefix")
-      devtools::install_deps(
-        pkg = target_pkg,
-        upgrade = "never",
-        lib = tmp_lib
-      )
-      withr::with_libpaths(
-        tmp_lib,
-        devtools::test(target_pkg),
-        action = "prefix"
-      )
+      # devtools::install_deps(
+      #   pkg = target_pkg,
+      #   upgrade = "never",
+      #   lib = tmp_lib
+      # )
+      # withr::with_libpaths(
+      #   tmp_lib,
+      #   devtools::test(target_pkg),
+      #   action = "prefix"
+      # )
 
       # rcmdcheck::rcmdcheck(target_pkg)
       # withr::with_libpaths(
@@ -203,19 +215,19 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       #   },
       #   action = "prefix"
       # )
-    },
-    args = list( # this is how you pass things into the callr::r() session
-      root_dir = root_dir,
-      pkg = pkg,
-      test_path = test_path,
-      build_package = build_package,
-      setup_package_env = setup_package_env
-    ),
-    stderr = "2>&1",
-    cmdargs = c("--no-save", "--no-restore"),
-    show = TRUE
-  )
-  return (results_list)
+    # },
+  #   args = list( # this is how you pass things into the callr::r() session
+  #     root_dir = root_dir,
+  #     pkg = pkg,
+  #     test_path = test_path,
+  #     build_package = build_package,
+  #     setup_package_env = setup_package_env
+  #   ),
+  #   stderr = "2>&1",
+  #   cmdargs = c("--no-save", "--no-restore"),
+  #   show = TRUE
+  # )
+  # return (results_list)
 }
 
 #' Helper for setting up package environment for testing
