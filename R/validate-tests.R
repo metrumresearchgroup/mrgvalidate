@@ -176,7 +176,8 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
             build = build_package,
             dependencies = FALSE
           )
-        }
+        },
+        action = "prefix"
       )
 
       withr::with_libpaths(
