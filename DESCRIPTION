@@ -27,7 +27,7 @@ Imports:
     dplyr,
     fs,
     glue,
-    ghpm,
+    ghpm (>= 0.3.1),
     knitr,
     magrittr,
     processx,
@@ -47,3 +47,5 @@ Suggests:
     yaml,
     forcats,
     cli
+Remotes:  
+    metrumresearchgroup/ghpm

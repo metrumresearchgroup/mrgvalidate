@@ -20,7 +20,6 @@ steps:
     GITHUB_PAT:
       from_secret: drone-pat
   commands:
-    - /opt/R/3.6.3/bin/R -e "devtools::install_github('https://github.com/metrumresearchgroup/ghpm')"
     - /opt/R/3.6.3/bin/R -e "devtools::install_deps(upgrade = 'never')"
     # - /opt/R/3.6.3/bin/R -e "devtools::test()"
     - /opt/R/3.6.3/bin/R -e "devtools::check()"
@@ -35,7 +34,6 @@ steps:
     GITHUB_PAT:
       from_secret: drone-pat
   commands:
-    - /opt/R/4.0.1/bin/R -e "devtools::install_github('https://github.com/metrumresearchgroup/ghpm')"
     - /opt/R/4.0.1/bin/R -e "devtools::install_deps(upgrade = 'never')"
     # - /opt/R/4.0.1/bin/R -e "devtools::test()"
     - /opt/R/4.0.1/bin/R -e "devtools::check(env_vars = list('GITHUB_PAT' = Sys.getenv('GITHUB_PAT')))"
