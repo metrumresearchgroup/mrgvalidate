@@ -202,11 +202,7 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
     ),
     stderr = "2>&1",
     cmdargs = c("--no-save", "--no-restore"),
-    show = TRUE,
-    env = c(
-      callr::rcmd_safe_env(),
-      "R_LIBS_USER" = R_LIBS_USER
-    )
+    show = TRUE
   )
   return (results_list)
 }
