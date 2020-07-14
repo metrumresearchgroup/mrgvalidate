@@ -168,10 +168,6 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       fs::dir_create(tmp_lib)
       target_pkg <- file.path(root_dir, pkg)
 
-      # devtools::install_deps(
-      #   pkg = target_pkg,
-      #   upgrade = "never"
-      # )
       withr::with_libpaths(
         tmp_lib,
         {
@@ -179,7 +175,6 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
             pkg = target_pkg,
             build = build_package,
             dependencies = FALSE
-            # quiet = TRUE
           )
         }
       )
@@ -194,15 +189,6 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
         },
         action = "prefix"
       )
-
-
-
-      # devtools::install_deps(
-      #   pkg = target_pkg,
-      #   upgrade = "never",
-      #   quiet = TRUE,
-      #   lib = tmp_lib
-      # )
     },
     args = list( # this is how you pass things into the callr::r() session
       root_dir = root_dir,
