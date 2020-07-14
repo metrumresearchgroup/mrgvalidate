@@ -4,7 +4,6 @@ library(stringr)
 source("data/contants_for_testing.R")
 
 test_that("no docs exist at the beginning", {
-  skip("foo")
   expect_false(fs::file_exists(ALL_TESTS))
   expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(REQ_FILE), ".docx")))
   expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(VAL_FILE), ".docx")))
@@ -16,7 +15,6 @@ test_that("no docs exist at the beginning", {
 })
 
 test_that("pull_tagged_repo() gets clones and gets commit hash", {
-  skip("foo")
   commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
   expect_identical(commit_hash, COMMIT_REF)
 })
