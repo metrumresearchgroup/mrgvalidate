@@ -196,7 +196,10 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       test_path = test_path,
       build_package = build_package,
       setup_package_env = setup_package_env
-    )
+    ),
+    stderr = "2>&1",
+    cmdargs = c("--no-save", "--no-restore"),
+    show = TRUE
   )
   return (results_list)
 }
