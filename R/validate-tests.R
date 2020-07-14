@@ -174,7 +174,7 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
           devtools::install(
             pkg = target_pkg,
             build = build_package,
-            dependencies = FALSE
+            upgrade = "never"
           )
         },
         action = "prefix"
