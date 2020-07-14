@@ -169,7 +169,10 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
       fs::dir_create(tmp_lib)
       target_pkg <- file.path(root_dir, pkg)
 
-      devtools::install_deps(target_pkg)
+      devtools::install_deps(
+        target_pkg,
+        upgrade = "never"
+      )
       devtools::test(target_pkg)
       # rcmdcheck::rcmdcheck(target_pkg)
       # withr::with_libpaths(
