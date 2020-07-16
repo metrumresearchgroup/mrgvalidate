@@ -6,7 +6,7 @@
 \usage{
 run_installed_tests(
   package,
-  path = NULL,
+  path,
   reporter = testthat::ListReporter$new(),
   unload = FALSE
 )
