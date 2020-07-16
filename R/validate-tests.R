@@ -263,20 +263,19 @@ setup_package_env <- function(package, test_path) {
 
 #' @importFrom tibble tibble
 #' @importFrom purrr map_chr map_lgl
-parse_test_output <- function(result) {
-  if (is.null(result$context)) {
+parse_test_output <- function(result, require_context = TRUE) {
+  if (require_context && is.null(result$context)) {
     stop("no context specified in file: ", result$file)
   }
-  out <- tibble::tibble(context = result$context,
-                 file = result$file,
-                 tests = map_chr(result$results, ~ .x$test),
-                 success = map_lgl(result$results, ~ inherits(.x, "expectation_success")),
-                 res_msg = map_chr(result$results, ~ paste(class(.x), collapse = ", "))
+  out <- tibble::tibble(
+    context = dplyr::if_else(is.null(result$context), NA_character_, result$context),
+    file = result$file,
+    tests = purrr::map_chr(result$results, ~ .x$test),
+    success = purrr::map_lgl(result$results, ~ inherits(.x, "expectation_success")),
+    res_msg = purrr::map_chr(result$results, ~ paste(class(.x), collapse = ", "))
   )
 
   if (!all(map_lgl(result$results, ~ inherits(.x, "expectation_success")))) {
-    #browser()
-    #str(result)
     loser_msg <- result$results[[which(!map_lgl(result$results, ~ inherits(.x, "expectation_success")))]]
     print(paste(result$file, "--", result$test, "--\n", paste(loser_msg, collapse = "\n")))
   }
