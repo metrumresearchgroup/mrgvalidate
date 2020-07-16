@@ -14,7 +14,7 @@ write_requirements(
 )
 }
 \arguments{
-\item{df}{Tibble output from `process_stories()`}
+\item{df}{Tibble output from \code{process_stories()}}
 
 \item{pkg}{The name of the package you are validating, to be included in the output document.}
 
