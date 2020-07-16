@@ -49,3 +49,4 @@ Suggests:
     cli
 Remotes:  
     metrumresearchgroup/ghpm
+Roxygen: list(markdown = TRUE)
