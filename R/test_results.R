@@ -12,13 +12,9 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
   checkmate::assert_string(repo, null.ok = TRUE)
   checkmate::assert_string(ref, null.ok = TRUE)
 
-  if (Sys.getenv("CI") == "true") {
-    tmp_lib <- Sys.getenv("TMP")
-  } else {
-    tmp_lib <- tempdir()
-    # TODO: consider replacing with withr::defer()
-    on.exit(unlink(tmp_lib))
-  }
+  tmp_lib <- tempdir()
+  # TODO: consider replacing with withr::defer()
+  on.exit(unlink(tmp_lib))
 
   if (dry_run) {
     test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())

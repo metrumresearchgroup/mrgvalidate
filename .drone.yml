@@ -22,12 +22,9 @@ steps:
   commands:
     - /opt/R/3.6.3/bin/R -e "devtools::install_deps(upgrade = 'never')"
     # - /opt/R/3.6.3/bin/R -e "devtools::test()"
-    - /opt/R/3.6.3/bin/R -e "devtools::check(env_vars = c(TMP = '/ephemeral'))"
+    - /opt/R/3.6.3/bin/R -e "devtools::check()"
   depends_on:
     - pull
-  volumes:
-    - name: cache
-      path: /ephemeral
 
 - name: R40
   image: "906087756158.dkr.ecr.us-east-1.amazonaws.com/mpn-complete:2020-06-08"
@@ -70,5 +67,3 @@ volumes:
 - name: docker.sock
   host:
     path: /var/run/docker.sock
-- name: cache
-  temp: {}
