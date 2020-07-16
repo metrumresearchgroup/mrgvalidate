@@ -27,6 +27,8 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
       quiet = TRUE
     )
 
+    print(fs::dir_ls(file.path(tmp_lib, pkg)))
+
     test_df <- validate_tests(
       pkg = pkg,
       path = tmp_lib,
