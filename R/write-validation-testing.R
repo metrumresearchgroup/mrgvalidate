@@ -67,11 +67,19 @@ Tests are in the following location
 
   # pull requested tag from repo
   if (isTRUE(dry_run)) {
-    commit_hash <- get_commit_hash(root_dir, repo)
+    commit_hash <- get_sha(
+      repo = paste(c(org, repo), collapse = "/"),
+      ref = "master",
+      type = "branch"
+    )
+    # commit_hash <- get_commit_hash(root_dir, repo)
     date_stamp <- paste("DRYRUN --", Sys.time())
   } else {
     message(glue("Pulling repo {domain}/{org}/{repo}..."))
-    commit_hash <- pull_tagged_repo(org = org, repo = repo, tag = version, dest_dir = root_dir, domain = domain)
+    commit_hash <- get_sha(
+      repo = paste(c(org, repo), collapse = "/"),
+      ref = version
+    )
     date_stamp <- Sys.time()
   }
 

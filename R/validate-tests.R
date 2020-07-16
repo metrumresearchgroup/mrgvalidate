@@ -282,12 +282,3 @@ parse_test_output <- function(result) {
   }
   return(out)
 }
-
-#' @importFrom glue trim
-get_commit_hash <- function(root_dir, repo) {
-  proc <- processx::run(command = "git", args = c("rev-parse", "HEAD"), wd = file.path(root_dir, repo))
-  if (proc$status != "0") {
-    stop(glue("Failed to get commit hash from {file.path(root_dir, repo)}\nCALL:\n  git {paste(cmd_args, collapse = ' ')}\nERROR:\n  {paste(proc$stderr, collapse = '  \n')}\n"))
-  }
-  return(trim(proc$stdout))
-}
