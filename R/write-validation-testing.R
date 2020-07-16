@@ -100,27 +100,15 @@ Date: {date_stamp}
 Full report of all tests run.
 '
 
-  # run test_check
-  if (isTRUE(dry_run)) {
-    test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
-  } else {
-    # TODO: consider whether we want to install this here, or do it before
-    # running this function
-    path <- install_temp_github_package(
-      repo = paste(c(org, repo), collapse = "/"),
-      ref = version
-    )
-    withr::local_libpaths(path, action = "prefix")
-    test_df <- validate_tests(
-      pkg = repo,
-      path = path,
-      out_file = ALL_TESTS,
-      output_dir = output_dir,
-      return_df = TRUE,
-      extra_test_dirs = extra_test_dirs
-    )
-  }
-
+  test_df <- test_results(
+    dry_run = dry_run,
+    repo = paste(c(org, repo), collapse = "/"),
+    ref = version,
+    out_file = ALL_TESTS,
+    output_dir = output_dir,
+    return_df = TRUE,
+    extra_test_dirs = extra_test_dirs
+  )
   val_summary <- '
 
 ## Comprehensive summary
