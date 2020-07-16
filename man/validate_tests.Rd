@@ -2,11 +2,12 @@
 % Please edit documentation in R/validate-tests.R
 \name{validate_tests}
 \alias{validate_tests}
-\title{Run all tests for specified package, roll up successes and failures, and write to csv file}
+\title{Run all tests for specified package, roll up successes and failures, and
+write to csv file}
 \usage{
 validate_tests(
   pkg,
-  root_dir = tempdir(),
+  path = NULL,
   out_file = ALL_TESTS,
   output_dir = getwd(),
   return_df = FALSE,
@@ -14,18 +15,24 @@ validate_tests(
 )
 }
 \arguments{
-\item{pkg}{The name of the package you are validating, to be included in the output document.}
+\item{pkg}{The name of the package you are validating, to be included in the
+output document.}
 
-\item{root_dir}{The directory path to where the package has been cloned. `file.path(root_dir, pkg)` should lead to the cloned repo that will be tested.}
+\item{path}{Package installation path, used with \code{extra_test_dirs}}
 
-\item{out_file}{File path to write out the test results to. Any extension will be ignored and replaced with .csv}
+\item{out_file}{File path to write out the test results to. Any extension
+will be ignored and replaced with .csv}
 
-\item{output_dir}{Directory to write the output documents to. Defaults to working directory.}
+\item{output_dir}{Directory to write the output documents to. Defaults to
+working directory.}
 
-\item{return_df}{Boolean indicating whether to return the tibble that is written to `out_file`. Defaults to FALSE and returns nothing.}
+\item{return_df}{Boolean indicating whether to return the tibble that is
+written to \code{out_file}. Defaults to FALSE and returns nothing.}
 
-\item{extra_test_dirs}{Character vector of paths (relative to package root dir) to directories that contain additional tests to run}
+\item{extra_test_dirs}{Character vector of paths (relative to package root
+dir) to directories that contain additional tests to run}
 }
 \description{
-Run all tests for specified package, roll up successes and failures, and write to csv file
+Run all tests for specified package, roll up successes and failures, and
+write to csv file
 }

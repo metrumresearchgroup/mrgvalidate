@@ -1,12 +1,11 @@
 context("Unit tests for validate-tests.R")
 
-source("data/contants_for_testing.R")
-
 test_that("validate_tests returns expected df", {
-  skip("foo")
+  # TODO: need a teardown function that uninstalls a package, if we installed it
   on.exit({ cleanup() })
   cleanup()
 
+  withr::local_libpaths(TEMP_LIB, action = "prefix")
   test_df <- validate_tests(
     pkg = REPO,
     out_file = NULL,
@@ -20,16 +19,13 @@ test_that("validate_tests returns expected df", {
 
 
 test_that("validate_tests returns expected df with extra tests", {
-  skip("foo")
   on.exit({ cleanup() })
   cleanup()
 
-  # get repo
-  commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
-
-  # run tests
+  withr::local_libpaths(TEMP_LIB, action = "prefix")
   test_df <- validate_tests(
     pkg = REPO,
+    path = TEMP_LIB,
     out_file = NULL,
     return_df = TRUE,
     extra_test_dirs = EXTRA_TESTS
