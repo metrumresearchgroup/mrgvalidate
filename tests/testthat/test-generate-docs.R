@@ -1,10 +1,6 @@
 context("Test full wrapper")
 
-library(stringr)
-source("data/contants_for_testing.R")
-
 test_that("generate_docs() renders", {
-  skip("foo")
   on.exit({ cleanup() })
 
   mrgvalidate::generate_docs(
@@ -26,22 +22,21 @@ test_that("generate_docs() renders", {
 
   # check that the markdown looks right
   req_text <- readr::read_file(REQ_FILE)
-  expect_true(str_detect(req_text, REQ_TITLE))
-  expect_true(str_detect(req_text, REQ_BOILER))
+  expect_true(stringr::str_detect(req_text, REQ_TITLE))
+  expect_true(stringr::str_detect(req_text, REQ_BOILER))
 
   val_text <- readr::read_file(VAL_FILE)
-  expect_true(str_detect(val_text, VAL_TITLE))
-  expect_true(str_detect(val_text, VAL_BOILER))
+  expect_true(stringr::str_detect(val_text, VAL_TITLE))
+  expect_true(stringr::str_detect(val_text, VAL_BOILER))
 
   mat_text <- readr::read_file(MAT_FILE)
-  expect_true(str_detect(mat_text, MAT_TITLE))
-  expect_true(str_detect(mat_text, MAT_BOILER))
+  expect_true(stringr::str_detect(mat_text, MAT_TITLE))
+  expect_true(stringr::str_detect(mat_text, MAT_BOILER))
 
 })
 
 
 test_that("generate_docs() renders into output_dir", {
-  skip("foo")
   on.exit({ cleanup() })
   cleanup()
 
@@ -65,15 +60,15 @@ test_that("generate_docs() renders into output_dir", {
 
   # check that the markdown looks right
   req_text <- readr::read_file(file.path(OUTPUT_DIR, REQ_FILE))
-  expect_true(str_detect(req_text, REQ_TITLE))
-  expect_true(str_detect(req_text, REQ_BOILER))
+  expect_true(stringr::str_detect(req_text, REQ_TITLE))
+  expect_true(stringr::str_detect(req_text, REQ_BOILER))
 
   val_text <- readr::read_file(file.path(OUTPUT_DIR, VAL_FILE))
-  expect_true(str_detect(val_text, VAL_TITLE))
-  expect_true(str_detect(val_text, VAL_BOILER))
+  expect_true(stringr::str_detect(val_text, VAL_TITLE))
+  expect_true(stringr::str_detect(val_text, VAL_BOILER))
 
   mat_text <- readr::read_file(file.path(OUTPUT_DIR, MAT_FILE))
-  expect_true(str_detect(mat_text, MAT_TITLE))
-  expect_true(str_detect(mat_text, MAT_BOILER))
+  expect_true(stringr::str_detect(mat_text, MAT_TITLE))
+  expect_true(stringr::str_detect(mat_text, MAT_BOILER))
 
 })

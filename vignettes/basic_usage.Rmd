@@ -111,7 +111,7 @@ There is only one other argument to `generate_docs()`:
 ## Slightly more detail
 The specified repo will be cloned at the tag passed to the `version` argument. By default it is cloned to `tempdir()`. The repo is then built and tested with the following:
 
-```
+```{r, eval = FALSE}
 # build, install, and load from current folder
 source_path <- devtools::build()
 pkg_name <- unlist(strsplit(basename(source_path), "_"))[1]
@@ -153,7 +153,7 @@ write_validation_testing(
 
 If you would like to debug each of these steps manually, you can use the following
 
-```{r pull repo}
+```{r pull repo, eval = FALSE}
 # pull the repo for a specific tag to a temp directory
 commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG)
 print(glue::glue("Pulled tag {TAG} -- commit hash: {commit_hash}"))

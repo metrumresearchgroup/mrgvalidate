@@ -12,7 +12,7 @@ STORY_RDS <- "stories_df.RDS"
 
 OUTPUT_DIR <- "level2"
 
-EXTRA_TESTS <- "inst/extra-tests"
+EXTRA_TESTS <- "extra-tests"
 
 # for optional GHE test in test-ghe.R
 GHE_DOMAIN <- "ghe.metrumrg.com"
@@ -86,4 +86,3 @@ specific user stories for the proposed software release. User stories, including
 requirements and test specifications are listed in the Requirements Specification
 and Validation Plan.
 '
-

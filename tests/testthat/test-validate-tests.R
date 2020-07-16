@@ -16,9 +16,9 @@ test_that("validate_tests returns expected df", {
   on.exit({ cleanup() })
   cleanup()
 
-  withr::local_libpaths(TEMP_LIB, action = "prefix")
   test_df <- validate_tests(
-    pkg = REPO,
+    pkg = pkg,
+    path = tmp_lib,
     out_file = NULL,
     return_df = TRUE
   )
@@ -33,10 +33,9 @@ test_that("validate_tests returns expected df with extra tests", {
   on.exit({ cleanup() })
   cleanup()
 
-  withr::local_libpaths(TEMP_LIB, action = "prefix")
   test_df <- validate_tests(
-    pkg = REPO,
-    path = TEMP_LIB,
+    pkg = pkg,
+    path = tmp_lib,
     out_file = NULL,
     return_df = TRUE,
     extra_test_dirs = EXTRA_TESTS
