@@ -13,7 +13,7 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
   checkmate::assert_string(ref, null.ok = TRUE)
 
   tmp_lib <- tempdir()
-  withr::defer(fs::delete(tmp_lib))
+  withr::defer(fs::dir_delete(tmp_lib))
 
   if (dry_run) {
     test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
