@@ -28,7 +28,7 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
       repo = repo,
       ref = ref,
       force = TRUE,
-      quiet = TRUE
+      # quiet = TRUE
     )
 
     print(fs::dir_ls(file.path(tmp_lib, pkg)))
