@@ -74,7 +74,6 @@ Tests are in the following location
     # commit_hash <- get_commit_hash(root_dir, repo)
     date_stamp <- paste("DRYRUN --", Sys.time())
   } else {
-    message(glue("Pulling repo {domain}/{org}/{repo}..."))
     commit_hash <- get_sha(
       repo = paste(c(org, repo), collapse = "/"),
       ref = version

@@ -7,7 +7,7 @@ write to csv file}
 \usage{
 validate_tests(
   pkg,
-  path = NULL,
+  path,
   out_file = ALL_TESTS,
   output_dir = getwd(),
   return_df = FALSE,

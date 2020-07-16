@@ -18,14 +18,17 @@
 #'   dir) to directories that contain additional tests to run
 #' @export
 validate_tests <- function(pkg,
-                           path = NULL,
+                           path,
                            out_file = ALL_TESTS,
                            output_dir = getwd(),
                            return_df = FALSE,
                            extra_test_dirs = NULL) {
   checkmate::assert_logical(return_df, len = 1L)
 
-  test_list <- run_installed_tests(pkg)
+  test_list <- run_installed_tests(
+    pkg,
+    path = file.path(path, pkg, "tests/testthat")
+  )
 
   test_df <- purrr::map_dfr(
     test_list,
