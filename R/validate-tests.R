@@ -58,56 +58,6 @@ validate_tests <- function(
   }
 }
 
-#' Clones the specified repo at the specified tag to disk
-#' @importFrom glue glue
-#' @importFrom processx run
-#' @param org Github organization that the repo is under
-#' @param repo The name of the repo for the package you are validating
-#' @param tag The tag to pull from the repo. When this function is called internally, this is assumed to be the same as the version you are testing, though it can be any valid tag.
-#' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"
-#' @param dest_dir File path for directory to clone repo into. Defaults to `tempdir()`
-#' @param overwrite Boolean indicating whether to overwrite `file.path(dest_dir, repo)` if something already exists there. TRUE by default.
-#' @export
-pull_tagged_repo <- function(
-  org,
-  repo,
-  tag,
-  domain = VALID_DOMAINS,
-  dest_dir = tempdir(),
-  overwrite = TRUE
-) {
-  if (isTRUE(overwrite)) {
-    if (fs::dir_exists(file.path(dest_dir, repo))) fs::dir_delete(file.path(dest_dir, repo))
-  }
-
-  domain <- match.arg(domain)
-
-  if (domain == "github.com") {
-    clone_string <- as.character(glue("git://github.com/{org}/{repo}.git"))
-  } else {
-    # need to use SSH for GHE
-    clone_string <- as.character(glue("git@{domain}:{org}/{repo}.git"))
-  }
-
-  cmd_args <- c("clone", "--branch", tag, clone_string, "--depth=1")
-
-  message(glue("Getting repo with `git {paste(cmd_args, collapse = ' ')}`"))
-  proc <- processx::run(
-    command = "git",
-    args = cmd_args,
-    wd = dest_dir
-  )
-
-  if (proc$status != "0") {
-    stop(glue("Failed to clone {repo}\nCALL:\n  git {paste(cmd_args, collapse = ' ')}\nERROR:\n  {paste(proc$stderr, collapse = '  \n')}\n"))
-  }
-
-  # extract commit hash to return
-  commit_hash <- get_commit_hash(dest_dir, repo)
-  return(commit_hash)
-}
-
-
 #' @importFrom tibble tibble
 #' @importFrom purrr map_chr map_lgl
 parse_test_output <- function(result, require_context = TRUE) {

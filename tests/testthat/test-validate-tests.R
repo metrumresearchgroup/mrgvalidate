@@ -7,10 +7,6 @@ test_that("validate_tests returns expected df", {
   on.exit({ cleanup() })
   cleanup()
 
-  # get repo
-  commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
-
-  # run tests
   test_df <- validate_tests(
     pkg = REPO,
     out_file = NULL,
