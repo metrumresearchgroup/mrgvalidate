@@ -17,7 +17,8 @@ run_installed_tests <- function(package,
   # TODO: use withr to unload package if it was not previously loaded and is not
   # also imported
 
-  require(package, character.only = TRUE)
+  is_loaded <- require(package, character.only = TRUE)
+  print(is_loaded)
   # this gives the tests access to the package namespace, which is useful if
   # the package defines constants (for example)
   env <- list2env(
