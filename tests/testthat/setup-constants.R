@@ -6,7 +6,7 @@ DOMAIN <- "github.com"
 ORG <- "metrumresearchgroup"
 REPO <- "mrgvalidatetestreference"
 MILESTONE <- "v0.6.0"
-TAG <- "0.6.1"
+TAG <- "0.6.2"
 
 STORY_RDS <- "stories_df.RDS"
 
