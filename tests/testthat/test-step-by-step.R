@@ -2,6 +2,16 @@ context("Test step-by-step functions")
 
 library(stringr)
 source("data/contants_for_testing.R")
+tmp_lib <- tempdir()
+withr::defer(unlink(tmp_lib))
+
+withr::local_libpaths(tmp_lib, action = "prefix")
+pkg <- install_with_tests(
+  repo = paste(c(ORG, REPO), collapse = "/"),
+  ref = TAG,
+  force = TRUE,
+  quiet = TRUE
+)
 
 test_that("no docs exist at the beginning", {
   expect_false(fs::file_exists(ALL_TESTS))
