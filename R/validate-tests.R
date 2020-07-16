@@ -20,17 +20,17 @@ validate_tests <- function(
   extra_test_dirs = NULL
 ) {
 
-  test_list <- run_tests(pkg = pkg, root_dir = root_dir)
 
   test_df <- purrr::map_df(test_list, parse_test_output)
+  test_list <- run_installed_tests(pkg)
 
   if (!is.null(extra_test_dirs)) {
     extra_df_list <- map(extra_test_dirs, function(.t) {
-      .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir, build_package = FALSE)
       return(purrr::map_df(.tl, parse_test_output))
     })
 
     test_df <- bind_rows(test_df, extra_df_list)
+        ~ run_installed_tests(pkg, path = file.path(path, pkg, .))
   }
 
   results <- test_df %>% group_by(file, .data$context, .data$tests) %>%
@@ -105,159 +105,6 @@ pull_tagged_repo <- function(
   # extract commit hash to return
   commit_hash <- get_commit_hash(dest_dir, repo)
   return(commit_hash)
-}
-
-
-#' Run test_check on package directory
-#'
-#' Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-#' If `build_package = FALSE` this assumes that the package being tested has already been built and
-#' installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
-#' This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.
-#' @importFrom testthat test_check ListReporter
-#' @importFrom callr r
-#' @importFrom withr with_dir
-#' @importFrom devtools build
-#' @importFrom utils install.packages
-#' @importFrom fs dir_create dir_exists dir_delete
-#' @param pkg name of the package to test
-#' @param test_path Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".
-#' @param root_dir The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.
-#' @param build_package Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`
-#' @export
-run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), build_package = TRUE) {
-  message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
-
-  tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
-  fs::dir_create(tmp_lib)
-  withr::local_libpaths(tmp_lib, action = "prefix")
-
-  withr::local_dir(root_dir)
-  devtools::install(
-    pkg,
-    quiet = TRUE,
-    upgrade = "never"
-  )
-  devtools::test(pkg, reporter = testthat::ListReporter$new())
-  # testthat::test_check(
-  #   pkg,
-  #   reporter = testthat::ListReporter$new()
-  # )
-  # Run build and tests in new R session using callr::r()
-  # results_list <- callr::r(
-  #   function(root_dir, pkg, test_path, build_package, setup_package_env) {
-      # withr::with_dir(file.path(root_dir, pkg) ,{
-      #
-      #   # create temp folder to install into
-      #   tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
-      #
-      #   if (isTRUE(build_package)) {
-      #     if(fs::dir_exists(tmp_lib)) fs::dir_delete(tmp_lib)
-      #     fs::dir_create(tmp_lib)
-      #
-      #     # build and install
-      #     source_path <- devtools::build()
-      #     install.packages(source_path, lib = tmp_lib, repos = NULL)
-      #
-      #   }
-      #
-      #   # load package from temp folder
-      #   require(pkg, lib.loc = tmp_lib, character.only = TRUE)
-      #
-      #   # load package environment
-      #   env <- setup_package_env(pkg, test_path)
-      #
-      #   # run tests
-      #   results_list <- testthat::test_dir(
-      #     path = test_path,
-      #     reporter = testthat::ListReporter$new(),
-      #     env = env,
-      #     filter = NULL,
-      #     stop_on_failure = FALSE,
-      #     stop_on_warning = FALSE,
-      #     wrap = TRUE
-      #   )
-      #
-      # })
-      # tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
-      # fs::dir_create(tmp_lib)
-      # target_pkg <- file.path(root_dir, pkg)
-
-      # withr::local_libpaths(tmp_lib, action = "prefix")
-      # devtools::install_deps(
-      #   pkg = target_pkg,
-      #   upgrade = "never",
-      #   lib = tmp_lib
-      # )
-      # withr::with_libpaths(
-      #   tmp_lib,
-      #   devtools::test(target_pkg),
-      #   action = "prefix"
-      # )
-
-      # rcmdcheck::rcmdcheck(target_pkg)
-      # withr::with_libpaths(
-      #   tmp_lib,
-      #   {
-      #     devtools::install(
-      #       pkg = target_pkg,
-      #       build = build_package,
-      #       dependencies = FALSE
-      #     )
-      #   }
-      # )
-
-      # withr::with_libpaths(
-      #   tmp_lib,
-      #   {
-      #     devtools::test(
-      #       pkg = target_pkg,
-      #       reporter = testthat::ListReporter$new()
-      #     )
-      #   },
-      #   action = "prefix"
-      # )
-    # },
-  #   args = list( # this is how you pass things into the callr::r() session
-  #     root_dir = root_dir,
-  #     pkg = pkg,
-  #     test_path = test_path,
-  #     build_package = build_package,
-  #     setup_package_env = setup_package_env
-  #   ),
-  #   stderr = "2>&1",
-  #   cmdargs = c("--no-save", "--no-restore"),
-  #   show = TRUE
-  # )
-  # return (results_list)
-}
-
-#' Helper for setting up package environment for testing
-#'
-#' These are all things that were copied out of internal functions called by testthat::test_check to set up the package environment.
-#' They are necessary because testthat::test_dir does NOT do this, which causes some tests to fail.
-#' Specifically, this code came mostly from testthat:::test_package_dir and testthat:::test_pkg_env and some from test_check itself.
-#' @param package the package name
-#' @param test_path path to folder with tests in it
-setup_package_env <- function(package, test_path) {
-
-  if (!utils::file_test("-d", test_path)) {
-    stop("No tests found for ", package, call. = FALSE)
-  }
-
-  env <-   list2env(
-    as.list(getNamespace(package), all.names = TRUE),
-    parent = parent.env(getNamespace(package))
-  )
-
-  withr::local_options(list(topLevelEnvironment = env))
-
-  withr::local_envvar(list(
-    TESTTHAT_PKG = package,
-    TESTTHAT_DIR = fs::path_abs(".") # we're in the root dir because of withr::with_dir above
-  ))
-
-  return(env)
 }
 
 
