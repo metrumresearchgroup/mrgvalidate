@@ -19,7 +19,6 @@ Description: R package for generating validation documents for
     other R packages developed by Metrum.
 License: MIT + file LICENSE
 Imports: 
-    callr,
     checkmate,
     devtools,
     dplyr,
@@ -29,7 +28,6 @@ Imports:
     glue,
     knitr,
     magrittr,
-    processx,
     purrr,
     readr,
     remotes,
