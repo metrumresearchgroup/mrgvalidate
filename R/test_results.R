@@ -20,6 +20,7 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
     test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
   } else {
     withr::local_libpaths(tmp_lib, action = "prefix")
+    print(.libPaths())
     pkg <- install_with_tests(
       repo = repo,
       ref = ref,
