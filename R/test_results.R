@@ -24,6 +24,7 @@ test_results <- function(dry_run = TRUE, repo = NULL, ref = NULL, ...) {
     pkg <- install_with_tests(
       repo = repo,
       ref = ref,
+      dependencies = FALSE,
       force = TRUE,
       # quiet = TRUE
     )
