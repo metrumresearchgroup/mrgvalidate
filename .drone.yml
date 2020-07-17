@@ -13,7 +13,7 @@ steps:
     - docker pull 906087756158.dkr.ecr.us-east-1.amazonaws.com/mpn-complete:2020-06-08
 
 - name: R36
-  image: "906087756158.dkr.ecr.us-east-1.amazonaws.com/mpn-dev:v1.1"
+  image: "906087756158.dkr.ecr.us-east-1.amazonaws.com/mpn-dev:cran-latest"
   pull: never
   environment:
     R_LIBS_USER: "/opt/rpkgs/3.6"
