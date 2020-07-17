@@ -25,9 +25,6 @@ validate_tests <- function(pkg,
                            extra_test_dirs = NULL) {
   checkmate::assert_logical(return_df, len = 1L)
 
-  # in CI, the package cannot be loaded
-  print(paste0("pkg: ", pkg))
-  print(paste0("path: ", path))
   test_list <- run_installed_tests(
     pkg,
     path = file.path(path, pkg, "tests/testthat")
