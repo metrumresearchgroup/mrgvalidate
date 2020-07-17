@@ -36,7 +36,7 @@ steps:
   commands:
     - /opt/R/4.0.1/bin/R -e "devtools::install_deps(upgrade = 'never')"
     # - /opt/R/4.0.1/bin/R -e "devtools::test()"
-    - /opt/R/4.0.1/bin/R -e "devtools::check(env_vars = list('GITHUB_PAT' = Sys.getenv('GITHUB_PAT')))"
+    - /opt/R/4.0.1/bin/R -e "devtools::check(cran = FALSE)"
   depends_on:
     - pull
 
