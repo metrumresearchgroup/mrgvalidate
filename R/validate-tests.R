@@ -159,35 +159,6 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
   return (results_list)
 }
 
-#' Helper for setting up package environment for testing
-#'
-#' These are all things that were copied out of internal functions called by testthat::test_check to set up the package environment.
-#' They are necessary because testthat::test_dir does NOT do this, which causes some tests to fail.
-#' Specifically, this code came mostly from testthat:::test_package_dir and testthat:::test_pkg_env and some from test_check itself.
-#' @param package the package name
-#' @param test_path path to folder with tests in it
-setup_package_env <- function(package, test_path) {
-
-  if (!utils::file_test("-d", test_path)) {
-    stop("No tests found for ", package, call. = FALSE)
-  }
-
-  env <-   list2env(
-    as.list(getNamespace(package), all.names = TRUE),
-    parent = parent.env(getNamespace(package))
-  )
-
-  withr::local_options(list(topLevelEnvironment = env))
-
-  withr::local_envvar(list(
-    TESTTHAT_PKG = package,
-    TESTTHAT_DIR = fs::path_abs(".") # we're in the root dir because of withr::with_dir above
-  ))
-
-  return(env)
-}
-
-
 #' @importFrom tibble tibble
 #' @importFrom purrr map_chr map_lgl
 parse_test_output <- function(result) {
