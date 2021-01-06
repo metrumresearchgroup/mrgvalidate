@@ -118,48 +118,42 @@ run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), b
 
   # Run build and tests in new R session using callr::r()
   results_list <- callr::r(
-    function(root_dir, pkg, test_path, build_package, setup_package_env) {
-      withr::with_dir(file.path(root_dir, pkg) ,{
-
+    function(root_dir, pkg, test_path, build_package) {
+      withr::with_dir(file.path(root_dir, pkg), {
         # create temp folder to install into
         tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
 
+        # either load the package from tmp_lib, or create tmp_lib and install it
         if (isTRUE(build_package)) {
-          if(fs::dir_exists(tmp_lib)) fs::dir_delete(tmp_lib)
+          if (fs::dir_exists(tmp_lib)) fs::dir_delete(tmp_lib)
           fs::dir_create(tmp_lib)
-
-          # build and install
-          source_path <- devtools::build()
-          install.packages(source_path, lib = tmp_lib, repos = NULL)
-
         }
 
-        # load package from temp folder
-        require(pkg, lib.loc = tmp_lib, character.only = TRUE)
+        withr::local_libpaths(tmp_lib, action = "prefix")
 
-        # load package environment
-        env <- setup_package_env(pkg, test_path)
+        if (isTRUE(build_package)) {
+          devtools::install(build = TRUE, quiet = TRUE, upgrade = "never")
+        }
 
-        # run tests
         results_list <- testthat::test_dir(
           path = test_path,
           reporter = testthat::ListReporter$new(),
-          env = env,
           filter = NULL,
           stop_on_failure = FALSE,
           stop_on_warning = FALSE,
-          wrap = TRUE
+          wrap = TRUE,
+          package = pkg,
+          load_package = "source"
         )
-
       })
+
       return(results_list)
     },
     args = list( # this is how you pass things into the callr::r() session
       root_dir = root_dir,
       pkg = pkg,
       test_path = test_path,
-      build_package = build_package,
-      setup_package_env = setup_package_env
+      build_package = build_package
     )
   )
   return (results_list)
