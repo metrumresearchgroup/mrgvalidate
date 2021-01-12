@@ -1,16 +1,20 @@
 context("Unit tests for validate-tests.R")
 
+# clone into a temporary directory
+tmp_dir <- withr::local_tempdir()
+commit_hash <- pull_tagged_repo(
+  org = ORG,
+  repo = REPO,
+  tag = TAG,
+  domain = DOMAIN,
+  dest_dir = tmp_dir,
+  overwrite = FALSE
+)
 
 test_that("validate_tests returns expected df", {
-  on.exit({ cleanup() })
-  cleanup()
-
-  # get repo
-  commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
-
-  # run tests
   test_df <- validate_tests(
     pkg = REPO,
+    root_dir = tmp_dir,
     out_file = NULL,
     return_df = TRUE
   )
@@ -22,15 +26,9 @@ test_that("validate_tests returns expected df", {
 
 
 test_that("validate_tests returns expected df with extra tests", {
-  on.exit({ cleanup() })
-  cleanup()
-
-  # get repo
-  commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
-
-  # run tests
   test_df <- validate_tests(
     pkg = REPO,
+    root_dir = tmp_dir,
     out_file = NULL,
     return_df = TRUE,
     extra_test_dirs = EXTRA_TESTS

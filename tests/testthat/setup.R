@@ -20,20 +20,6 @@ OUTPUT_DIR <- "level2"
 
 EXTRA_TESTS <- "inst/extra-tests"
 
-
-cleanup <- function() {
-  if (fs::file_exists("all_tests.csv")) fs::file_delete("all_tests.csv")
-  if (fs::file_exists("requirements-specification.docx")) fs::file_delete("requirements-specification.docx")
-  if (fs::file_exists("validation-testing.docx")) fs::file_delete("validation-testing.docx")
-  if (fs::file_exists("traceability-matrix.docx")) fs::file_delete("traceability-matrix.docx")
-  if (fs::file_exists("requirements-specification.md")) fs::file_delete("requirements-specification.md")
-  if (fs::file_exists("validation-testing.md")) fs::file_delete("validation-testing.md")
-  if (fs::file_exists("traceability-matrix.md")) fs::file_delete("traceability-matrix.md")
-  if (fs::file_exists(STORY_RDS)) fs::file_delete(STORY_RDS)
-  if (fs::dir_exists(OUTPUT_DIR)) fs::dir_delete(OUTPUT_DIR)
-}
-
-
 #############################
 # reference for test results
 #############################

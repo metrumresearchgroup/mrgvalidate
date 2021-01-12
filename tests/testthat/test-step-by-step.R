@@ -1,10 +1,13 @@
 context("Test step-by-step functions")
 
+tmp_dir <- withr::local_tempdir()
+tmp_out_dir <- withr::local_tempdir()
+
 test_that("no docs exist at the beginning", {
   expect_false(fs::file_exists(ALL_TESTS))
-  expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(REQ_FILE), ".docx")))
-  expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(VAL_FILE), ".docx")))
-  expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(MAT_FILE), ".docx")))
+  expect_false(fs::file_exists(fs::path_ext_set(REQ_FILE, "docx")))
+  expect_false(fs::file_exists(fs::path_ext_set(VAL_FILE, "docx")))
+  expect_false(fs::file_exists(fs::path_ext_set(MAT_FILE, "docx")))
   expect_false(fs::file_exists(REQ_FILE))
   expect_false(fs::file_exists(VAL_FILE))
   expect_false(fs::file_exists(MAT_FILE))
@@ -12,12 +15,21 @@ test_that("no docs exist at the beginning", {
 })
 
 test_that("pull_tagged_repo() gets clones and gets commit hash", {
-  commit_hash <- pull_tagged_repo(org = ORG, repo = REPO, tag = TAG, domain = DOMAIN)
+  commit_hash <- pull_tagged_repo(
+    org = ORG,
+    repo = REPO,
+    tag = TAG,
+    domain = DOMAIN,
+    dest_dir = tmp_dir,
+    overwrite = FALSE
+  )
   expect_identical(commit_hash, COMMIT_REF)
 })
 
 test_that("validate_tests() writes csv results", {
-  validate_tests(pkg = REPO)
+  withr::local_dir(tmp_out_dir)
+
+  validate_tests(pkg = REPO, root_dir = tmp_dir)
   expect_true(fs::file_exists(ALL_TESTS))
 
   test_df <- readr::read_csv(ALL_TESTS, col_types = readr::cols())
@@ -28,6 +40,7 @@ test_that("validate_tests() writes csv results", {
 })
 
 test_that("write_validation_testing() dry_run renders", {
+  withr::local_dir(tmp_out_dir)
 
   write_validation_testing(
     org = ORG,
@@ -36,16 +49,17 @@ test_that("write_validation_testing() dry_run renders", {
     dry_run = TRUE
   )
 
-  expect_true(fs::file_exists(paste0(tools::file_path_sans_ext(VAL_FILE), ".docx")))
+  expect_true(fs::file_exists(fs::path_ext_set(VAL_FILE, "docx")))
   expect_true(fs::file_exists(VAL_FILE))
 
   val_text <- readr::read_file(VAL_FILE)
-  expect_true(str_detect(val_text, VAL_TITLE))
-  expect_true(str_detect(val_text, VAL_BOILER))
+  expect_true(stringr::str_detect(val_text, VAL_TITLE))
+  expect_true(stringr::str_detect(val_text, VAL_BOILER))
 })
 
 
 test_that("get_issues() and process_stories() pull from github", {
+  withr::local_dir(tmp_out_dir)
   release_issues <- get_issues(org = ORG, repo = REPO, mile = MILESTONE, domain = DOMAIN)
   stories_df <- process_stories(release_issues, org = ORG, repo = REPO, domain = DOMAIN)
 
@@ -56,6 +70,7 @@ test_that("get_issues() and process_stories() pull from github", {
 })
 
 test_that("write_requirements() renders", {
+  withr::local_dir(tmp_out_dir)
   stories_df <- readRDS(STORY_RDS)
 
   write_requirements(
@@ -64,15 +79,16 @@ test_that("write_requirements() renders", {
     version = TAG
   )
 
-  expect_true(fs::file_exists(paste0(tools::file_path_sans_ext(REQ_FILE), ".docx")))
+  expect_true(fs::file_exists(fs::path_ext_set(REQ_FILE, "docx")))
   expect_true(fs::file_exists(REQ_FILE))
 
   req_text <- readr::read_file(REQ_FILE)
-  expect_true(str_detect(req_text, REQ_TITLE))
-  expect_true(str_detect(req_text, REQ_BOILER))
+  expect_true(stringr::str_detect(req_text, REQ_TITLE))
+  expect_true(stringr::str_detect(req_text, REQ_BOILER))
 })
 
 test_that("write_traceability_matrix() renders", {
+  withr::local_dir(tmp_out_dir)
   stories_df <- readRDS(STORY_RDS)
 
   write_traceability_matrix(
@@ -81,12 +97,10 @@ test_that("write_traceability_matrix() renders", {
     version = TAG
   )
 
-  expect_true(fs::file_exists(paste0(tools::file_path_sans_ext(MAT_FILE), ".docx")))
+  expect_true(fs::file_exists(fs::path_ext_set(MAT_FILE, "docx")))
   expect_true(fs::file_exists(MAT_FILE))
 
   mat_text <- readr::read_file(MAT_FILE)
-  expect_true(str_detect(mat_text, MAT_TITLE))
-  expect_true(str_detect(mat_text, MAT_BOILER))
+  expect_true(stringr::str_detect(mat_text, MAT_TITLE))
+  expect_true(stringr::str_detect(mat_text, MAT_BOILER))
 })
-
-cleanup()

@@ -5,7 +5,15 @@ if (Sys.getenv("MRGVALIDATE_TEST_GHE") != "true") {
 }
 
 test_that("pull_tagged_repo() gets clones and gets commit hash from GHE", {
-  commit_hash <- pull_tagged_repo(org = GHE_ORG, repo = GHE_REPO, tag = GHE_TAG, domain = GHE_DOMAIN)
+  tmp_dir <- withr::local_tempdir()
+  commit_hash <- pull_tagged_repo(
+    org = GHE_ORG,
+    repo = GHE_REPO,
+    tag = GHE_TAG,
+    domain = GHE_DOMAIN,
+    dest_dir = tmp_dir,
+    overwrite = FALSE
+  )
   expect_identical(commit_hash, GHE_COMMIT_REF)
 })
 
