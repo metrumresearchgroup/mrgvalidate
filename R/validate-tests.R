@@ -44,7 +44,7 @@ validate_tests <- function(
 
   if (!is.null(out_file)) {
     out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".csv"))
-    readr::write_csv(results, path=out_file)
+    readr::write_csv(results, out_file)
   }
 
   if (isTRUE(return_df)) {
