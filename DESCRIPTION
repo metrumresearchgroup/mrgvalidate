@@ -27,7 +27,7 @@ Imports:
     dplyr,
     fs,
     glue,
-    ghpm,
+    ghpm (>= 0.5.1),
     knitr,
     magrittr,
     processx,
