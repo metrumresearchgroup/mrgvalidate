@@ -47,7 +47,8 @@ document. The Requirement Specifications ensure that each requirement is tested.
     rmarkdown::render(
       out_file,
       output_format = "word_document",
-      output_dir = dirname(out_file)
+      output_dir = dirname(out_file),
+      quiet = TRUE
     )
     message("  Finished rendering")
   }
