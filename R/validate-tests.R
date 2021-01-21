@@ -96,73 +96,48 @@ pull_tagged_repo <- function(
 }
 
 
-#' Run test_check on package directory
+#' Test a source package
 #'
-#' Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-#' If `build_package = FALSE` this assumes that the package being tested has already been built and
-#' installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
-#' This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.
-#' @importFrom testthat test_check ListReporter
-#' @importFrom callr r
-#' @importFrom withr with_dir
-#' @importFrom devtools build
-#' @importFrom utils install.packages
-#' @importFrom fs dir_create dir_exists dir_delete
-#' @param pkg name of the package to test
-#' @param test_path Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".
-#' @param root_dir The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.
-#' @param build_package Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`
+#' @param pkg Name of the package to test; should be installed to a library in
+#'   `.libPaths()`.
+#' @param test_path Directory containing tests, where `testthat::test_check()`
+#'   will be run.
+#' @param root_dir The directory path to where the package is (i.e. where the
+#'   repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to
+#'   the directory that will be tested.
 #' @export
-run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), build_package = TRUE) {
+run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir()) {
+  stopifnot(requireNamespace(pkg))
   message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
 
-  # Run build and tests in new R session using callr::r()
   results_list <- callr::r(
-    function(root_dir, pkg, test_path, build_package, setup_package_env) {
-      withr::with_dir(file.path(root_dir, pkg) ,{
+    function(root_dir, pkg, test_path, setup_package_env) {
+      withr::local_dir(file.path(root_dir, pkg))
+      require(pkg, character.only = TRUE)
 
-        # create temp folder to install into
-        tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
+      # load package environment
+      env <- setup_package_env(pkg, test_path)
 
-        if (isTRUE(build_package)) {
-          if(fs::dir_exists(tmp_lib)) fs::dir_delete(tmp_lib)
-          fs::dir_create(tmp_lib)
+      # run tests
+      results_list <- testthat::test_dir(
+        path = test_path,
+        reporter = testthat::ListReporter$new(),
+        env = env,
+        filter = NULL,
+        stop_on_failure = FALSE,
+        stop_on_warning = FALSE
+      )
 
-          # build and install
-          source_path <- devtools::build()
-          install.packages(source_path, lib = tmp_lib, repos = NULL)
-
-        }
-
-        # load package from temp folder
-        require(pkg, lib.loc = tmp_lib, character.only = TRUE)
-
-        # load package environment
-        env <- setup_package_env(pkg, test_path)
-
-        # run tests
-        results_list <- testthat::test_dir(
-          path = test_path,
-          reporter = testthat::ListReporter$new(),
-          env = env,
-          filter = NULL,
-          stop_on_failure = FALSE,
-          stop_on_warning = FALSE,
-          wrap = TRUE
-        )
-
-      })
       return(results_list)
     },
-    args = list( # this is how you pass things into the callr::r() session
+    args = list(
       root_dir = root_dir,
       pkg = pkg,
       test_path = test_path,
-      build_package = build_package,
       setup_package_env = setup_package_env
     )
   )
-  return (results_list)
+  return(results_list)
 }
 
 #' Helper for setting up package environment for testing
