@@ -3,7 +3,7 @@
 #' @importFrom tidyr unnest nest
 #' @importFrom dplyr select mutate left_join
 #' @importFrom rlang .data
-#' @param release_issues Tibble output from `get_issues()` or `ghpm::get_issues()` containing all the issues you want to format.
+#' @param release_issues Tibble output from [get_issues()] or [ghpm::get_issues()] containing all the issues you want to format.
 #' @param org Github organization that the repo is under
 #' @param repo The name of the repo for the package you are validating
 #' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"

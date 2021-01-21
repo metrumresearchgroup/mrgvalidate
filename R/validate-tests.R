@@ -80,7 +80,7 @@ validate_tests <- function(
 #' @param repo The name of the repo for the package you are validating
 #' @param tag The tag to pull from the repo. When this function is called internally, this is assumed to be the same as the version you are testing, though it can be any valid tag.
 #' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"
-#' @param dest_dir File path for directory to clone repo into. Defaults to `tempdir()`
+#' @param dest_dir File path for directory to clone repo into. Defaults to [tempdir()]
 #' @param overwrite Boolean indicating whether to overwrite `file.path(dest_dir, repo)` if something already exists there. TRUE by default.
 #' @export
 pull_tagged_repo <- function(
@@ -120,8 +120,8 @@ pull_tagged_repo <- function(
 #' Test a source package
 #'
 #' @param pkg Name of the package to test; should be installed to a library in
-#'   `.libPaths()`.
-#' @param test_path Directory containing tests, where `testthat::test_check()`
+#'   [.libPaths()].
+#' @param test_path Directory containing tests, where [testthat::test_dir()]
 #'   will be run.
 #' @param root_dir The directory path to where the package is (i.e. where the
 #'   repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to
