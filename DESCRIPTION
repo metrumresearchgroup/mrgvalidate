@@ -39,4 +39,4 @@ Imports:
     testthat,
     tibble,
     tidyr,
-    withr
+    withr (>= 2.3.0)
