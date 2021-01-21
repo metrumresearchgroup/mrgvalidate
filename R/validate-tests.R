@@ -1,14 +1,26 @@
-
-#' Run all tests for specified package, roll up successes and failures, and write to csv file
+#' Run and summarize tests
+#'
+#' `pkg` will be built and installed (along with any missing dependencies) to a
+#' temporary library. Then we run all tests for `pkg`, roll up successes and
+#' failures, and write to a CSV file.
+#'
 #' @importFrom dplyr group_by summarize bind_rows
 #' @importFrom purrr map_df map
 #' @importFrom rlang .data
-#' @param pkg The name of the package you are validating, to be included in the output document.
-#' @param root_dir The directory path to where the package has been cloned. `file.path(root_dir, pkg)` should lead to the cloned repo that will be tested.
-#' @param out_file File path to write out the test results to. Any extension will be ignored and replaced with .csv
-#' @param output_dir Directory to write the output documents to. Defaults to working directory.
-#' @param return_df Boolean indicating whether to return the tibble that is written to `out_file`. Defaults to FALSE and returns nothing.
-#' @param extra_test_dirs Character vector of paths (relative to package root dir) to directories that contain additional tests to run
+#'
+#' @param pkg The name of the package you are validating, to be included in the
+#'   output document.
+#' @param root_dir The directory path to where the package has been cloned.
+#'   `file.path(root_dir, pkg)` should lead to the cloned repo that will be
+#'   tested.
+#' @param out_file File path to write out the test results to. Any extension
+#'   will be ignored and replaced with .csv
+#' @param output_dir Directory to write the output documents to. Defaults to
+#'   working directory.
+#' @param return_df Boolean indicating whether to return the tibble that is
+#'   written to `out_file`. Defaults to FALSE and returns nothing.
+#' @param extra_test_dirs Character vector of paths (relative to package root
+#'   dir) to directories that contain additional tests to run
 #' @export
 validate_tests <- function(
   pkg,
@@ -19,13 +31,22 @@ validate_tests <- function(
   extra_test_dirs = NULL
 ) {
 
+  tmp_lib <- withr::local_tempdir()
+  withr::local_libpaths(tmp_lib, "prefix")
+  devtools::install(
+    file.path(root_dir, pkg),
+    build = TRUE,
+    quiet = TRUE,
+    upgrade = "never"
+  )
+
   test_list <- run_tests(pkg = pkg, root_dir = root_dir)
 
   test_df <- purrr::map_df(test_list, parse_test_output)
 
   if (!is.null(extra_test_dirs)) {
     extra_df_list <- map(extra_test_dirs, function(.t) {
-      .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir, build_package = FALSE)
+      .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir)
       return(purrr::map_df(.tl, parse_test_output))
     })
 
