@@ -18,11 +18,11 @@ If everything is configured correctly (as described in the vignette mentioned ab
 mrgvalidate::generate_docs(
   org = "metrumresearchgroup",
   repo = "yourpackage",
-  milestone = "v0.1.0" # the name of the milestone in github
-  version = "0.1.0"    # the tag that will be pulled for testing
+  milestone = "v0.1.0", # the name of the milestone in github
+  version = "0.1.0"     # the tag that will be pulled for testing
 )
 ```
 
 ## Dependency management
 
-`mrgvalidate` will clone the package being validated, from the tag passed to the `milestone` argument. The package is then built and installed into a temporary directory. Dependencies are pulled from the `.libPaths()` inherited from the user's session. Any dependencies _not_ found in `.libPaths()` are installed into the temporary directory automatically. See [validate_tests()] for more details.
+`mrgvalidate` will clone the package being validated, from the tag passed to the `milestone` argument. The package is then built and installed into a temporary directory. Dependencies are pulled from the `.libPaths()` inherited from the user's session. Any dependencies _not_ found in `.libPaths()` are installed into the temporary directory automatically. See `?validate_tests` for more details.

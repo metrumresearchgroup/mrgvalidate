@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +99,7 @@
 <a href="#initial-setup" class="anchor"></a>Initial setup</h1>
 <p>First you will need to have <code>ghpm</code> installed on your system. This is an internal Metrum package that handles calls to the Github API. You can try <code><a href="https://rdrr.io/r/base/library.html">library(ghpm)</a></code> if you’re not sure if you have it. If you do not, install it with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"metrumresearchgroup/ghpm"</span>)</a></code></pre></div>
-<p>Next, you will need to make sure you have a valid token assigned to the relevant environment variable so that <code>ghpm</code> can access the Github API. Depending on whether the package you are validating is on Github Enterprise or public Github, you will either need to set <code>GHE_PAT</code> or <code>GITHUB_PAT</code> respectively. <strong>If you do not have a token</strong> see <a href="https://ghe.metrumrg.com/pages/mrg/knowledgebase/Tech_Solutions/mac_setup/setup_new_mac/#generate-tokens">this KB article</a> for instuctions on getting one. Then use the following code to set the variable (substituting <code>GHE_PAT</code> if appropriate).</p>
+<p>Next, you will need to make sure you have a valid token assigned to the relevant environment variable so that <code>ghpm</code> can access the Github API. Depending on whether the package you are validating is on Github Enterprise or public Github, you will either need to set <code>GHE_PAT</code> or <code>GITHUB_PAT</code> respectively. <strong>If you do not have a token</strong> please read an article like <a href="https://happygitwithr.com/github-pat.html#github-pat">this</a> for instuctions on getting one set up. Then use the following code to set the variable (substituting <code>GHE_PAT</code> if appropriate).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span>(<span class="dt">GITHUB_PAT=</span><span class="st">"your-token"</span>) <span class="co"># "your-token" will be the alphanumeric OAuth token you get from Github</span></a></code></pre></div>
 </div>
 <div id="configuration" class="section level1">
@@ -137,6 +137,7 @@
 </li>
 <li>This should contain a bulleted list of all the tests that are relevant to this functionality</li>
 <li>The list will have test file paths at the top level and test names (i.e. the first arguement to the <code>test_that()</code> function) on the second level.</li>
+<li>Note that <strong>if an issue has no tests</strong> associated with it, you <em>still</em> need a top-level heading entitled <code># Tests</code> but it should contain only some brief text about why tests are not necessary.</li>
 </ul>
 </li>
 <li>Milestone
@@ -213,7 +214,7 @@ testthat::test_check(pkg_name)</code></pre>
 <a class="sourceLine" id="cb6-2" data-line-number="2">REPO &lt;-<span class="st"> "rbabylon"</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">MILESTONE &lt;-<span class="st"> "v0.6.0"</span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">TAG &lt;-<span class="st"> "0.6.0"</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(<span class="st">"{ORG}/{REPO} -- version: {TAG} -- milestone: {MILESTONE}"</span>))</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span>(<span class="st">"{ORG}/{REPO} -- version: {TAG} -- milestone: {MILESTONE}"</span>))</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; metrumresearchgroup/rbabylon -- version: 0.6.0 -- milestone: v0.6.0</span></a></code></pre></div>
 <div id="validation-testing" class="section level2">
 <h2 class="hasAnchor">
@@ -234,7 +235,7 @@ testthat::test_check(pkg_name)</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># pull the repo for a specific tag to a temp directory</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">commit_hash &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pull_tagged_repo.html">pull_tagged_repo</a></span>(<span class="dt">org =</span> ORG, <span class="dt">repo =</span> REPO, <span class="dt">tag =</span> TAG)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Getting repo with `git clone --branch 0.6.0 git@github.com:metrumresearchgroup/rbabylon.git --depth=1`</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span>(<span class="st">"Pulled tag {TAG} -- commit hash: {commit_hash}"</span>))</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(glue<span class="op">::</span><span class="kw"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span>(<span class="st">"Pulled tag {TAG} -- commit hash: {commit_hash}"</span>))</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Pulled tag 0.6.0 -- commit hash: 9587b7e0c58d12012b2e1f2becb2d5b561a44514</span></a></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># run the tests on it</span></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/validate_tests.html">validate_tests</a></span>(<span class="dt">pkg =</span> REPO)</a></code></pre></div>
@@ -317,7 +318,7 @@ testthat::test_check(pkg_name)</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron.</p>
+  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron, Sean Wilson.</p>
 </div>
 
 <div class="pkgdown">
