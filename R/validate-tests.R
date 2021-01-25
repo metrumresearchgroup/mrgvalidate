@@ -1,15 +1,35 @@
-
-#' Run all tests for specified package, roll up successes and failures, and write to csv file
+#' Run and summarize tests
+#'
+#' `pkg` will be built and installed (along with any missing dependencies) to a
+#' temporary library. Then we run all tests for `pkg`, roll up successes and
+#' failures, and write to a CSV file.
+#'
+#' @details
+#'
+#' The package found at `file.path(root_dir, pkg)` will be built and installed
+#' into a tempory library that is appended to the _beginning_ of your
+#' `.libPaths()`, using `devtools::install(..., build = TRUE, upgrade =
+#' "never")`. This will also install (into the temporary library) any
+#' dependencies from the package that are _not_ found in your `.libPaths()`.
+#'
 #' @importFrom dplyr group_by summarize bind_rows
 #' @importFrom purrr map_df map
 #' @importFrom rlang .data
 #' @importFrom fs dir_exists dir_create
-#' @param pkg The name of the package you are validating, to be included in the output document.
-#' @param root_dir The directory path to where the package has been cloned. `file.path(root_dir, pkg)` should lead to the cloned repo that will be tested.
-#' @param out_file File path to write out the test results to. Any extension will be ignored and replaced with .csv
-#' @param output_dir Directory to write the output documents to. Defaults to working directory.
-#' @param return_df Boolean indicating whether to return the tibble that is written to `out_file`. Defaults to FALSE and returns nothing.
-#' @param extra_test_dirs Character vector of paths (relative to package root dir) to directories that contain additional tests to run
+#'
+#' @param pkg The name of the package you are validating, to be included in the
+#'   output document.
+#' @param root_dir The directory path to where the package has been cloned.
+#'   `file.path(root_dir, pkg)` should lead to the cloned repo that will be
+#'   tested.
+#' @param out_file File path to write out the test results to. Any extension
+#'   will be ignored and replaced with .csv
+#' @param output_dir Directory to write the output documents to. Defaults to
+#'   working directory.
+#' @param return_df Boolean indicating whether to return the tibble that is
+#'   written to `out_file`. Defaults to FALSE and returns nothing.
+#' @param extra_test_dirs Character vector of paths (relative to package root
+#'   dir) to directories that contain additional tests to run
 #' @export
 validate_tests <- function(
   pkg,
@@ -20,13 +40,22 @@ validate_tests <- function(
   extra_test_dirs = NULL
 ) {
 
+  tmp_lib <- withr::local_tempdir()
+  withr::local_libpaths(tmp_lib, "prefix")
+  devtools::install(
+    file.path(root_dir, pkg),
+    build = TRUE,
+    quiet = TRUE,
+    upgrade = "never"
+  )
+
   test_list <- run_tests(pkg = pkg, root_dir = root_dir)
 
   test_df <- purrr::map_df(test_list, parse_test_output)
 
   if (!is.null(extra_test_dirs)) {
     extra_df_list <- map(extra_test_dirs, function(.t) {
-      .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir, build_package = FALSE)
+      .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir)
       return(purrr::map_df(.tl, parse_test_output))
     })
 
@@ -46,7 +75,7 @@ validate_tests <- function(
   if (!is.null(out_file)) {
     if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
     out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".csv"))
-    readr::write_csv(results, path=out_file)
+    readr::write_csv(results, out_file)
   }
 
   if (isTRUE(return_df)) {
@@ -61,7 +90,7 @@ validate_tests <- function(
 #' @param repo The name of the repo for the package you are validating
 #' @param tag The tag to pull from the repo. When this function is called internally, this is assumed to be the same as the version you are testing, though it can be any valid tag.
 #' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"
-#' @param dest_dir File path for directory to clone repo into. Defaults to `tempdir()`
+#' @param dest_dir File path for directory to clone repo into. Defaults to [tempdir()]
 #' @param overwrite Boolean indicating whether to overwrite `file.path(dest_dir, repo)` if something already exists there. TRUE by default.
 #' @export
 pull_tagged_repo <- function(
@@ -98,73 +127,50 @@ pull_tagged_repo <- function(
 }
 
 
-#' Run test_check on package directory
+#' Test a source package
 #'
-#' Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-#' If `build_package = FALSE` this assumes that the package being tested has already been built and
-#' installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
-#' This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.
-#' @importFrom testthat test_check ListReporter
-#' @importFrom callr r
-#' @importFrom withr with_dir
-#' @importFrom devtools build
-#' @importFrom utils install.packages
-#' @importFrom fs dir_create dir_exists dir_delete
-#' @param pkg name of the package to test
-#' @param test_path Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".
-#' @param root_dir The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.
-#' @param build_package Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`
-#' @export
-run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir(), build_package = TRUE) {
+#' This is an internal function called by [validate_tests()]
+#'
+#' @param pkg Name of the package to test; should be installed to a library in
+#'   [.libPaths()].
+#' @param test_path Directory containing tests, where [testthat::test_dir()]
+#'   will be run.
+#' @param root_dir The directory path to where the package is (i.e. where the
+#'   repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to
+#'   the directory that will be tested.
+#' @keywords internal
+run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir()) {
+  stopifnot(requireNamespace(pkg))
   message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
 
-  # Run build and tests in new R session using callr::r()
   results_list <- callr::r(
-    function(root_dir, pkg, test_path, build_package, setup_package_env) {
-      withr::with_dir(file.path(root_dir, pkg) ,{
+    function(root_dir, pkg, test_path, setup_package_env) {
+      withr::local_dir(file.path(root_dir, pkg))
+      require(pkg, character.only = TRUE)
 
-        # create temp folder to install into
-        tmp_lib <- file.path(root_dir, "mrgvalidate_lib")
+      # load package environment
+      env <- setup_package_env(pkg, test_path)
 
-        if (isTRUE(build_package)) {
-          if(fs::dir_exists(tmp_lib)) fs::dir_delete(tmp_lib)
-          fs::dir_create(tmp_lib)
+      # run tests
+      results_list <- testthat::test_dir(
+        path = test_path,
+        reporter = testthat::ListReporter$new(),
+        env = env,
+        filter = NULL,
+        stop_on_failure = FALSE,
+        stop_on_warning = FALSE
+      )
 
-          # build and install
-          source_path <- devtools::build()
-          install.packages(source_path, lib = tmp_lib, repos = NULL)
-
-        }
-
-        # load package from temp folder
-        require(pkg, lib.loc = tmp_lib, character.only = TRUE)
-
-        # load package environment
-        env <- setup_package_env(pkg, test_path)
-
-        # run tests
-        results_list <- testthat::test_dir(
-          path = test_path,
-          reporter = testthat::ListReporter$new(),
-          env = env,
-          filter = NULL,
-          stop_on_failure = FALSE,
-          stop_on_warning = FALSE,
-          wrap = TRUE
-        )
-
-      })
       return(results_list)
     },
-    args = list( # this is how you pass things into the callr::r() session
+    args = list(
       root_dir = root_dir,
       pkg = pkg,
       test_path = test_path,
-      build_package = build_package,
       setup_package_env = setup_package_env
     )
   )
-  return (results_list)
+  return(results_list)
 }
 
 #' Helper for setting up package environment for testing

@@ -1,7 +1,6 @@
 context("Test full wrapper")
 
 library(stringr)
-source("data/contants_for_testing.R")
 
 test_that("generate_docs() renders", {
   on.exit({ cleanup() })

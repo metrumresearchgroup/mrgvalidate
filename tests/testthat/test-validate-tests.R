@@ -1,6 +1,5 @@
 context("Unit tests for validate-tests.R")
 
-source("data/contants_for_testing.R")
 
 test_that("validate_tests returns expected df", {
   on.exit({ cleanup() })
