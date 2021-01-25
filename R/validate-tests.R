@@ -15,6 +15,7 @@
 #' @importFrom dplyr group_by summarize bind_rows
 #' @importFrom purrr map_df map
 #' @importFrom rlang .data
+#' @importFrom fs dir_exists dir_create
 #'
 #' @param pkg The name of the package you are validating, to be included in the
 #'   output document.
@@ -72,6 +73,7 @@ validate_tests <- function(
   }
 
   if (!is.null(out_file)) {
+    if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
     out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".csv"))
     readr::write_csv(results, out_file)
   }
