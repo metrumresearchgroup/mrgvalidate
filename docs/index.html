@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -86,12 +86,17 @@
 <h2 class="hasAnchor">
 <a href="#one-liner-usage" class="anchor"></a>One liner usage</h2>
 <p>If everything is configured correctly (as described in the vignette mentioned above) you should only have to run this single line:</p>
-<pre><code>mrgvalidate::generate_docs(
+<pre><code><a href="reference/generate_docs.html">mrgvalidate::generate_docs(
   org = "metrumresearchgroup",
   repo = "yourpackage",
-  milestone = "v0.1.0" # the name of the milestone in github
-  version = "0.1.0"    # the tag that will be pulled for testing
-)</code></pre>
+  milestone = "v0.1.0", # the name of the milestone in github
+  version = "0.1.0"     # the tag that will be pulled for testing
+)</a></code></pre>
+</div>
+<div id="dependency-management" class="section level2">
+<h2 class="hasAnchor">
+<a href="#dependency-management" class="anchor"></a>Dependency management</h2>
+<p><code>mrgvalidate</code> will clone the package being validated, from the tag passed to the <code>milestone</code> argument. The package is then built and installed into a temporary directory. Dependencies are pulled from the <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> inherited from the user’s session. Any dependencies <em>not</em> found in <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> are installed into the temporary directory automatically. See <code><a href="reference/validate_tests.html">?validate_tests</a></code> for more details.</p>
 </div>
 </div>
   </div>
@@ -110,6 +115,7 @@
 <li>Devin Pastoor <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Seth Green <br><small class="roles"> Author </small>  </li>
 <li>Kyle T Baron <br><small class="roles"> Author </small>  </li>
+<li>Sean Wilson <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -118,7 +124,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron.</p>
+  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron, Sean Wilson.</p>
 </div>
 
 <div class="pkgdown">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run test_check on package directory — run_tests • mrgvalidate</title>
+<title>Test a source package — run_tests • mrgvalidate</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,8 @@
 
 
 
-<meta property="og:title" content="Run test_check on package directory — run_tests" />
-<meta property="og:description" content="Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-If `build_package = FALSE` this assumes that the package being tested has already been built and
-installed at `file.path(root_dir, &quot;mrgvalidate_lib&quot;)`, and it attempts to load the package from there.
-This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install." />
+<meta property="og:title" content="Test a source package — run_tests" />
+<meta property="og:description" content="This is an internal function called by validate_tests()" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -72,7 +69,7 @@ This should be used exclusively for running extra test in other directories, bec
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -80,7 +77,7 @@ This should be used exclusively for running extra test in other directories, bec
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,43 +112,35 @@ This should be used exclusively for running extra test in other directories, bec
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run test_check on package directory</h1>
+    <h1>Test a source package</h1>
     
     <div class="hidden name"><code>run_tests.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-If `build_package = FALSE` this assumes that the package being tested has already been built and
-installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
-This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.</p>
+    <p>This is an internal function called by <code><a href='validate_tests.html'>validate_tests()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_tests</span>(
-  <span class='no'>pkg</span>,
-  <span class='kw'>test_path</span> <span class='kw'>=</span> <span class='st'>"tests/testthat"</span>,
-  <span class='kw'>root_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  <span class='kw'>build_package</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>run_tests</span>(<span class='no'>pkg</span>, <span class='kw'>test_path</span> <span class='kw'>=</span> <span class='st'>"tests/testthat"</span>, <span class='kw'>root_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pkg</th>
-      <td><p>name of the package to test</p></td>
+      <td><p>Name of the package to test; should be installed to a library in
+<code><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths()</a></code>.</p></td>
     </tr>
     <tr>
       <th>test_path</th>
-      <td><p>Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".</p></td>
+      <td><p>Directory containing tests, where <code><a href='https://testthat.r-lib.org/reference/test_dir.html'>testthat::test_dir()</a></code>
+will be run.</p></td>
     </tr>
     <tr>
       <th>root_dir</th>
-      <td><p>The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.</p></td>
-    </tr>
-    <tr>
-      <th>build_package</th>
-      <td><p>Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`</p></td>
+      <td><p>The directory path to where the package is (i.e. where the
+repo has been cloned). <code><a href='https://rdrr.io/r/base/file.path.html'>file.path(root_dir, pkg, test_path)</a></code> should lead to
+the directory that will be tested.</p></td>
     </tr>
     </table>
 
@@ -169,7 +158,7 @@ This should be used exclusively for running extra test in other directories, bec
 
       <footer>
       <div class="copyright">
-  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron.</p>
+  <p>Developed by Devin Pastoor, Seth Green, Kyle T Baron, Sean Wilson.</p>
 </div>
 
 <div class="pkgdown">

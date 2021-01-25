@@ -7,7 +7,7 @@
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
 #' @importFrom rlang .data
-#' #' @importFrom fs dir_exists dir_create
+#' @importFrom fs dir_exists dir_create
 #' @param df Tibble output from [process_stories()].
 #' @param pkg The name of the package you are validating, to be included in the output document.
 #' @param version The version number of the package you are validating, to be included in the output document.
