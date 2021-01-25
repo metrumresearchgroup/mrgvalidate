@@ -57,7 +57,7 @@ proc_issue <- function(txt) {
 #' @importFrom dplyr select
 #' @importFrom knitr kable
 #' @importFrom rlang .data
-#' @param x A single row from the `process_stories()` df
+#' @param x A single row from the [process_stories()] df
 format_spec <- function(x) {
   header <- paste0("## ", x$issue[1], " ", x$title[1], "\n")
   bod <- gsub("\r", "", x$story[1])

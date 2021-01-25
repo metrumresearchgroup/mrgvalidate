@@ -2,27 +2,21 @@
 % Please edit documentation in R/validate-tests.R
 \name{run_tests}
 \alias{run_tests}
-\title{Run test_check on package directory}
+\title{Test a source package}
 \usage{
-run_tests(
-  pkg,
-  test_path = "tests/testthat",
-  root_dir = tempdir(),
-  build_package = TRUE
-)
+run_tests(pkg, test_path = "tests/testthat", root_dir = tempdir())
 }
 \arguments{
-\item{pkg}{name of the package to test}
+\item{pkg}{Name of the package to test; should be installed to a library in
+\code{\link[=.libPaths]{.libPaths()}}.}
 
-\item{test_path}{Directory containing tests, where `testthat::test_check()` will be run. Defaults to "tests".}
+\item{test_path}{Directory containing tests, where \code{\link[testthat:test_dir]{testthat::test_dir()}}
+will be run.}
 
-\item{root_dir}{The directory path to where the package is (i.e. where the repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to the directory that will be tested.}
-
-\item{build_package}{Boolean indicating whether to build and install the package to `file.path(root_dir, "mrgvalidate_lib")`}
+\item{root_dir}{The directory path to where the package is (i.e. where the
+repo has been cloned). \code{file.path(root_dir, pkg, test_path)} should lead to
+the directory that will be tested.}
 }
 \description{
-Starts a fresh R session with callr, then builds the package from within the repo, and runs test_check on the fresh build.
-If `build_package = FALSE` this assumes that the package being tested has already been built and
-installed at `file.path(root_dir, "mrgvalidate_lib")`, and it attempts to load the package from there.
-This should be used exclusively for running extra test in other directories, because the intitial run should always be on a fresh install.
+Test a source package
 }

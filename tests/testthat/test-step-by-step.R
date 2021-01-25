@@ -1,7 +1,5 @@
 context("Test step-by-step functions")
 
-source("data/contants_for_testing.R")
-
 test_that("no docs exist at the beginning", {
   expect_false(fs::file_exists(ALL_TESTS))
   expect_false(fs::file_exists(paste0(tools::file_path_sans_ext(REQ_FILE), ".docx")))

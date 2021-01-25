@@ -7,7 +7,7 @@
 format_spec(x)
 }
 \arguments{
-\item{x}{A single row from the `process_stories()` df}
+\item{x}{A single row from the \code{\link[=process_stories]{process_stories()}} df}
 }
 \description{
 format a story for inclusion in output documents
