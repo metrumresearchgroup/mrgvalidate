@@ -11,5 +11,5 @@ test_that("pull_tagged_repo() gets clones and gets commit hash from GHE", {
 
 test_that("get_issues() pull from GHE", {
   release_issues <- get_issues(org = GHE_ORG, repo = GHE_REPO, mile = GHE_MILESTONE, domain = GHE_DOMAIN)
-  expect_equal(nrow(release_issues), STORIES_DF_ROWS)
+  expect_equal(nrow(release_issues), STORIES_DF_ROWS_GHE)
 })

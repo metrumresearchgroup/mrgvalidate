@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",
@@ -14,13 +14,17 @@ Authors@R:
     person(given = "Kyle T",
            family = "Baron",
            role = c("aut"),
-           email = "kyleb@metrumrg.com"))
+           email = "kyleb@metrumrg.com"),
+    person(given = "Sean",
+           family = "Wilson",
+           role = c("aut"),
+           email = "seanw@metrumrg.com"))
 Description: R package for generating validation documents for other R packages developed by Metrum.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports: 
     callr,
     devtools,
@@ -35,9 +39,16 @@ Imports:
     readr,
     rlang,
     rmarkdown,
-    stringr,
     testthat,
     tibble,
     tidyr,
     withr (>= 2.3.0)
+Suggests:
+    checkmate,
+    digest,
+    jsonlite,
+    stringr,
+    yaml,
+    forcats,
+    cli
 Roxygen: list(markdown = TRUE)
