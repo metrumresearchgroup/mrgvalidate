@@ -14,7 +14,7 @@ process_stories(
 )
 }
 \arguments{
-\item{release_issues}{Tibble output from `get_issues()` or `ghpm::get_repo_issues()` containing all the issues you want to format.}
+\item{release_issues}{Tibble output from \code{\link[=get_issues]{get_issues()}} or \code{\link[ghpm:get_issues]{ghpm::get_issues()}} containing all the issues you want to format.}
 
 \item{org}{Github organization that the repo is under}
 

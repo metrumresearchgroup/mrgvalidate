@@ -22,9 +22,9 @@ pull_tagged_repo(
 
 \item{domain}{Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"}
 
-\item{dest_dir}{File path for directory to clone repo into. Defaults to `tempdir()`}
+\item{dest_dir}{File path for directory to clone repo into. Defaults to \code{\link[=tempdir]{tempdir()}}}
 
-\item{overwrite}{Boolean indicating whether to overwrite `file.path(dest_dir, repo)` if something already exists there. TRUE by default.}
+\item{overwrite}{Boolean indicating whether to overwrite \code{file.path(dest_dir, repo)} if something already exists there. TRUE by default.}
 }
 \description{
 Clones the specified repo at the specified tag to disk

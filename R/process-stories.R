@@ -3,7 +3,7 @@
 #' @importFrom tidyr unnest nest
 #' @importFrom dplyr select mutate left_join
 #' @importFrom rlang .data
-#' @param release_issues Tibble output from `get_issues()` or `ghpm::get_repo_issues()` containing all the issues you want to format.
+#' @param release_issues Tibble output from [get_issues()] or [ghpm::get_issues()] containing all the issues you want to format.
 #' @param org Github organization that the repo is under
 #' @param repo The name of the repo for the package you are validating
 #' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"
@@ -65,7 +65,7 @@ process_stories <- function(
 
 #' Get tibble of issues associated with a specific milestone
 #' @importFrom dplyr filter
-#' @importFrom ghpm get_repo_issues api_url
+#' @importFrom ghpm api_url
 #' @param org Github organization that the repo is under
 #' @param repo The name of the repo for the package you are validating
 #' @param mile The name of the milestone associated with the release you are validating. All issues tied to this milestone with be pulled.
@@ -77,7 +77,7 @@ get_issues <- function(org, repo, mile, domain = VALID_DOMAINS) {
   if (domain == "github.com") {
     domain <- paste0("api.", domain)
   }
-  pkg_issues <- get_repo_issues(org, repo, api_url(hostname = domain))
+  pkg_issues <- ghpm::get_issues(org, repo, api_url(hostname = domain))
   release_issues <- pkg_issues %>% filter(.data$milestone == mile)
 
   return(release_issues)
@@ -89,7 +89,7 @@ get_issues <- function(org, repo, mile, domain = VALID_DOMAINS) {
 #' @param repo The name of the repo for the package you are validating
 #' @param domain Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"
 #' @importFrom dplyr filter select mutate
-#' @importFrom ghpm get_repo_issue_labels api_url
+#' @importFrom ghpm api_url
 #' @importFrom rlang .data
 #' @export
 get_risk <- function(org, repo, domain = VALID_DOMAINS) {
@@ -97,7 +97,7 @@ get_risk <- function(org, repo, domain = VALID_DOMAINS) {
   if (domain == "github.com") {
     domain <- paste0("api.", domain)
   }
-  issue_lab <- get_repo_issue_labels(org, repo, api_url(hostname = domain))
+  issue_lab <- ghpm::get_issue_labels(org, repo, api_url(hostname = domain))
   issue_lab <- filter(issue_lab, grepl("risk", .data$label, fixed = TRUE))
   risk <- select(issue_lab, .data$issue, risk = .data$label)
   risk <- mutate(risk, risk = sub("risk: ", "", risk, fixed = TRUE))

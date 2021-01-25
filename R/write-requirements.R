@@ -4,7 +4,7 @@
 #' @importFrom dplyr slice
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
-#' @param df Tibble output from `process_stories()`
+#' @param df Tibble output from [process_stories()].
 #' @param pkg The name of the package you are validating, to be included in the output document.
 #' @param version The version number of the package you are validating, to be included in the output document.
 #' @param out_file filename to write markdown file out to. Any extension will be ignored and replaced with .md
@@ -47,7 +47,8 @@ document. The Requirement Specifications ensure that each requirement is tested.
     rmarkdown::render(
       out_file,
       output_format = "word_document",
-      output_dir = dirname(out_file)
+      output_dir = dirname(out_file),
+      quiet = TRUE
     )
     message("  Finished rendering")
   }
