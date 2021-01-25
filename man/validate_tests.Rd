@@ -38,3 +38,9 @@ dir) to directories that contain additional tests to run}
 temporary library. Then we run all tests for \code{pkg}, roll up successes and
 failures, and write to a CSV file.
 }
+\details{
+The package found at \code{file.path(root_dir, pkg)} will be built and installed
+into a tempory library that is appended to the \emph{beginning} of your
+\code{.libPaths()}, using \code{devtools::install(..., build = TRUE, upgrade = "never")}. This will also install (into the temporary library) any
+dependencies from the package that are \emph{not} found in your \code{.libPaths()}.
+}

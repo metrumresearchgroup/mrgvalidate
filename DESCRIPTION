@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",
@@ -20,7 +20,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports: 
     callr,
     devtools,

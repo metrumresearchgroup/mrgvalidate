@@ -4,6 +4,14 @@
 #' temporary library. Then we run all tests for `pkg`, roll up successes and
 #' failures, and write to a CSV file.
 #'
+#' @details
+#'
+#' The package found at `file.path(root_dir, pkg)` will be built and installed
+#' into a tempory library that is appended to the _beginning_ of your
+#' `.libPaths()`, using `devtools::install(..., build = TRUE, upgrade =
+#' "never")`. This will also install (into the temporary library) any
+#' dependencies from the package that are _not_ found in your `.libPaths()`.
+#'
 #' @importFrom dplyr group_by summarize bind_rows
 #' @importFrom purrr map_df map
 #' @importFrom rlang .data
@@ -119,6 +127,8 @@ pull_tagged_repo <- function(
 
 #' Test a source package
 #'
+#' This is an internal function called by [validate_tests()]
+#'
 #' @param pkg Name of the package to test; should be installed to a library in
 #'   [.libPaths()].
 #' @param test_path Directory containing tests, where [testthat::test_dir()]
@@ -126,7 +136,7 @@ pull_tagged_repo <- function(
 #' @param root_dir The directory path to where the package is (i.e. where the
 #'   repo has been cloned). `file.path(root_dir, pkg, test_path)` should lead to
 #'   the directory that will be tested.
-#' @export
+#' @keywords internal
 run_tests <- function(pkg, test_path = "tests/testthat", root_dir = tempdir()) {
   stopifnot(requireNamespace(pkg))
   message(glue("run_tests() on {root_dir}/{pkg}/{test_path}"))
