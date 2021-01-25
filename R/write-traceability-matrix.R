@@ -7,6 +7,7 @@
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
 #' @importFrom rlang .data
+#' #' @importFrom fs dir_exists dir_create
 #' @param df Tibble output from [process_stories()].
 #' @param pkg The name of the package you are validating, to be included in the output document.
 #' @param version The version number of the package you are validating, to be included in the output document.
@@ -22,6 +23,7 @@ write_traceability_matrix <- function(
   output_dir = getwd(),
   word_document = TRUE
 ) {
+  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".md"))
 
   mat_boiler <- glue('
