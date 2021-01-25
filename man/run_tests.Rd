@@ -18,5 +18,6 @@ repo has been cloned). \code{file.path(root_dir, pkg, test_path)} should lead to
 the directory that will be tested.}
 }
 \description{
-Test a source package
+This is an internal function called by \code{\link[=validate_tests]{validate_tests()}}
 }
+\keyword{internal}
