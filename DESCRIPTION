@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.1.8001
+Version: 0.1.1.8002
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",

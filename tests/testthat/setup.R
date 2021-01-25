@@ -46,8 +46,9 @@ TEST_DF_ROWS <- 169
 TEST_DF_COLS <- 6
 TEST_DF_ROWS_EXTRA_TESTS <- 173
 
-STORIES_DF_ROWS <- 5
+STORIES_DF_ROWS <- 6 # this will change when new stories are added for new test cases
 STORIES_DF_COLS <- 5
+STORIES_DF_ROWS_GHE <- 5 # this shouldn't ever change because the GHE repo is static
 
 VAL_TITLE <- "Validation Testing"
 VAL_BOILER <- '
