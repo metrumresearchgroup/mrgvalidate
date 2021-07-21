@@ -51,35 +51,29 @@ validate_tests <- function(
 
   test_list <- run_tests(pkg = pkg, root_dir = root_dir)
 
-  test_df <- purrr::map_df(test_list, parse_test_output)
+  test_df <- parse_testthat_list_reporter(test_list)
 
   if (!is.null(extra_test_dirs)) {
     extra_df_list <- map(extra_test_dirs, function(.t) {
       .tl <- run_tests(pkg = pkg, test_path = .t, root_dir = root_dir)
-      return(purrr::map_df(.tl, parse_test_output))
+      return(parse_testthat_list_reporter(.tl))
     })
 
     test_df <- bind_rows(test_df, extra_df_list)
   }
 
-  results <- test_df %>% group_by(file, .data$context, .data$tests) %>%
-    summarize(nb = n(),
-              passed = sum(.data$success),
-              failed = sum(!.data$success)
-    )
-
-  if (sum(results$failed) > 0) {
-    warning(glue("`validate_tests(pkg = '{pkg}', root_dir = '{root_dir}')` had {sum(results$failed)} failing tests."))
+  if (sum(test_df$fail) > 0) {
+    warning(glue("`validate_tests(pkg = '{pkg}', root_dir = '{root_dir}')` had {sum(test_df$fail)} failing tests."))
   }
 
   if (!is.null(out_file)) {
     if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
     out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".csv"))
-    readr::write_csv(results, out_file)
+    readr::write_csv(test_df, out_file)
   }
 
   if (isTRUE(return_df)) {
-    return(results)
+    return(test_df)
   }
 }
 
@@ -199,21 +193,6 @@ setup_package_env <- function(package, test_path) {
   ))
 
   return(env)
-}
-
-
-#' @importFrom tibble tibble
-#' @importFrom purrr map_chr map_lgl
-parse_test_output <- function(result) {
-  if (is.null(result$context)) {
-    stop("no context specified in file: ", result$file)
-  }
-  tibble::tibble(context = result$context,
-                 file = result$file,
-                 tests = map_chr(result$results, ~ .x$test),
-                 success = map_lgl(result$results, ~ inherits(.x, "expectation_success")),
-                 res_msg = map_chr(result$results, ~ paste(class(.x), collapse = ", "))
-  )
 }
 
 #' @importFrom glue trim

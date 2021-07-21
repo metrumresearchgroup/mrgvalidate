@@ -17,7 +17,7 @@ test_that("validate_tests returns expected df", {
 
   expect_equal(nrow(test_df), TEST_DF_ROWS)
   expect_equal(ncol(test_df), TEST_DF_COLS)
-  expect_equal(sum(test_df$failed), 0)
+  expect_equal(sum(test_df$fail), 0)
 })
 
 
