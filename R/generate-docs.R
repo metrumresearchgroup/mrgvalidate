@@ -1,4 +1,22 @@
+#' Create validation docs
+#'
+#' This function is the main entry point for creating validation docs.
+#' @param requirements tibble of requirements in the format returned by
+#'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
+#'   the following columns: title, story, risk, and test_ids.
+#' @param test_output_dir path to a directory containing appropriately formatted
+#'   test output files, such the output produced by writing
+#'   [parse_testthat_list_reporter()] to a CSV. All CSV files in the directory
+#'   will be combined to construct the results.
+#' @param output_dir Directory to write the output documents to. Defaults to
+#'   working directory.
+#' @export
+create_validation_docs <- function
+(
+  requirements, test_output_dir, output_dir = getwd()
+) {
 
+}
 
 #' Wrapper to generate all three documents, using defaults for output paths
 #' @importFrom purrr map walk
