@@ -10,12 +10,38 @@
 #'   will be combined to construct the results.
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
+#' @importFrom dplyr full_join rename
+#' @importFrom purrr map reduce
+#' @importFrom readr read_csv
+#' @importFrom stringr str_replace fixed
+#' @importFrom tibble add_column
+#' @importFrom tidyr unnest
 #' @export
 create_validation_docs <- function
 (
   requirements, test_output_dir, output_dir = getwd()
 ) {
 
+  req_flat <- requirements %>%
+    unnest(test_ids) %>%
+    rename(test_id = test_ids)
+
+  test_results <- map(
+    list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE),
+    ~{
+      read_csv(.x, show_col_types = FALSE) %>%
+        add_column(
+          result_file = str_replace(basename(.x), fixed(".csv"), ""),
+          .before = TRUE)
+    }) %>%
+    reduce(rbind)
+
+  # TODO: Change something upstream to make test_tag/test_id consistent.
+  dd <- full_join(test_results, req_flat, by = c("test_tag" = "test_id"))
+
+  # TODO: call write_* functions. They need to be adjusted.
+
+  return(dd)
 }
 
 #' Wrapper to generate all three documents, using defaults for output paths
