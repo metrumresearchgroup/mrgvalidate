@@ -25,6 +25,10 @@ parse_test_tag <- function(test_name) {
   # TODO: we should probably unit test this
   # * the weird Julia case
   # * the nodejs case
-  str_match(test_name, "\\[([A-Z][A-Z][A-Z]\\-[A-Z][A-Z]\\-[0-9]+.*)\\]") %>%
+  #
+  # TODO: the modifier matches the current spec but is going to cause problems
+  # with metworxinspector's test_config_pkgs(). That programatically tacks on
+  # package names, which may include characters (especially [.-_]).
+  str_match(test_name, "\\[([A-Z]+-[A-Z]+-[0-9]+(?:-[A-z0-9]+)?)\\]") %>%
     dplyr::nth(2)
 }
