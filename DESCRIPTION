@@ -42,7 +42,8 @@ Imports:
     testthat,
     tibble,
     tidyr,
-    withr (>= 2.3.0)
+    withr (>= 2.3.0),
+    googlesheets4
 Suggests:
     checkmate,
     digest,
@@ -50,5 +51,6 @@ Suggests:
     stringr,
     yaml,
     forcats,
-    cli
+    cli,
+    httpuv
 Roxygen: list(markdown = TRUE)
