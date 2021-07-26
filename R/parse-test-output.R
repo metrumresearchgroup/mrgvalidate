@@ -9,9 +9,9 @@ parse_testthat_list_reporter <- function(result) {
       abort(paste("DEV ERROR: parsed more than one test name from results:", paste(.t, collapse = ", ")))
     }
     tibble::tibble(test_name = .t,
-                   success = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_success"))),
-                   fail = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_failure"))),
-                   skip = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_skip")))
+                   passed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_success"))),
+                   failed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_failure"))),
+                   skipped = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_skip")))
     ) %>%
       mutate(
         # TODO: Call this test_id for consistency with requirements input?
