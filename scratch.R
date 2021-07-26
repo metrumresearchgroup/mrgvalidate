@@ -5,5 +5,5 @@ df <- create_validation_docs(
     title_col = "ReqID", story_col = "Requirement",
     risk = "Category",  # bogus for now
     test_ids_col = "TestID"),
-  "validation-results-sample/"
+  "inst/validation-results-sample/"
 )
