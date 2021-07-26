@@ -23,7 +23,10 @@ create_validation_docs <- function
   tres <- read_csv_test_results(test_output_dir)
 
   # TODO: Change something upstream to make test_tag/test_id consistent.
-  dd <- full_join(tres$results, req_flat, by = c("test_tag" = "test_id"))
+  dd <- full_join(tres$results, req_flat,
+                  suffix = c("", ".requirements"),
+                  by = c("test_tag" = "test_id")) %>%
+    nest(tests = c(result_file, test_name, passed, failed, skipped, test_tag))
 
   # TODO: call write_* functions. They need to be adjusted.
 
