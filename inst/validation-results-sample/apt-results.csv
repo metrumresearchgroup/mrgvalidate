@@ -1,5 +1,5 @@
 test_name,passed,failed,skipped,test_tag
-apt configuration: should not cache ,1,0,0,MXI-CFG-1
-apt configuration: should use pipelining ,1,0,0,MXI-CFG-1
-apt configuration: should not have any ppa's configured ,1,0,0,MXI-CFG-1
-ssm-agent: should be enabled and running ,3,0,0,MXI-CFG-1
+apt configuration: should not cache ,1,0,0,MXI-CFG-001
+apt configuration: should use pipelining ,1,0,0,MXI-CFG-001
+apt configuration: should not have any ppa's configured ,1,0,0,MXI-CFG-001
+ssm-agent: should be enabled and running ,3,0,0,MXI-CFG-001
