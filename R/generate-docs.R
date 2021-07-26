@@ -4,17 +4,11 @@
 #' @param requirements tibble of requirements in the format returned by
 #'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
 #'   the following columns: title, story, risk, and test_ids.
-#' @param test_output_dir path to a directory containing appropriately formatted
-#'   test output files, such the output produced by writing
-#'   [parse_testthat_list_reporter()] to a CSV. All CSV files in the directory
-#'   will be combined to construct the results.
+#' @param test_output_dir path to direction containing a test output files.
+#'   TODO: reference doc for input formats once they're added.
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr full_join rename
-#' @importFrom purrr map reduce
-#' @importFrom readr read_csv
-#' @importFrom stringr str_replace fixed
-#' @importFrom tibble add_column
 #' @importFrom tidyr unnest
 #' @export
 create_validation_docs <- function
@@ -26,18 +20,10 @@ create_validation_docs <- function
     unnest(test_ids) %>%
     rename(test_id = test_ids)
 
-  test_results <- map(
-    list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE),
-    ~{
-      read_csv(.x, show_col_types = FALSE) %>%
-        add_column(
-          result_file = str_replace(basename(.x), fixed(".csv"), ""),
-          .before = TRUE)
-    }) %>%
-    reduce(rbind)
+  tres <- read_csv_test_results(test_output_dir)
 
   # TODO: Change something upstream to make test_tag/test_id consistent.
-  dd <- full_join(test_results, req_flat, by = c("test_tag" = "test_id"))
+  dd <- full_join(tres$results, req_flat, by = c("test_tag" = "test_id"))
 
   # TODO: call write_* functions. They need to be adjusted.
 
