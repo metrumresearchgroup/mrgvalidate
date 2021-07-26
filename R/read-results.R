@@ -1,8 +1,7 @@
 
 #' Read test results from CSV files in a directory.
 #' @param test_output_dir path to a directory containing test output files. Each
-#'   CSV file should have an accompanying JSON file. TODO: reference docs for
-#'   input formats once they're added
+#'   CSV file should have an accompanying JSON file. See [input-formats].
 #' @return List of two elements, a tibble with test result ("results") and
 #'   metadata information for each test result set ("info").
 #' @importFrom glue glue

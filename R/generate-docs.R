@@ -4,8 +4,8 @@
 #' @param requirements tibble of requirements in the format returned by
 #'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
 #'   the following columns: title, story, risk, and test_ids.
-#' @param test_output_dir path to direction containing a test output files.
-#'   TODO: reference doc for input formats once they're added.
+#' @param test_output_dir path to direction containing a test output files. See
+#'   [input-formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr full_join rename
