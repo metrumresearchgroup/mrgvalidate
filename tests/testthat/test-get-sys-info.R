@@ -12,7 +12,7 @@ test_that("get_sys_info() writes to json", {
   expect_true(fs::file_exists(tmp_file))
 
   written_res <- jsonlite::fromJSON(tmp_file)
-  expect_true(stringr::str_detect(written_res$date, as.character(Sys.Date())))
+  expect_true(stringr::str_detect(written_res$date, "[0-9]+\\-[0-9]+\\-[0-9]+"))
   expect_equal(names(written_res$info$sys), c("sysname", "version", "release", "machine"))
 })
 
