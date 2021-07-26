@@ -1,7 +1,6 @@
 test_that("get_sys_info() returns date and system info", {
   res <- get_sys_info()
-
-  expect_true(stringr::str_detect(res$date, as.character(Sys.Date())))
+  expect_true(stringr::str_detect(res$date, "[0-9]+\\-[0-9]+\\-[0-9]+"))
   expect_equal(names(res$info$sys), c("sysname", "version", "release", "machine"))
 })
 
