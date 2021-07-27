@@ -7,20 +7,19 @@
 read_requirements_gsheet(
   ss,
   sheet = NULL,
-  title_col = "title",
-  story_col = "story",
-  test_ids_col = "test_id",
-  risk_col = "risk"
+  req_id_col = "RequirementID",
+  req_description_col = "Requirement Description",
+  test_ids_col = "TestIDs"
 )
 }
 \arguments{
 \item{ss, sheet}{Sheet identifiers passed \code{\link[googlesheets4:range_read]{googlesheets4::read_sheet()}}.}
 
-\item{title_col, story_col, risk, test_ids_col}{Names to remap to title, story,
-risk, and test_ids columns.}
+\item{req_id_col, req_description_col, test_ids_col}{Names to remap to
+requirement ID, description, and test IDs.}
 }
 \value{
-Tibble with these columns: title, story, risk, and test_ids
+Tibble with these columns: req_id, req_description, and test_ids
 }
 \description{
 Read requirements from a Google Sheet.
