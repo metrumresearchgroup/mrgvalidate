@@ -7,9 +7,9 @@
 read_requirements_gsheet(
   ss,
   sheet = NULL,
-  req_id_col = "RequirementID",
-  req_description_col = "Requirement Description",
-  test_ids_col = "TestIDs"
+  req_id_col = "RequirementId",
+  req_description_col = "RequirementDescription",
+  test_ids_col = "TestIds"
 )
 }
 \arguments{

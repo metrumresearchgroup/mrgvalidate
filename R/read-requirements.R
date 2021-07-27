@@ -8,9 +8,9 @@
 read_requirements_gsheet <- function
 (
   ss, sheet = NULL,
-  req_id_col = "RequirementID",
-  req_description_col = "Requirement Description",
-  test_ids_col = "TestIDs"
+  req_id_col = "RequirementId",
+  req_description_col = "RequirementDescription",
+  test_ids_col = "TestIds"
 ) {
   dd <- googlesheets4::read_sheet(ss = ss, sheet = sheet)
   dd %>%
