@@ -50,7 +50,7 @@ merge_requirements_and_stories <- function(stories, reqs) {
 #'   RequirementId, RequirementDescription, and TestIds columns.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
-#' @export
+#' @keywords internal
 read_requirements_gsheet <- function
 (
   ss, sheet = NULL,
@@ -75,7 +75,7 @@ read_requirements_gsheet <- function
 #'   RequirementIds columns.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
-#' @export
+#' @keywords internal
 read_stories_gsheet <- function
 (
   ss, sheet = NULL,

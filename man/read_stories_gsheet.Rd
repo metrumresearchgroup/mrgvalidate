@@ -26,3 +26,4 @@ Tibble with the above columns.
 \description{
 Read stories from a Google Sheet.
 }
+\keyword{internal}
