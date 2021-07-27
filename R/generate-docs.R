@@ -1,9 +1,8 @@
 #' Create validation docs
 #'
 #' This function is the main entry point for creating validation docs.
-#' @param requirements tibble of requirements in the format returned by
-#'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
-#'   the following columns: RequirementId, RequirementDescription, and TestIds.
+#' @param specs tibble of requirements in the format returned by
+#'   [read_spec_gsheets()].
 #' @param test_output_dir path to direction containing a test output files. See
 #'   [input-formats].
 #' @param output_dir Directory to write the output documents to. Defaults to

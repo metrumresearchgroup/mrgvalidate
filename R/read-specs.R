@@ -1,4 +1,49 @@
 
+#' Read requirements and stories from Google Sheets.
+#'
+#' @details
+#' The stories sheet must have the following columns:
+#' * StoryId (character scalar)
+#' * StoryName (character scalar)
+#' * StoryDescription (character scalar)
+#' * ProductRisk (character scalar)
+#' * RequirementIds (character vector)
+#'
+#' The requirements sheet must have the following columns:
+#' * RequirementId (character scalar)
+#' * RequirementDescription (character scalar)
+#' * TestIds (character vector)
+#'
+#' @param ss_stories,ss_req,sheet_stories,sheet_req Sheet identifiers for the
+#'   stories and requirements passed along as the `ss` and `sheet` arguments to
+#'   [googlesheets4::read_sheet()].
+#' @return Tibble joining requirements and stories by RequirementId.
+#' @export
+read_spec_gsheets <- function
+(
+  ss_stories, ss_req,
+  sheet_stories = NULL, sheet_req = NULL
+) {
+  stories <- read_stories_gsheet(ss = ss_stories, sheet = sheet_stories)
+  reqs <- read_requirements_gsheet(ss = ss_req, sheet = sheet_req)
+  return(merge_requirements_and_stories(stories, reqs))
+}
+
+#' Join the stories and requirements by requirement ID.
+#' @param stories Data frame of stories, where the RequirementIds column has a
+#'   list of requirement IDs associated with each story.
+#' @param reqs Data frame of requirements, with each row identified by a unique
+#'   requirement ID.
+#' @importFrom dplyr full_join
+#' @importFrom tidyr unnest
+#' @keywords internal
+merge_requirements_and_stories <- function(stories, reqs) {
+  stories_flat <- stories %>%
+    unnest("RequirementIds") %>%
+    rename(RequirementId = RequirementIds)
+  return(full_join(stories_flat, reqs, by = "RequirementId"))
+}
+
 #' Read requirements from a Google Sheet.
 #' @param ss,sheet Sheet identifiers passed [googlesheets4::read_sheet()].
 #' @param req_id_col,req_description_col,test_ids_col Names to remap to
