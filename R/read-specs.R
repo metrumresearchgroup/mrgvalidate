@@ -4,6 +4,7 @@
 #' @param req_id_col,req_description_col,test_ids_col Names to remap to
 #'   RequirementId, RequirementDescription, and TestIds columns.
 #' @return Tibble with the above columns.
+#' @importFrom dplyr rename select mutate
 #' @export
 read_requirements_gsheet <- function
 (
@@ -28,6 +29,7 @@ read_requirements_gsheet <- function
 #'   Names to remap to StoryId, StoryName, StoryDescription, ProductRisk, and
 #'   RequirementIds columns.
 #' @return Tibble with the above columns.
+#' @importFrom dplyr rename select mutate
 #' @export
 read_stories_gsheet <- function
 (
