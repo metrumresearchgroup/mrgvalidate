@@ -19,7 +19,8 @@ read_requirements_gsheet(
 requirement ID, description, and test IDs.}
 }
 \value{
-Tibble with these columns: req_id, req_description, and test_ids
+Tibble with these columns: RequirementId, RequirementDescription, and
+TestIds
 }
 \description{
 Read requirements from a Google Sheet.

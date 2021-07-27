@@ -3,7 +3,7 @@
 #' This function is the main entry point for creating validation docs.
 #' @param requirements tibble of requirements in the format returned by
 #'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
-#'   the following columns: title, story, risk, and test_ids.
+#'   the following columns: RequirementId, RequirementDescription, and TestIds.
 #' @param test_output_dir path to direction containing a test output files. See
 #'   [input-formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
@@ -17,15 +17,15 @@ create_validation_docs <- function
 ) {
 
   req_flat <- requirements %>%
-    unnest(test_ids) %>%
-    rename(test_id = test_ids)
+    unnest(TestIds) %>%
+    rename(TestId = TestIds)
 
   tres <- read_csv_test_results(test_output_dir)
 
-  # TODO: Change something upstream to make test_tag/test_id consistent.
+  # TODO: Change something upstream to make test_tag/TestId consistent.
   dd <- full_join(tres$results, req_flat,
                   suffix = c("", ".requirements"),
-                  by = c("test_tag" = "test_id")) %>%
+                  by = c("test_tag" = "TestId")) %>%
     nest(tests = c(result_file, test_name, passed, failed, skipped, test_tag))
 
   # TODO: call write_* functions. They need to be adjusted.

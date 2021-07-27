@@ -14,7 +14,7 @@ parse_testthat_list_reporter <- function(result) {
                    skipped = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_skip")))
     ) %>%
       mutate(
-        # TODO: Call this test_id for consistency with requirements input?
+        # TODO: Call this TestId for consistency with requirements input?
         test_tag = parse_test_tag(test_name),
         # TODO: It probably makes sense to replace flanking spaces here too.
         test_name = str_replace(test_name, fixed(paste0("[", test_tag, "]")), "")

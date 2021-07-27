@@ -9,7 +9,7 @@ create_validation_docs(requirements, test_output_dir, output_dir = getwd())
 \arguments{
 \item{requirements}{tibble of requirements in the format returned by
 \code{\link[=read_requirements_github]{read_requirements_github()}} or \code{\link[=read_requirements_gsheet]{read_requirements_gsheet()}}. It must have
-the following columns: title, story, risk, and test_ids.}
+the following columns: RequirementId, RequirementDescription, and TestIds.}
 
 \item{test_output_dir}{path to direction containing a test output files. See
 \link{input-formats}.}
