@@ -96,3 +96,9 @@ read_stories_gsheet <- function
            ProductRisk, RequirementIds) %>%
     mutate(RequirementIds = stringr::str_split(RequirementIds, "[, ]+"))
 }
+
+# TODO: To support the existing GitHub functionality, we could have something
+# like read_spec_github() that's an alternative to read_spec_gsheets(). Some
+# thought is needed on how to handle that, though, because the GitHub source
+# doesn't have a story/requirement distinction; the summary from the issue body
+# is taken as the "story".
