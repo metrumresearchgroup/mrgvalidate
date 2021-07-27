@@ -2,9 +2,8 @@
 #' Read requirements from a Google Sheet.
 #' @param ss,sheet Sheet identifiers passed [googlesheets4::read_sheet()].
 #' @param req_id_col,req_description_col,test_ids_col Names to remap to
-#'   requirement ID, description, and test IDs.
-#' @return Tibble with these columns: RequirementId, RequirementDescription, and
-#'   TestIds
+#'   RequirementId, RequirementDescription, and TestIds columns.
+#' @return Tibble with the above columns.
 #' @export
 read_requirements_gsheet <- function
 (
