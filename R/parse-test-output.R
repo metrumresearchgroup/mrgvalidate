@@ -12,6 +12,7 @@ parse_testthat_list_reporter <- function(result) {
                    passed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_success"))),
                    failed = sum(map_lgl(.r$results, ~ inherits(.x,
                                                                c("expectation_failure",
+                                                                 "expectation_error",
                                                                  "expectation_skip"))))
     ) %>%
       mutate(
