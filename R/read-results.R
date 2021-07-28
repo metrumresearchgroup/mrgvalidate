@@ -38,3 +38,25 @@ read_csv_test_results <- function(test_output_dir) {
   names(info) <- str_replace(basename(csv_files), fixed(".csv"), "")
   return(list(results = results, info = info))
 }
+
+#' Read manual test results.
+#' @param test_output_dir Directory that contains test subdirectories named by
+#'   test ID.
+#' @return Tibble with TestId and content columns. In the content, links to the
+#'   test's assets subdirectory are switched from relative to absolute paths.
+#' @importFrom purrr map_dfr
+#' @importFrom readr read_file
+#' @importFrom stringr str_replace_all fixed
+#' @export
+read_manual_test_results <- function(test_output_dir) {
+  testdirs <- list.files(test_output_dir, pattern = "^MAN-[A-Z]+-[0-9]+",
+                         full.names = TRUE)
+  map_dfr(testdirs, function(.dir) {
+    .id <- basename(.dir)
+    abs_asset_path <- file.path(.dir, paste0("assets_", .id))
+    content <- read_file(file.path(.dir, "test.md")) %>%
+      str_replace_all(fixed(paste0("(assets_", .id)),
+                      paste0("(", abs_asset_path))
+    list(TestId = .id, content = content)
+  })
+}
