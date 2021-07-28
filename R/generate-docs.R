@@ -25,7 +25,7 @@ create_validation_docs <- function
   dd <- full_join(tres$results, req_flat,
                   suffix = c("", ".requirements"),
                   by = c("test_tag" = "TestId")) %>%
-    nest(tests = c(result_file, test_name, passed, failed, skipped, test_tag))
+    nest(tests = c(result_file, test_name, passed, failed, test_tag))
 
   # TODO: call write_* functions. They need to be adjusted.
 

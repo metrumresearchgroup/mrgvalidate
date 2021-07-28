@@ -1,3 +1,3 @@
-test_name,passed,failed,skipped,test_tag
-dpkg: packages are installed with correct versions,10,0,0,MXI-UTL-001
-required system packages are installed,20,0,0,MXI-UTL-002
+test_name,passed,failed,test_tag
+dpkg: packages are installed with correct versions,10,0,MXI-UTL-001
+required system packages are installed,20,0,MXI-UTL-002

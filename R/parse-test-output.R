@@ -10,8 +10,9 @@ parse_testthat_list_reporter <- function(result) {
     }
     tibble::tibble(test_name = .t,
                    passed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_success"))),
-                   failed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_failure"))),
-                   skipped = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_skip")))
+                   failed = sum(map_lgl(.r$results, ~ inherits(.x,
+                                                               c("expectation_failure",
+                                                                 "expectation_skip"))))
     ) %>%
       mutate(
         # TODO: Call this TestId for consistency with requirements input?

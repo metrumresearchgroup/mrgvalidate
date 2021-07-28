@@ -6,7 +6,7 @@ test_that("read_csv_test_results() can read test results", {
   df <- tres$results
   expect_setequal(names(df),
                   c("result_file", "test_name",
-                    "passed", "failed", "skipped", "test_tag"))
+                    "passed", "failed", "test_tag"))
 
   info <- tres$info
   files <- unique(df$result_file)
