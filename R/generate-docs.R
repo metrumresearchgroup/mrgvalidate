@@ -12,7 +12,7 @@
 #' @export
 create_validation_docs <- function
 (
-  requirements, auto_test_dir = NULL, man_test_dir = NULL,
+  specs, auto_test_dir = NULL, man_test_dir = NULL,
   output_dir = getwd()
 ) {
 
@@ -21,7 +21,7 @@ create_validation_docs <- function
           "mrgvalidate_input_error")
   }
 
-  dd <- requirements %>%
+  dd <- specs %>%
     unnest(TestIds) %>%
     rename(TestId = TestIds)
 
@@ -38,7 +38,7 @@ create_validation_docs <- function
     auto_res <- read_csv_test_results(auto_test_dir)
     # TODO: Change something upstream to make test_tag/TestId consistent.
     dd <- full_join(dd, auto_res$results, ,
-                    suffix = c(".requirements", ""),
+                    suffix = c(".specs", ""),
                     by = c("TestId" = "test_tag"))
   }
 

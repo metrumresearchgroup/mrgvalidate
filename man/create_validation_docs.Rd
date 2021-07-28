@@ -5,21 +5,21 @@
 \title{Create validation docs}
 \usage{
 create_validation_docs(
-  requirements,
+  specs,
   auto_test_dir = NULL,
   man_test_dir = NULL,
   output_dir = getwd()
 )
 }
 \arguments{
+\item{specs}{tibble of requirements in the format returned by
+\code{\link[=read_spec_gsheets]{read_spec_gsheets()}}.}
+
 \item{auto_test_dir, man_test_dir}{path to directories containing automatic
 and manual test output files. See \link{input_formats}.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
-
-\item{specs}{tibble of requirements in the format returned by
-\code{\link[=read_spec_gsheets]{read_spec_gsheets()}}.}
 }
 \description{
 This function is the main entry point for creating validation docs.
