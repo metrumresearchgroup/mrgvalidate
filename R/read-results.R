@@ -46,9 +46,12 @@ read_csv_test_results <- function(test_output_dir) {
 #'   test's assets subdirectory are switched from relative to absolute paths.
 #' @importFrom purrr map_dfr
 #' @importFrom readr read_file
-#' @importFrom stringr str_replace_all fixed
+#' @importFrom stringr str_replace str_replace_all fixed
 #' @export
 read_manual_test_results <- function(test_output_dir) {
+  # Drop trailing slash to avoid ugly "//" in returned value (e.g.,
+  # ".../foo//MAN-VSC-001").
+  test_output_dir <- str_replace(test_output_dir, "/$", "")
   testdirs <- list.files(test_output_dir, pattern = "^MAN-[A-Z]+-[0-9]+",
                          full.names = TRUE)
   map_dfr(testdirs, function(.dir) {
