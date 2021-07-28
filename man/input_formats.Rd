@@ -11,6 +11,8 @@ executed tests. Below is a description of how information about the executed
 tests is expected to be formatted.
 }
 \details{
+\subsection{Automated tests}{
+
 For automated tests, a directory should contain set of CSVs with the test
 results. A CSV file must have the following columns:
 \itemize{
@@ -38,6 +40,12 @@ be rendered in the validation docs.\preformatted{\{
 
 The \code{\link[=get_sys_info]{get_sys_info()}} helper can be used to capture various system details and
 write them to a JSON file.
+}
+
+\subsection{Manual tests}{
+
+(fill in when settled)
+}
 }
 \seealso{
 \code{\link[=parse_testthat_list_reporter]{parse_testthat_list_reporter()}}, \code{\link[=get_sys_info]{get_sys_info()}}

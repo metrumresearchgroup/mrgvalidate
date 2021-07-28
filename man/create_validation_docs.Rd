@@ -4,11 +4,16 @@
 \alias{create_validation_docs}
 \title{Create validation docs}
 \usage{
-create_validation_docs(requirements, test_output_dir, output_dir = getwd())
+create_validation_docs(
+  requirements,
+  auto_test_dir = NULL,
+  man_test_dir = NULL,
+  output_dir = getwd()
+)
 }
 \arguments{
-\item{test_output_dir}{path to direction containing a test output files. See
-\link{input_formats}.}
+\item{auto_test_dir, man_test_dir}{path to directories containing automatic
+and manual test output files. See \link{input_formats}.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
