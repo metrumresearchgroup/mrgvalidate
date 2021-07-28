@@ -17,8 +17,7 @@ read_stories_gsheet(
 \arguments{
 \item{ss, sheet}{Sheet identifiers passed \code{\link[googlesheets4:range_read]{googlesheets4::read_sheet()}}.}
 
-\item{story_id_col, story_name_col, story_description_col, risk_col, req_ids_col}{Names to remap to StoryId, StoryName, StoryDescription, ProductRisk, and
-RequirementIds columns.}
+\item{story_id_col, story_name_col, story_description_col, risk_col, req_ids_col}{Names of relevant columns in input Google Sheet.}
 }
 \value{
 Tibble with the above columns.

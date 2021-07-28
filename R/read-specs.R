@@ -46,8 +46,8 @@ merge_requirements_and_stories <- function(stories, reqs) {
 
 #' Read requirements from a Google Sheet.
 #' @param ss,sheet Sheet identifiers passed [googlesheets4::read_sheet()].
-#' @param req_id_col,req_description_col,test_ids_col Names to remap to
-#'   RequirementId, RequirementDescription, and TestIds columns.
+#' @param req_id_col,req_description_col,test_ids_col Names of relevant columns
+#'   in input Google Sheet.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
 #' @keywords internal
@@ -71,8 +71,7 @@ read_requirements_gsheet <- function
 #' Read stories from a Google Sheet.
 #' @param ss,sheet Sheet identifiers passed [googlesheets4::read_sheet()].
 #' @param story_id_col,story_name_col,story_description_col,risk_col,req_ids_col
-#'   Names to remap to StoryId, StoryName, StoryDescription, ProductRisk, and
-#'   RequirementIds columns.
+#'   Names of relevant columns in input Google Sheet.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
 #' @keywords internal

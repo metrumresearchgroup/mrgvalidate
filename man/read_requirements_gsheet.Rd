@@ -15,8 +15,8 @@ read_requirements_gsheet(
 \arguments{
 \item{ss, sheet}{Sheet identifiers passed \code{\link[googlesheets4:range_read]{googlesheets4::read_sheet()}}.}
 
-\item{req_id_col, req_description_col, test_ids_col}{Names to remap to
-RequirementId, RequirementDescription, and TestIds columns.}
+\item{req_id_col, req_description_col, test_ids_col}{Names of relevant columns
+in input Google Sheet.}
 }
 \value{
 Tibble with the above columns.
