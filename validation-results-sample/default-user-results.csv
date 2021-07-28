@@ -1,4 +1,0 @@
-test_name,success,fail,skip,test_tag
-the default user: should have a UID of 1003 ,TRUE,FALSE,FALSE,MXI-ACC-1
-the default user: should have a home directory under /data ,TRUE,FALSE,FALSE,MXI-ACC-2
-the default user: should be able to use passwordless sudo ,TRUE,FALSE,FALSE,MXI-ACC-3

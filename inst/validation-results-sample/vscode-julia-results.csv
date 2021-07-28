@@ -1,0 +1,6 @@
+test_name,passed,failed,test_tag
+Julia installed in /opt/julia and found in the path,1,0,MXI-JUL-001
+Julia version is 1.6.1,1,0,MXI-JUL-002
+Julia can run base test LinearAlgebra/eigen to confirm base library operation,1,0,MXI-JUL-003
+something about vscode,1,0,MXI-VSC-001
+something else about vscode,1,0,MXI-VSC-002

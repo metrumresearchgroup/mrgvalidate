@@ -1,20 +1,13 @@
 #' Create validation docs
 #'
 #' This function is the main entry point for creating validation docs.
-#' @param requirements tibble of requirements in the format returned by
-#'   [read_requirements_github()] or [read_requirements_gsheet()]. It must have
-#'   the following columns: title, story, risk, and test_ids.
-#' @param test_output_dir path to a directory containing appropriately formatted
-#'   test output files, such the output produced by writing
-#'   [parse_testthat_list_reporter()] to a CSV. All CSV files in the directory
-#'   will be combined to construct the results.
+#' @param specs tibble of requirements in the format returned by
+#'   [read_spec_gsheets()].
+#' @param test_output_dir path to direction containing a test output files. See
+#'   [input_formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr full_join rename
-#' @importFrom purrr map reduce
-#' @importFrom readr read_csv
-#' @importFrom stringr str_replace fixed
-#' @importFrom tibble add_column
 #' @importFrom tidyr unnest
 #' @export
 create_validation_docs <- function
@@ -23,21 +16,16 @@ create_validation_docs <- function
 ) {
 
   req_flat <- requirements %>%
-    unnest(test_ids) %>%
-    rename(test_id = test_ids)
+    unnest(TestIds) %>%
+    rename(TestId = TestIds)
 
-  test_results <- map(
-    list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE),
-    ~{
-      read_csv(.x, show_col_types = FALSE) %>%
-        add_column(
-          result_file = str_replace(basename(.x), fixed(".csv"), ""),
-          .before = TRUE)
-    }) %>%
-    reduce(rbind)
+  tres <- read_csv_test_results(test_output_dir)
 
-  # TODO: Change something upstream to make test_tag/test_id consistent.
-  dd <- full_join(test_results, req_flat, by = c("test_tag" = "test_id"))
+  # TODO: Change something upstream to make test_tag/TestId consistent.
+  dd <- full_join(tres$results, req_flat,
+                  suffix = c("", ".requirements"),
+                  by = c("test_tag" = "TestId")) %>%
+    nest(tests = c(result_file, test_name, passed, failed, test_tag))
 
   # TODO: call write_* functions. They need to be adjusted.
 
