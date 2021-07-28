@@ -4,7 +4,7 @@
 #' @param specs tibble of requirements in the format returned by
 #'   [read_spec_gsheets()].
 #' @param test_output_dir path to direction containing a test output files. See
-#'   [input-formats].
+#'   [input_formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr full_join rename

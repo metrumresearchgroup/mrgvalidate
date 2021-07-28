@@ -8,7 +8,7 @@ create_validation_docs(requirements, test_output_dir, output_dir = getwd())
 }
 \arguments{
 \item{test_output_dir}{path to direction containing a test output files. See
-\link{input-formats}.}
+\link{input_formats}.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}

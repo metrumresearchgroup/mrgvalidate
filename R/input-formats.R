@@ -42,7 +42,7 @@
 #'
 #' @seealso [parse_testthat_list_reporter()], [get_sys_info()]
 #'
-#' @name input-formats
+#' @name input_formats
 NULL
 
 # TODO: Document requirements format here too?

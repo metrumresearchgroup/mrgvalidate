@@ -8,7 +8,7 @@ read_csv_test_results(test_output_dir)
 }
 \arguments{
 \item{test_output_dir}{path to a directory containing test output files. Each
-CSV file should have an accompanying JSON file. See \link{input-formats}.}
+CSV file should have an accompanying JSON file. See \link{input_formats}.}
 }
 \value{
 List of two elements, a tibble with test result ("results") and
