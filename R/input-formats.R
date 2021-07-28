@@ -8,6 +8,8 @@
 #'
 #' @details
 #'
+#' ## Automated tests
+#'
 #' For automated tests, a directory should contain set of CSVs with the test
 #' results. A CSV file must have the following columns:
 #'
@@ -39,6 +41,10 @@
 #'
 #' The [get_sys_info()] helper can be used to capture various system details and
 #' write them to a JSON file.
+#'
+#' ## Manual tests
+#'
+#' (fill in when settled)
 #'
 #' @seealso [parse_testthat_list_reporter()], [get_sys_info()]
 #'

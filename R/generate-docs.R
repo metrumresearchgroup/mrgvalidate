@@ -3,8 +3,8 @@
 #' This function is the main entry point for creating validation docs.
 #' @param specs tibble of requirements in the format returned by
 #'   [read_spec_gsheets()].
-#' @param test_output_dir path to direction containing a test output files. See
-#'   [input_formats].
+#' @param auto_test_dir,man_test_dir path to directories containing automatic
+#'   and manual test output files. See [input_formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr full_join rename
@@ -12,20 +12,48 @@
 #' @export
 create_validation_docs <- function
 (
-  requirements, test_output_dir, output_dir = getwd()
+  specs, auto_test_dir = NULL, man_test_dir = NULL,
+  output_dir = getwd()
 ) {
 
-  req_flat <- requirements %>%
+  if (is.null(auto_test_dir) && is.null(man_test_dir)) {
+    abort("Must specify `auto_test_dir` or `man_test_dir`",
+          "mrgvalidate_input_error")
+  }
+
+  dd <- specs %>%
     unnest(TestIds) %>%
     rename(TestId = TestIds)
 
-  tres <- read_csv_test_results(test_output_dir)
+  if (is.null(auto_test_dir)) {
+    # Make sure the same columns are present when `auto_test_dir` isn't
+    # specified. (This is ugly...)
+    dd <- dd %>% mutate(
+      result_file = NA,
+      test_name = NA,
+      passed = NA,
+      failed = NA,
+      skipped = NA)
+  } else {
+    auto_res <- read_csv_test_results(auto_test_dir)
+    # TODO: Change something upstream to make test_tag/TestId consistent.
+    dd <- full_join(dd, auto_res$results, ,
+                    suffix = c(".specs", ""),
+                    by = c("TestId" = "test_tag"))
+  }
 
-  # TODO: Change something upstream to make test_tag/TestId consistent.
-  dd <- full_join(tres$results, req_flat,
-                  suffix = c("", ".requirements"),
-                  by = c("test_tag" = "TestId")) %>%
-    nest(tests = c(result_file, test_name, passed, failed, test_tag))
+  if (is.null(man_test_dir)) {
+    dd$man_test_content <- NA
+  } else {
+    man_res <- read_manual_test_results(man_test_dir)
+    dd <- full_join(dd, man_res, by = "TestId") %>%
+      rename(man_test_content = content)
+  }
+
+  dd <- dd %>%
+    nest(auto_tests = c(result_file, test_name,
+                        passed, failed, TestId),
+         man_tests = c(man_test_content, TestId))
 
   # TODO: call write_* functions. They need to be adjusted.
 
