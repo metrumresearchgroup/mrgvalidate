@@ -35,4 +35,10 @@ be rendered in the validation docs.\preformatted{\{
     \}
 \}
 }
+
+The \code{\link[=get_sys_info]{get_sys_info()}} helper can be used to capture various system details and
+write them to a JSON file.
+}
+\seealso{
+\code{\link[=parse_testthat_list_reporter]{parse_testthat_list_reporter()}}, \code{\link[=get_sys_info]{get_sys_info()}}
 }

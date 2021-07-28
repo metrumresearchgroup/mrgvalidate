@@ -37,6 +37,11 @@
 #' }
 #' ```
 #'
+#' The [get_sys_info()] helper can be used to capture various system details and
+#' write them to a JSON file.
+#'
+#' @seealso [parse_testthat_list_reporter()], [get_sys_info()]
+#'
 #' @name input-formats
 NULL
 
