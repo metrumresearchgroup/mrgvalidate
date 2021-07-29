@@ -1,6 +1,8 @@
 #' Create validation docs
 #'
 #' This function is the main entry point for creating validation docs.
+#' @param product_name The product being validated.
+#' @param version The version number of the product.
 #' @param specs tibble of requirements in the format returned by
 #'   [read_spec_gsheets()].
 #' @param auto_test_dir,man_test_dir path to directories containing automatic
@@ -14,7 +16,8 @@
 #' @export
 create_validation_docs <- function
 (
-  specs, auto_test_dir = NULL, man_test_dir = NULL,
+  product_name, version, specs,
+  auto_test_dir = NULL, man_test_dir = NULL,
   output_dir = getwd()
 ) {
 
@@ -56,7 +59,14 @@ create_validation_docs <- function
                    .data$passed, .data$failed, .data$man_test_content,
                    .data$result_file))
 
-  # TODO: call write_* functions. They need to be adjusted.
+  write_requirements(
+    dd,
+    product_name,
+    version,
+    out_file = REQ_FILE,
+    output_dir = output_dir,
+    word_document = TRUE
+  )
 
   return(dd)
 }

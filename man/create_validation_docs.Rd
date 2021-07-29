@@ -5,6 +5,8 @@
 \title{Create validation docs}
 \usage{
 create_validation_docs(
+  product_name,
+  version,
   specs,
   auto_test_dir = NULL,
   man_test_dir = NULL,
@@ -12,6 +14,10 @@ create_validation_docs(
 )
 }
 \arguments{
+\item{product_name}{The product being validated.}
+
+\item{version}{The version number of the product.}
+
 \item{specs}{tibble of requirements in the format returned by
 \code{\link[=read_spec_gsheets]{read_spec_gsheets()}}.}
 
