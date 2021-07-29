@@ -43,6 +43,7 @@ and Validation Plan.
     unnest(cols = c(.data$tests)) %>%
     filter(!is.na(.data$passed)) %>%
     mutate(number = .data$passed + .data$failed,
+           date = format(strptime(.data$date, format = ""), "%Y-%m-%d"),
            story_title = paste(.data$StoryId, .data$StoryName),
            pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
     arrange(.data$story_title, .data$TestId)
