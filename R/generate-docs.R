@@ -7,8 +7,8 @@
 #'   and manual test output files. See [input_formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
-#' @importFrom dplyr full_join rename
-#' @importFrom tidyr unnest
+#' @importFrom dplyr bind_rows full_join mutate rename
+#' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
 #' @export
 create_validation_docs <- function
@@ -22,38 +22,37 @@ create_validation_docs <- function
           "mrgvalidate_input_error")
   }
 
-  dd <- specs %>%
-    unnest(.data$TestIds) %>%
-    rename(TestId = .data$TestIds)
-
-  if (is.null(auto_test_dir)) {
-    # Make sure the same columns are present when `auto_test_dir` isn't
-    # specified. (This is ugly...)
-    dd <- dd %>% mutate(
-      result_file = NA,
-      test_name = NA,
-      passed = NA,
-      failed = NA)
-  } else {
+  # Merge automatic and manual tests into the same format so that downstream
+  # write_* don't need to worry about the distinction.
+  results <- vector(mode = "list", length = 2)
+  if (!is.null(auto_test_dir)) {
     auto_res <- read_csv_test_results(auto_test_dir)
-    # TODO: Change something upstream to make test_tag/TestId consistent.
-    dd <- full_join(dd, auto_res$results, ,
-                    suffix = c(".specs", ""),
-                    by = c("TestId" = "test_tag"))
+    results[[1]] <- auto_res$results %>%
+      mutate(test_type = "automatic", man_test_content = NA) %>%
+      # TODO: Change something upstream to make test_tag/TestId consistent.
+      rename(TestId = .data$test_tag)
   }
 
-  if (is.null(man_test_dir)) {
-    dd$man_test_content <- NA
-  } else {
-    man_res <- read_manual_test_results(man_test_dir)
-    dd <- full_join(dd, man_res, by = "TestId") %>%
+  if (!is.null(man_test_dir)) {
+    results[[2]] <- read_manual_test_results(man_test_dir) %>%
+      mutate(test_type = "manual",
+             result_file = NA,
+             # For manual test, being merged into the main line is the
+             # indication that it passed, and everything is taken as one
+             # "assertion".
+             passed = 1L,
+             failed = 0L) %>%
       rename(man_test_content = .data$content)
   }
 
-  dd <- dd %>%
-    nest(auto_tests = c(.data$result_file, .data$test_name,
-                        .data$passed, .data$failed, .data$TestId),
-         man_tests = c(.data$man_test_content, .data$TestId))
+  tests <- bind_rows(results)
+  dd <- specs %>%
+    unnest(.data$TestIds) %>%
+    rename(TestId = .data$TestIds)  %>%
+    full_join(tests, by = "TestId") %>%
+    nest(tests = c(.data$result_file, .data$test_name,
+                   .data$passed, .data$failed,
+                   .data$TestId, .data$man_test_content))
 
   # TODO: call write_* functions. They need to be adjusted.
 
