@@ -50,9 +50,9 @@ create_validation_docs <- function
     unnest(.data$TestIds) %>%
     rename(TestId = .data$TestIds)  %>%
     full_join(tests, by = "TestId") %>%
-    nest(tests = c(.data$result_file, .data$test_name,
-                   .data$passed, .data$failed,
-                   .data$TestId, .data$man_test_content))
+    nest(tests = c(.data$TestId, .data$test_name,
+                   .data$passed, .data$failed, .data$man_test_content,
+                   .data$result_file))
 
   # TODO: call write_* functions. They need to be adjusted.
 
