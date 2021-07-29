@@ -104,10 +104,9 @@ of test failures.
       failed = sum(.data$failed)
     )
 
-  cat(file = out_file,  glue("\n\n**Count of manual tests:** {sum_man}"), "\n", append = TRUE)
   cat(file = out_file,  val_summary, "\n", append = TRUE)
   cat(file = out_file, knitr::kable(sum_auto_df), sep = "\n", append = TRUE)
-
+  cat(file = out_file,  glue("\n\n**Count of manual tests:** {sum_man}"), "\n", append = TRUE)
 
   # add automated test outputs
   cat(file = out_file,  "\n# Automated Test Results\n", append = TRUE)
