@@ -61,7 +61,7 @@ proc_issue <- function(txt) {
 
 
 #' format a story for inclusion in output documents
-#' @importFrom dplyr select
+#' @importFrom dplyr arrange distinct select
 #' @importFrom knitr kable
 #' @importFrom rlang .data
 #' @param x A single row from the [process_stories()] df
@@ -69,10 +69,21 @@ format_spec <- function(x) {
   header <- paste0("## ", x$StoryId[[1]], " ", x$StoryName[[1]], "\n")
   bod <- gsub("\r", "", x$StoryDescription[[1]])
   risk <- gsub("risk: ", "", x$ProductRisk[[1]])
+
+  reqs <- x %>%
+    arrange(.data$RequirementId) %>%
+    select(`requirement ID` = .data$RequirementId,
+           `description` = .data$RequirementDescription) %>%
+    distinct
+  req_tab <- knitr::kable(reqs, format = "markdown")
+
   tst <- x %>%
     select(`test ID` = .data$TestId, `test name` = .data$test_name)
   tst_tab <- knitr::kable(tst, format="markdown")
-  c(header, "**Product risk**: ", risk, "\n\n", "**Story**\n", bod, "\n\n", "**Tests**\n\n", tst_tab)
+  c(header, "**Product risk**: ", risk, "\n\n",
+    "**Story**\n", bod, "\n\n",
+    "**Requirements**\n", req_tab, "\n\n",
+    "**Tests**\n\n", tst_tab)
 }
 
 ######################################
