@@ -37,6 +37,7 @@ Imports:
     glue,
     ghpm (>= 0.5.1),
     knitr,
+    magick,
     magrittr,
     processx,
     purrr,
