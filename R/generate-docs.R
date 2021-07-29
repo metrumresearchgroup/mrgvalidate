@@ -8,6 +8,7 @@
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr bind_rows full_join mutate rename
+#' @importFrom purrr map_chr
 #' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
 #' @export
@@ -28,6 +29,7 @@ create_validation_docs <- function
   if (!is.null(auto_test_dir)) {
     auto_res <- read_csv_test_results(auto_test_dir)
     results[[1]] <- auto_res$results %>%
+      mutate(date = map_chr(.data$result_file, ~ auto_res$info[[.x]]$date)) %>%
       mutate(test_type = "automatic", man_test_content = NA) %>%
       # TODO: Change something upstream to make test_tag/TestId consistent.
       rename(TestId = .data$test_tag)
