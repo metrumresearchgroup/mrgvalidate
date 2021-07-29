@@ -41,6 +41,7 @@ and Validation Plan.
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
+    filter(!is.na(.data$passed)) %>%
     mutate(date = .data$date, number = .data$passed + .data$failed)
   mat <- select(mat, .data$StoryName, .data$StoryId, .data$ProductRisk,
                 .data$TestId, .data$number, .data$failed, .data$date)
