@@ -36,12 +36,18 @@ create_validation_docs <- function
       mutate(test_type = "automatic", man_test_content = NA) %>%
       # TODO: Change something upstream to make test_tag/TestId consistent.
       rename(TestId = .data$test_tag)
+    auto_info <- auto_res$info
+    rm(auto_res)
+  } else {
+    # if no auto tests, set info to NULL.
+    #   manual tests don't have an info object because info is contained in content
+    auto_info <- NULL
   }
 
   if (!is.null(man_test_dir)) {
     results[[2]] <- read_manual_test_results(man_test_dir) %>%
       mutate(test_type = "manual",
-             result_file = NA,
+             result_file = basename(man_test_dir),
              # For manual test, being merged into the main line is the
              # indication that it passed, and everything is taken as one
              # "assertion".
@@ -77,7 +83,17 @@ create_validation_docs <- function
     word_document = TRUE
   )
 
-  return(dd)
+  write_validation_testing(
+    product_name,
+    version,
+    tests,
+    auto_info,
+    out_file = VAL_FILE,
+    output_dir = output_dir,
+    word_document = TRUE
+  )
+
+  return(invisible(dd))
 }
 
 #' Wrapper to generate all three documents, using defaults for output paths
