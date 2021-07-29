@@ -55,12 +55,37 @@ read_manual_test_results <- function(test_output_dir) {
   test_output_dir <- str_replace(test_output_dir, "/$", "")
   testdirs <- list.files(test_output_dir, pattern = "^MAN-[A-Z]+-[0-9]+",
                          full.names = TRUE)
+
+  # create temp dir for image assets
+  new_img_dir <- file.path(tempdir(), "mrgvalidate_img")
+  if (fs::dir_exists(new_img_dir)) fs::dir_delete(new_img_dir)
+  fs::dir_create(new_img_dir)
+
+  # map over tests
   results <- map_dfr(testdirs, function(.dir) {
     .id <- basename(.dir)
-    abs_asset_path <- file.path(.dir, paste0("assets_", .id))
+    old_abs_asset_path <- file.path(.dir, paste0("assets_", .id))
+    assets_files <- list.files(old_abs_asset_path)
+
+    new_img_subdir <- file.path(new_img_dir, paste0("assets_", .id))
+    if (!fs::dir_exists(new_img_subdir)) fs::dir_create(new_img_subdir)
+
+    # copy images and resize any that are too big
+    walk(assets_files, function(.af) {
+      new_img_path <- file.path(new_img_subdir, .af)
+      fs::file_copy(file.path(old_abs_asset_path, .af), new_img_path)
+
+      img <- magick::image_read(new_img_path)
+      img_i <- magick::image_info(img)
+      if ((img_i$width > MAX_IMG_PX) || (img_i$height > MAX_IMG_PX)) {
+        img <- magick::image_resize(img, MAX_IMG_PX)
+        magick::image_write(img, new_img_path)
+      }
+    })
+
     content <- read_file(file.path(.dir, "test.md")) %>%
       str_replace_all(fixed(paste0("(assets_", .id)),
-                      paste0("(", abs_asset_path))
+                      paste0("(", new_img_subdir))
     list(TestId = .id, content = content)
   })
 
