@@ -6,6 +6,7 @@
 #' @importFrom purrr map_chr map_lgl map_dfr
 #' @importFrom dplyr mutate
 #' @importFrom stringr str_replace fixed
+#' @importFrom rlang .data
 #' @export
 parse_testthat_list_reporter <- function(result) {
   map_dfr(result, function(.r) {
@@ -22,9 +23,11 @@ parse_testthat_list_reporter <- function(result) {
     ) %>%
       mutate(
         # TODO: Call this TestId for consistency with requirements input?
-        test_tag = parse_test_tag(test_name),
+        test_tag = parse_test_tag(.data$test_name),
         # TODO: It probably makes sense to replace flanking spaces here too.
-        test_name = str_replace(test_name, fixed(paste0("[", test_tag, "]")), "")
+        test_name = str_replace(.data$test_name,
+                                fixed(paste0("[", .data$test_tag, "]")),
+                                "")
       )
   })
 }

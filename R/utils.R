@@ -66,11 +66,13 @@ proc_issue <- function(txt) {
 #' @importFrom rlang .data
 #' @param x A single row from the [process_stories()] df
 format_spec <- function(x) {
-  header <- paste0("## ", x$issue[1], " ", x$title[1], "\n")
-  bod <- gsub("\r", "", x$story[1])
-  risk <- gsub("risk: ", "", x$risk[1])
-  tst <- x$tests[[1]]
-  tst <- select(tst, `file name`= .data$test_file, `test name` = .data$test_name, count=.data$number)
+  header <- paste0("## ", x$StoryId[[1]], " ", x$StoryName[[1]], "\n")
+  bod <- gsub("\r", "", x$StoryDescription[[1]])
+  risk <- gsub("risk: ", "", x$ProductRisk[[1]])
+  tst <- x %>%
+    mutate(count = .data$passed + .data$failed) %>%
+    select(`test ID` = .data$TestId, `test name` = .data$test_name,
+           count = .data$count)
   tst_tab <- knitr::kable(tst, format="markdown")
   c(header, "**Product risk**: ", risk, "\n\n", "**Story**\n", bod, "\n\n", "**Tests**\n\n", tst_tab)
 }

@@ -47,6 +47,7 @@ read_csv_test_results <- function(test_output_dir) {
 #' @importFrom purrr map_dfr
 #' @importFrom readr read_file
 #' @importFrom stringr str_replace str_replace_all fixed
+#' @importFrom tidyr extract
 #' @export
 read_manual_test_results <- function(test_output_dir) {
   # Drop trailing slash to avoid ugly "//" in returned value (e.g.,
@@ -54,7 +55,7 @@ read_manual_test_results <- function(test_output_dir) {
   test_output_dir <- str_replace(test_output_dir, "/$", "")
   testdirs <- list.files(test_output_dir, pattern = "^MAN-[A-Z]+-[0-9]+",
                          full.names = TRUE)
-  map_dfr(testdirs, function(.dir) {
+  results <- map_dfr(testdirs, function(.dir) {
     .id <- basename(.dir)
     abs_asset_path <- file.path(.dir, paste0("assets_", .id))
     content <- read_file(file.path(.dir, "test.md")) %>%
@@ -62,4 +63,10 @@ read_manual_test_results <- function(test_output_dir) {
                       paste0("(", abs_asset_path))
     list(TestId = .id, content = content)
   })
+
+  results %>%
+    extract(.data$content, "date", "\n\\* date: +(.*)",
+            remove = FALSE) %>%
+    extract(.data$content, "test_name", "\nMAN-[A-Z]+-[0-9]+: +(.*)",
+            remove = FALSE)
 }

@@ -1,18 +1,23 @@
 #' Create validation docs
 #'
 #' This function is the main entry point for creating validation docs.
+#' @param product_name The product being validated.
+#' @param version The version number of the product.
 #' @param specs tibble of requirements in the format returned by
 #'   [read_spec_gsheets()].
 #' @param auto_test_dir,man_test_dir path to directories containing automatic
 #'   and manual test output files. See [input_formats].
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
-#' @importFrom dplyr full_join rename
-#' @importFrom tidyr unnest
+#' @importFrom dplyr bind_rows full_join mutate rename
+#' @importFrom purrr map_chr
+#' @importFrom tidyr nest unnest
+#' @importFrom rlang .data
 #' @export
 create_validation_docs <- function
 (
-  specs, auto_test_dir = NULL, man_test_dir = NULL,
+  product_name, version, specs,
+  auto_test_dir = NULL, man_test_dir = NULL,
   output_dir = getwd()
 ) {
 
@@ -21,41 +26,56 @@ create_validation_docs <- function
           "mrgvalidate_input_error")
   }
 
-  dd <- specs %>%
-    unnest(TestIds) %>%
-    rename(TestId = TestIds)
-
-  if (is.null(auto_test_dir)) {
-    # Make sure the same columns are present when `auto_test_dir` isn't
-    # specified. (This is ugly...)
-    dd <- dd %>% mutate(
-      result_file = NA,
-      test_name = NA,
-      passed = NA,
-      failed = NA,
-      skipped = NA)
-  } else {
+  # Merge automatic and manual tests into the same format so that downstream
+  # write_* don't need to worry about the distinction.
+  results <- vector(mode = "list", length = 2)
+  if (!is.null(auto_test_dir)) {
     auto_res <- read_csv_test_results(auto_test_dir)
-    # TODO: Change something upstream to make test_tag/TestId consistent.
-    dd <- full_join(dd, auto_res$results, ,
-                    suffix = c(".specs", ""),
-                    by = c("TestId" = "test_tag"))
+    results[[1]] <- auto_res$results %>%
+      mutate(date = map_chr(.data$result_file, ~ auto_res$info[[.x]]$date)) %>%
+      mutate(test_type = "automatic", man_test_content = NA) %>%
+      # TODO: Change something upstream to make test_tag/TestId consistent.
+      rename(TestId = .data$test_tag)
   }
 
-  if (is.null(man_test_dir)) {
-    dd$man_test_content <- NA
-  } else {
-    man_res <- read_manual_test_results(man_test_dir)
-    dd <- full_join(dd, man_res, by = "TestId") %>%
-      rename(man_test_content = content)
+  if (!is.null(man_test_dir)) {
+    results[[2]] <- read_manual_test_results(man_test_dir) %>%
+      mutate(test_type = "manual",
+             result_file = NA,
+             # For manual test, being merged into the main line is the
+             # indication that it passed, and everything is taken as one
+             # "assertion".
+             passed = 1L,
+             failed = 0L) %>%
+      rename(man_test_content = .data$content)
   }
 
-  dd <- dd %>%
-    nest(auto_tests = c(result_file, test_name,
-                        passed, failed, TestId),
-         man_tests = c(man_test_content, TestId))
+  tests <- bind_rows(results)
+  dd <- specs %>%
+    unnest(.data$TestIds) %>%
+    rename(TestId = .data$TestIds)  %>%
+    full_join(tests, by = "TestId") %>%
+    nest(tests = c(.data$TestId, .data$test_name,
+                   .data$passed, .data$failed, .data$man_test_content,
+                   .data$result_file))
 
-  # TODO: call write_* functions. They need to be adjusted.
+  write_requirements(
+    dd,
+    product_name,
+    version,
+    out_file = REQ_FILE,
+    output_dir = output_dir,
+    word_document = TRUE
+  )
+
+  write_traceability_matrix(
+    dd,
+    product_name,
+    version,
+    out_file = MAT_FILE,
+    output_dir = output_dir,
+    word_document = TRUE
+  )
 
   return(dd)
 }

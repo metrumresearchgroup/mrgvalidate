@@ -6,7 +6,7 @@
 \usage{
 write_requirements(
   df,
-  pkg,
+  product_name,
   version,
   out_file = REQ_FILE,
   output_dir = getwd(),
@@ -16,9 +16,9 @@ write_requirements(
 \arguments{
 \item{df}{Tibble output from \code{\link[=process_stories]{process_stories()}}.}
 
-\item{pkg}{The name of the package you are validating, to be included in the output document.}
+\item{product_name}{The product you are validating, to be included in the output document.}
 
-\item{version}{The version number of the package you are validating, to be included in the output document.}
+\item{version}{The version number of the product you are validating, to be included in the output document.}
 
 \item{out_file}{filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 

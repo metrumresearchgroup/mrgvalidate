@@ -36,11 +36,12 @@ read_spec_gsheets <- function
 #'   requirement ID.
 #' @importFrom dplyr full_join
 #' @importFrom tidyr unnest
+#' @importFrom rlang .data
 #' @keywords internal
 merge_requirements_and_stories <- function(stories, reqs) {
   stories_flat <- stories %>%
     unnest("RequirementIds") %>%
-    rename(RequirementId = RequirementIds)
+    rename(RequirementId = .data$RequirementIds)
   return(full_join(stories_flat, reqs, by = "RequirementId"))
 }
 
@@ -50,6 +51,7 @@ merge_requirements_and_stories <- function(stories, reqs) {
 #'   in input Google Sheet.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
+#' @importFrom rlang .data
 #' @keywords internal
 read_requirements_gsheet <- function
 (
@@ -63,8 +65,8 @@ read_requirements_gsheet <- function
     rename(RequirementId = !!req_id_col,
            RequirementDescription = !!req_description_col,
            TestIds = !!test_ids_col) %>%
-    select(RequirementId, RequirementDescription, TestIds) %>%
-    mutate(TestIds = stringr::str_split(TestIds, "[, ]+"))
+    select(.data$RequirementId, .data$RequirementDescription, .data$TestIds) %>%
+    mutate(TestIds = stringr::str_split(.data$TestIds, "[, ]+"))
 }
 
 
@@ -74,6 +76,7 @@ read_requirements_gsheet <- function
 #'   Names of relevant columns in input Google Sheet.
 #' @return Tibble with the above columns.
 #' @importFrom dplyr rename select mutate
+#' @importFrom rlang .data
 #' @keywords internal
 read_stories_gsheet <- function
 (
@@ -91,9 +94,9 @@ read_stories_gsheet <- function
            StoryDescription = !!story_description_col,
            ProductRisk = !!risk_col,
            RequirementIds = !!req_ids_col) %>%
-    select(StoryId, StoryName, StoryDescription,
-           ProductRisk, RequirementIds) %>%
-    mutate(RequirementIds = stringr::str_split(RequirementIds, "[, ]+"))
+    select(.data$StoryId, .data$StoryName, .data$StoryDescription,
+           .data$ProductRisk, .data$RequirementIds) %>%
+    mutate(RequirementIds = stringr::str_split(.data$RequirementIds, "[, ]+"))
 }
 
 # TODO: To support the existing GitHub functionality, we could have something
