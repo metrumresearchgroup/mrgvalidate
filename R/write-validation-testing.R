@@ -42,6 +42,12 @@ write_validation_testing <- function(
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".md"))
 
+  na_test_ids <- sum(is.na(tests$TestId))
+  if (na_test_ids > 0) {
+    warning(glue("Dropping {na_test_ids} tests with no ID"))
+    tests <- filter(tests, !is.na(TestId))
+  }
+
   test_suites <- unique(tests$result_file)
 
   # write to top section to file
@@ -121,10 +127,7 @@ of test failures.
 
     # filter to relevant tests
     test_df <- tests %>%
-      filter(
-        result_file == .x,
-        !is.na(TestId) # anything with no test_id won't map to any stories/reqs
-      ) %>%
+      filter(result_file == .x) %>%
       select(
         `test ID` = .data$TestId,
         `test name` = .data$test_name,
