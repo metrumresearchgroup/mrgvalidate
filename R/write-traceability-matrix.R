@@ -1,7 +1,7 @@
 
 #' Build the Traceability Matrix and write it to a output files
 #' @importFrom purrr map walk
-#' @importFrom dplyr slice select mutate group_by ungroup n
+#' @importFrom dplyr arrange slice select mutate group_by ungroup n
 #' @importFrom knitr kable
 #' @importFrom tidyr unnest
 #' @importFrom glue glue
@@ -41,27 +41,20 @@ and Validation Plan.
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
-    mutate(date = .data$date, number = .data$passed + .data$failed)
-  mat <- select(mat, .data$StoryName, .data$StoryId, .data$ProductRisk,
-                .data$TestId, .data$number, .data$failed, .data$date)
-  # TODO: Handle date formatting. This is coming from two sources, JSON (auto
-  # tests) and *.md (manual tests).
-  #
-  ## mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
-  mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName))
+    filter(!is.na(.data$passed)) %>%
+    mutate(number = .data$passed + .data$failed,
+           date = format(strptime(.data$date, format = ""), "%Y-%m-%d"),
+           story_title = paste(.data$StoryId, .data$StoryName),
+           pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
+    arrange(.data$story_title, .data$TestId)
 
-  mat <-
-    group_by(mat, .data$story_title) %>%
-    mutate(story_title = c(.data$story_title[1], rep("", n()-1))) %>%
-    ungroup()
-
-  mat <- mutate(mat, pass = paste0( (.data$number-.data$failed), " of ", .data$number))
+  mat$story_title[duplicated(mat$story_title)] <- ""
 
   mat_out <- select(
     mat,
     `story title` = .data$story_title,
     risk = .data$ProductRisk,
-    `test id` = .data$TestId,
+    `test ID` = .data$TestId,
     .data$pass,
     `date run` = .data$date
   )

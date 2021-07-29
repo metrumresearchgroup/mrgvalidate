@@ -70,9 +70,7 @@ format_spec <- function(x) {
   bod <- gsub("\r", "", x$StoryDescription[[1]])
   risk <- gsub("risk: ", "", x$ProductRisk[[1]])
   tst <- x %>%
-    mutate(count = .data$passed + .data$failed) %>%
-    select(`test ID` = .data$TestId, `test name` = .data$test_name,
-           count = .data$count)
+    select(`test ID` = .data$TestId, `test name` = .data$test_name)
   tst_tab <- knitr::kable(tst, format="markdown")
   c(header, "**Product risk**: ", risk, "\n\n", "**Story**\n", bod, "\n\n", "**Tests**\n\n", tst_tab)
 }
