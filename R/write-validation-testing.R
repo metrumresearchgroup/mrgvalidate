@@ -70,7 +70,7 @@ Specification-Validation Plan document.
 
 Tests are in the following location(s):
 
-{paste0(1:length(test_suites), ".\t`", test_suites, "`", collapse = "\n")}
+{paste0(1:length(test_suites), ".\t", test_suites, collapse = "\n")}
 
 ')
   cat(file = out_file,  val_boiler,"\n")
@@ -121,9 +121,12 @@ of test failures.
 
     # filter to relevant tests
     test_df <- tests %>%
-      filter(result_file == .x) %>%
+      filter(
+        result_file == .x,
+        !is.na(TestId) # anything with no test_id won't map to any stories/reqs
+      ) %>%
       select(
-        `test id` = .data$TestId,
+        `test ID` = .data$TestId,
         `test name` = .data$test_name,
         .data$passed,
         .data$failed
