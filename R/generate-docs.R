@@ -33,8 +33,7 @@ create_validation_docs <- function
       result_file = NA,
       test_name = NA,
       passed = NA,
-      failed = NA,
-      skipped = NA)
+      failed = NA)
   } else {
     auto_res <- read_csv_test_results(auto_test_dir)
     # TODO: Change something upstream to make test_tag/TestId consistent.
