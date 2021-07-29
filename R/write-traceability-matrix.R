@@ -42,19 +42,16 @@ and Validation Plan.
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
     filter(!is.na(.data$passed)) %>%
-    mutate(date = .data$date, number = .data$passed + .data$failed)
-  mat <- select(mat, .data$StoryName, .data$StoryId, .data$ProductRisk,
-                .data$TestId, .data$number, .data$failed, .data$date)
+    mutate(number = .data$passed + .data$failed,
+           story_title = paste(.data$StoryId, .data$StoryName),
+           pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
+    arrange(.data$story_title, .data$TestId)
   # TODO: Handle date formatting. This is coming from two sources, JSON (auto
   # tests) and *.md (manual tests).
   #
   ## mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
-  mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName)) %>%
-    arrange(.data$story_title, .data$TestId)
 
   mat$story_title[duplicated(mat$story_title)] <- ""
-
-  mat <- mutate(mat, pass = paste0( (.data$number-.data$failed), " of ", .data$number))
 
   mat_out <- select(
     mat,
