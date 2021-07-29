@@ -9,6 +9,7 @@
 #'   working directory.
 #' @importFrom dplyr full_join rename
 #' @importFrom tidyr unnest
+#' @importFrom rlang .data
 #' @export
 create_validation_docs <- function
 (
@@ -22,8 +23,8 @@ create_validation_docs <- function
   }
 
   dd <- specs %>%
-    unnest(TestIds) %>%
-    rename(TestId = TestIds)
+    unnest(.data$TestIds) %>%
+    rename(TestId = .data$TestIds)
 
   if (is.null(auto_test_dir)) {
     # Make sure the same columns are present when `auto_test_dir` isn't
@@ -47,13 +48,13 @@ create_validation_docs <- function
   } else {
     man_res <- read_manual_test_results(man_test_dir)
     dd <- full_join(dd, man_res, by = "TestId") %>%
-      rename(man_test_content = content)
+      rename(man_test_content = .data$content)
   }
 
   dd <- dd %>%
-    nest(auto_tests = c(result_file, test_name,
-                        passed, failed, TestId),
-         man_tests = c(man_test_content, TestId))
+    nest(auto_tests = c(.data$result_file, .data$test_name,
+                        .data$passed, .data$failed, .data$TestId),
+         man_tests = c(.data$man_test_content, .data$TestId))
 
   # TODO: call write_* functions. They need to be adjusted.
 
