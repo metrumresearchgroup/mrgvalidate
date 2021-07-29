@@ -45,7 +45,7 @@ write_validation_testing <- function(
   na_test_ids <- sum(is.na(tests$TestId))
   if (na_test_ids > 0) {
     warning(glue("Dropping {na_test_ids} tests with no ID"))
-    tests <- filter(tests, !is.na(TestId))
+    tests <- filter(tests, !is.na(.data$TestId))
   }
 
   test_suites <- unique(tests$result_file)
@@ -92,16 +92,16 @@ of test failures.
 '
 
   sum_man <- tests %>%
-    filter(test_type == "manual") %>%
+    filter(.data$test_type == "manual") %>%
     nrow()
 
   sum_auto_df <- tests %>%
-    filter(test_type == "automatic") %>%
+    filter(.data$test_type == "automatic") %>%
     summarise(
-      suites = length(unique(result_file)),
+      suites = length(unique(.data$result_file)),
       tests = n(),
-      assertions = sum(passed) + sum(failed),
-      failed = sum(failed)
+      assertions = sum(.data$passed) + sum(.data$failed),
+      failed = sum(.data$failed)
     )
 
   cat(file = out_file,  glue("\n\n**Count of manual tests:** {sum_man}"), "\n", append = TRUE)
@@ -127,7 +127,7 @@ of test failures.
 
     # filter to relevant tests
     test_df <- tests %>%
-      filter(result_file == .x) %>%
+      filter(.data$result_file == .x) %>%
       select(
         `test ID` = .data$TestId,
         `test name` = .data$test_name,
@@ -144,8 +144,8 @@ of test failures.
   cat(file = out_file,  "\n# Manual Test Results\n", append = TRUE)
 
   tests %>%
-    filter(test_type == "manual") %>%
-    dplyr::pull(man_test_content) %>%
+    filter(.data$test_type == "manual") %>%
+    pull(.data$man_test_content) %>%
     walk(~ cat(file = out_file,  glue("\n{.x}\n\n"), append = TRUE))
 
   message(glue("Finished writing to {out_file}"))
