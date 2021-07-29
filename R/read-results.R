@@ -67,6 +67,6 @@ read_manual_test_results <- function(test_output_dir) {
   results %>%
     extract(.data$content, "date", "\n\\* date: +(.*)",
             remove = FALSE) %>%
-    extract(.data$content, "test_name", "\nMAN-[A-Z]+-[0-9]+: +(.*)",
+    extract(.data$content, "test_name", "## MAN-[A-Z]+-[0-9]+: +(.*)",
             remove = FALSE)
 }
