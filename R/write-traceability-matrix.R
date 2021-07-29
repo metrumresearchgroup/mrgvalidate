@@ -61,7 +61,7 @@ and Validation Plan.
     mat,
     `story title` = .data$story_title,
     risk = .data$ProductRisk,
-    `test id` = .data$TestId,
+    `test ID` = .data$TestId,
     .data$pass,
     `date run` = .data$date
   )
