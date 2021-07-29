@@ -68,6 +68,15 @@ create_validation_docs <- function
     word_document = TRUE
   )
 
+  write_traceability_matrix(
+    dd,
+    product_name,
+    version,
+    out_file = MAT_FILE,
+    output_dir = output_dir,
+    word_document = TRUE
+  )
+
   return(dd)
 }
 

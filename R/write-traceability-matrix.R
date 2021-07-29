@@ -9,15 +9,15 @@
 #' @importFrom rlang .data
 #' @importFrom fs dir_exists dir_create
 #' @param df Tibble output from [process_stories()].
-#' @param pkg The name of the package you are validating, to be included in the output document.
-#' @param version The version number of the package you are validating, to be included in the output document.
+#' @param product The name of the product you are validating, to be included in the output document.
+#' @param version The version number of the product you are validating, to be included in the output document.
 #' @param out_file filename to write markdown file out to. Any extension will be ignored and replaced with .md
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @export
 write_traceability_matrix <- function(
   df,
-  pkg,
+  product,
   version,
   out_file = MAT_FILE,
   output_dir = getwd(),
@@ -27,7 +27,7 @@ write_traceability_matrix <- function(
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".md"))
 
   mat_boiler <- glue('
-# Traceability Matrix: {pkg} {version}
+# Traceability Matrix: {product} {version}
 
 ## Scope
 
@@ -38,23 +38,30 @@ and Validation Plan.
 
 ')
 
-  mat <- select(df,-.data$story) %>% unnest(cols = c(.data$tests)) %>% mutate(date = Sys.Date())
-  mat <- select(mat, .data$title, .data$issue, .data$risk, .data$test_name, .data$number, .data$failed, .data$date)
-  mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
-  mat <- mutate(mat, issue_title = paste(.data$issue, .data$title))
+  mat <- df %>%
+    filter(!is.na(.data$StoryId)) %>%
+    unnest(cols = c(.data$tests)) %>%
+    mutate(date = .data$date, number = .data$passed + .data$failed)
+  mat <- select(mat, .data$StoryName, .data$StoryId, .data$ProductRisk,
+                .data$TestId, .data$number, .data$failed, .data$date)
+  # TODO: Handle date formatting. This is coming from two sources, JSON (auto
+  # tests) and *.md (manual tests).
+  #
+  ## mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
+  mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName))
 
   mat <-
-    group_by(mat, .data$issue) %>%
-    mutate(issue_title = c(.data$issue_title[1], rep("", n()-1))) %>%
+    group_by(mat, .data$story_title) %>%
+    mutate(story_title = c(.data$story_title[1], rep("", n()-1))) %>%
     ungroup()
 
   mat <- mutate(mat, pass = paste0( (.data$number-.data$failed), " of ", .data$number))
 
   mat_out <- select(
     mat,
-    `issue title` = .data$issue_title,
-    .data$risk,
-    `test name` = .data$test_name,
+    `story title` = .data$story_title,
+    risk = .data$ProductRisk,
+    `test id` = .data$TestId,
     .data$pass,
     `date run` = .data$date
   )
