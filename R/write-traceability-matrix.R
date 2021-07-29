@@ -52,10 +52,7 @@ and Validation Plan.
   mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName)) %>%
     arrange(.data$story_title, .data$TestId)
 
-  mat <-
-    group_by(mat, .data$story_title) %>%
-    mutate(story_title = c(.data$story_title[1], rep("", n()-1))) %>%
-    ungroup()
+  mat$story_title[duplicated(mat$story_title)] <- ""
 
   mat <- mutate(mat, pass = paste0( (.data$number-.data$failed), " of ", .data$number))
 
