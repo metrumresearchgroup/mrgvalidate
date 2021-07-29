@@ -47,10 +47,6 @@ and Validation Plan.
            story_title = paste(.data$StoryId, .data$StoryName),
            pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
     arrange(.data$story_title, .data$TestId)
-  # TODO: Handle date formatting. This is coming from two sources, JSON (auto
-  # tests) and *.md (manual tests).
-  #
-  ## mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
 
   mat$story_title[duplicated(mat$story_title)] <- ""
 
