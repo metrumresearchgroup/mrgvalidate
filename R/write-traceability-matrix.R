@@ -1,7 +1,7 @@
 
 #' Build the Traceability Matrix and write it to a output files
 #' @importFrom purrr map walk
-#' @importFrom dplyr slice select mutate group_by ungroup n
+#' @importFrom dplyr arrange slice select mutate group_by ungroup n
 #' @importFrom knitr kable
 #' @importFrom tidyr unnest
 #' @importFrom glue glue
@@ -49,7 +49,8 @@ and Validation Plan.
   # tests) and *.md (manual tests).
   #
   ## mat <- mutate(mat, date= format(.data$date, "%Y-%m-%d"))
-  mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName))
+  mat <- mutate(mat, story_title = paste(.data$StoryId, .data$StoryName)) %>%
+    arrange(.data$story_title, .data$TestId)
 
   mat <-
     group_by(mat, .data$story_title) %>%
