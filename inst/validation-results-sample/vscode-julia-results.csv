@@ -1,4 +1,4 @@
-test_name,passed,failed,test_tag
+test_name,passed,failed,TestId
 Julia installed in /opt/julia and found in the path,1,0,MXI-JUL-001
 Julia version is 1.6.1,1,0,MXI-JUL-002
 Julia can run base test LinearAlgebra/eigen to confirm base library operation,0,1,MXI-JUL-003

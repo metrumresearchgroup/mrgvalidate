@@ -22,11 +22,10 @@ parse_testthat_list_reporter <- function(result) {
                                                                  "expectation_skip"))))
     ) %>%
       mutate(
-        # TODO: Call this TestId for consistency with requirements input?
-        test_tag = parse_test_tag(.data$test_name),
+        TestId = parse_test_tag(.data$test_name),
         # TODO: It probably makes sense to replace flanking spaces here too.
         test_name = str_replace(.data$test_name,
-                                fixed(paste0("[", .data$test_tag, "]")),
+                                fixed(paste0("[", .data$TestId, "]")),
                                 "")
       )
   })

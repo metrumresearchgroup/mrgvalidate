@@ -18,7 +18,7 @@ results. A CSV file must have the following columns:
 \itemize{
 \item test_name: a description of the test
 \item passed, failed: a count of passed and failed assertions for the test
-\item test_tag: a unique identifier of the test. This field is used to map tests
+\item TestId: a unique identifier of the test. This field is used to map tests
 to requirements.
 }
 

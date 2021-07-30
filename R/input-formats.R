@@ -17,7 +17,7 @@
 #'
 #' * passed, failed: a count of passed and failed assertions for the test
 #'
-#' * test_tag: a unique identifier of the test. This field is used to map tests
+#' * TestId: a unique identifier of the test. This field is used to map tests
 #' to requirements.
 #'
 #' For `testthat` tests, the [parse_testthat_list_reporter()] helper can be used

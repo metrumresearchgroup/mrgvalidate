@@ -26,7 +26,7 @@ read_csv_test_results <- function(test_output_dir) {
     csv_files,
     ~{
       read_csv(.x,
-               col_types = cols(test_name = "c", test_tag = "c",
+               col_types = cols(test_name = "c", TestId = "c",
                                 passed = "i", failed = "i")) %>%
         add_column(
           result_file = str_replace(basename(.x), fixed(".csv"), ""),

@@ -33,9 +33,7 @@ create_validation_docs <- function
     auto_res <- read_csv_test_results(auto_test_dir)
     results[[1]] <- auto_res$results %>%
       mutate(date = map_chr(.data$result_file, ~ auto_res$info[[.x]]$date)) %>%
-      mutate(test_type = "automatic", man_test_content = NA) %>%
-      # TODO: Change something upstream to make test_tag/TestId consistent.
-      rename(TestId = .data$test_tag)
+      mutate(test_type = "automatic", man_test_content = NA)
     auto_info <- auto_res$info
     rm(auto_res)
   } else {
