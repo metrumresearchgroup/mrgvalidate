@@ -129,7 +129,7 @@ of test failures.
       filter(.data$result_file == .x) %>%
       select(
         `test ID` = .data$TestId,
-        `test name` = .data$test_name,
+        `test name` = .data$TestName,
         .data$passed,
         .data$failed
       )
