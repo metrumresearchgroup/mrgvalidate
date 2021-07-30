@@ -60,3 +60,21 @@ test_that("strip_test_id() strips only the first match", {
                              "FOO-BAR-001"),
                "ab[FOO-BAR-001]")
 })
+
+test_that("strip_test_id() collapses spaces", {
+  cases <- list(
+    # input expected
+    c("[FOO-001]", "[FOO-001]"),
+    c("[DIFF-ID-002]", "[DIFF-ID-002]"),
+    c("a [FOO-BAR-001] b", "a b"),
+    c("a  [FOO-BAR-001] b", "a b"),
+    c("[FOO-BAR-001] b", "b"),
+    c("a [FOO-BAR-001]", "a"),
+    c("a[FOO-BAR-001]b", "ab"),
+    c("  [FOO-BAR-001] desc", "desc")
+  )
+  for (case in cases) {
+    expect_equal(strip_test_id(case[[1]], "FOO-BAR-001"),
+                 case[[2]])
+  }
+})

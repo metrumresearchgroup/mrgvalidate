@@ -23,7 +23,6 @@ parse_testthat_list_reporter <- function(result) {
     ) %>%
       mutate(
         TestId = parse_test_id(.data$TestName),
-        # TODO: It probably makes sense to replace flanking spaces here too.
         TestName = strip_test_id(.data$TestName, .data$TestId)
       )
   })
@@ -38,8 +37,12 @@ parse_test_id <- function(string) {
 
 
 #' Return a string without the embedded test ID.
-#' @importFrom stringr regex str_replace
+#'
+#' Note that any white space in the string will be collapsed to a single
+#' character.
+#' @importFrom stringr regex str_replace str_squish
 strip_test_id <- function(string, id) {
   string %>%
-    str_replace(fixed(paste0("[", id, "]")), "")
+    str_replace(fixed(paste0("[", id, "]")), "") %>%
+    str_squish
 }

@@ -7,5 +7,6 @@
 strip_test_id(string, id)
 }
 \description{
-Return a string without the embedded test ID.
+Note that any white space in the string will be collapsed to a single
+character.
 }
