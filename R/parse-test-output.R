@@ -22,7 +22,7 @@ parse_testthat_list_reporter <- function(result) {
                                                                  "expectation_skip"))))
     ) %>%
       mutate(
-        TestId = parse_test_tag(.data$TestName),
+        TestId = parse_test_id(.data$TestName),
         # TODO: It probably makes sense to replace flanking spaces here too.
         TestName = str_replace(.data$TestName,
                                 fixed(paste0("[", .data$TestId, "]")),
@@ -32,7 +32,7 @@ parse_testthat_list_reporter <- function(result) {
 }
 
 #' @importFrom stringr str_match
-parse_test_tag <- function(test_name) {
+parse_test_id <- function(test_name) {
   # TODO: we should probably unit test this
   # * the weird Julia case
   # * the nodejs case
