@@ -82,8 +82,8 @@ format_spec <- function(x) {
   tst_tab <- knitr::kable(tst, format="markdown")
   c(header,
     bod, "\n\n",
-    "**Summary**\n", reqs, "\n\n",
     "**Product risk**: ", risk, "\n\n",
+    "**Summary**\n", reqs, "\n\n",
     "**Tests**\n\n", tst_tab)
 }
 
