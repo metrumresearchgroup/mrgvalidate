@@ -8,6 +8,7 @@ write_requirements(
   df,
   product_name,
   version,
+  roles = NULL,
   out_file = REQ_FILE,
   output_dir = getwd(),
   word_document = TRUE
@@ -19,6 +20,9 @@ write_requirements(
 \item{product_name}{The product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{roles}{A data frame of user roles. If specified, this will be
+inserted as a table under a "User Roles" section.}
 
 \item{out_file}{filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 

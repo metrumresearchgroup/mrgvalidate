@@ -3,12 +3,15 @@
 #' @importFrom purrr map walk
 #' @importFrom dplyr distinct filter group_rows slice
 #' @importFrom glue glue
+#' @importFrom knitr kable
 #' @importFrom rmarkdown render
 #' @importFrom fs dir_exists dir_create
 #' @importFrom rlang .data
 #' @param df Tibble output from [process_stories()].
 #' @param product_name The product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
+#' @param roles A data frame of user roles. If specified, this will be
+#'   inserted as a table under a "User Roles" section.
 #' @param out_file filename to write markdown file out to. Any extension will be ignored and replaced with .md
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
@@ -17,6 +20,7 @@ write_requirements <- function(
   df,
   product_name,
   version,
+  roles = NULL,
   out_file = REQ_FILE,
   output_dir = getwd(),
   word_document = TRUE
@@ -37,6 +41,11 @@ document. The Requirement Specifications ensure that each requirement is tested.
 ')
 
   cat(file=out_file, req_boiler, "\n")
+
+  if (!is.null(roles)) {
+    cat("## User Roles\n", kable(roles), "\n",
+        append = TRUE, file = out_file, sep = "\n")
+  }
 
   df_story <- df %>%
     filter(!is.na(.data$StoryId)) %>%

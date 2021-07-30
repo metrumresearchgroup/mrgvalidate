@@ -7,6 +7,8 @@
 #'   [read_spec_gsheets()].
 #' @param auto_test_dir,man_test_dir path to directories containing automatic
 #'   and manual test output files. See [input_formats].
+#' @param roles A data frame of user roles that, if specified, is inserted into
+#'   the requirements document.
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @importFrom dplyr bind_rows full_join mutate rename
@@ -17,7 +19,7 @@
 create_validation_docs <- function
 (
   product_name, version, specs,
-  auto_test_dir = NULL, man_test_dir = NULL,
+  auto_test_dir = NULL, man_test_dir = NULL, roles = NULL,
   output_dir = getwd()
 ) {
 
@@ -69,6 +71,7 @@ create_validation_docs <- function
     dd,
     product_name,
     version,
+    roles = roles,
     out_file = REQ_FILE,
     output_dir = output_dir,
     word_document = TRUE
