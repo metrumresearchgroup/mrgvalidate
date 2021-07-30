@@ -46,13 +46,16 @@ and Validation Plan.
            date = format(strptime(.data$date, format = ""), "%Y-%m-%d"),
            story_title = paste(.data$StoryId, .data$StoryName),
            pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
-    arrange(.data$story_title, .data$TestId)
+    arrange(.data$story_title, .data$RequirementId, .data$TestId)
 
   mat$story_title[duplicated(mat$story_title)] <- ""
+  dup_story_req <- duplicated(paste0(mat$StoryId, mat$RequirementId))
+  mat$RequirementId[dup_story_req] <- ""
 
   mat_out <- select(
     mat,
     `story title` = .data$story_title,
+    `requirement ID` = .data$RequirementId,
     risk = .data$ProductRisk,
     `test ID` = .data$TestId,
     .data$pass,
