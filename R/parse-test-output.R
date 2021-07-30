@@ -24,9 +24,7 @@ parse_testthat_list_reporter <- function(result) {
       mutate(
         TestId = parse_test_id(.data$TestName),
         # TODO: It probably makes sense to replace flanking spaces here too.
-        TestName = str_replace(.data$TestName,
-                                fixed(paste0("[", .data$TestId, "]")),
-                                "")
+        TestName = strip_test_id(.data$TestName, .data$TestId)
       )
   })
 }
@@ -36,4 +34,12 @@ parse_testthat_list_reporter <- function(result) {
 parse_test_id <- function(string) {
   str_match(string, "\\[([A-Z]+-[A-Z]+-[0-9]+)\\]") %>%
     dplyr::nth(2)
+}
+
+
+#' Return a string without the embedded test ID.
+#' @importFrom stringr regex str_replace
+strip_test_id <- function(string, id) {
+  string %>%
+    str_replace(fixed(paste0("[", id, "]")), "")
 }
