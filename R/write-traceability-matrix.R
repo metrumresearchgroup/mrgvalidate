@@ -33,7 +33,7 @@ write_traceability_matrix <- function(
 
 This traceability matrix links requirement specifications and test results to
 specific user stories for the proposed software release. User stories, including
-requirements and test specifications are listed in the Requirements Specification.
+requirements and test specifications, are listed in the Requirements Specification.
 
 ')
 
