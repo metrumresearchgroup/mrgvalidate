@@ -31,10 +31,9 @@ write_traceability_matrix <- function(
 
 ## Scope
 
-This traceability matrix links product risk, test names, and test results to
+This traceability matrix links requirement specifications and test results to
 specific user stories for the proposed software release. User stories, including
-requirements and test specifications are listed in the Requirements Specification
-and Validation Plan.
+requirements and test specifications, are listed in the Requirements Specification.
 
 ')
 
@@ -43,23 +42,15 @@ and Validation Plan.
     unnest(cols = c(.data$tests)) %>%
     filter(!is.na(.data$passed)) %>%
     mutate(number = .data$passed + .data$failed,
-           date = format(strptime(.data$date, format = ""), "%Y-%m-%d"),
-           story_title = paste(.data$StoryId, .data$StoryName),
            pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
-    arrange(.data$story_title, .data$RequirementId, .data$TestId)
+    arrange(.data$StoryId, .data$RequirementId, .data$TestId)
 
-  mat$story_title[duplicated(mat$story_title)] <- ""
-  dup_story_req <- duplicated(paste0(mat$StoryId, mat$RequirementId))
-  mat$RequirementId[dup_story_req] <- ""
-
+  mat$StoryDescription[duplicated(mat$StoryDescription)] <- ""
   mat_out <- select(
     mat,
-    `story title` = .data$story_title,
-    `requirement ID` = .data$RequirementId,
-    risk = .data$ProductRisk,
+    `user story` = .data$StoryDescription,
     `test ID` = .data$TestId,
     .data$pass,
-    `date run` = .data$date
   )
 
   cat(file = out_file,  mat_boiler,"\n")

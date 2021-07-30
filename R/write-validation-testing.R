@@ -48,8 +48,6 @@ write_validation_testing <- function(
     tests <- filter(tests, !is.na(.data$TestId))
   }
 
-  test_suites <- unique(tests$result_file)
-
   # write to top section to file
   val_boiler <- glue('
 ---
@@ -68,45 +66,10 @@ number_sections: yes
 The purpose of this Validation Testing document is to define the conditions for
 test execution and present the test results. All tests are specified and linked
 to release candidate user stories as numbered issues in the Requirements
-Specification-Validation Plan document.
-
-----------------
-
-## Test locations
-
-Tests are in the following location(s):
-
-{paste0(1:length(test_suites), ".\t", test_suites, collapse = "\n")}
+Specification document.
 
 ')
   cat(file = out_file,  val_boiler,"\n")
-
-  val_summary <- '
-
-## Comprehensive summary
-
-Summarizes the number of test suites, tests, and expectations and counts number
-of test failures.
-
-**Counts of automated tests:**
-'
-
-  sum_man <- tests %>%
-    filter(.data$test_type == "manual") %>%
-    nrow()
-
-  sum_auto_df <- tests %>%
-    filter(.data$test_type == "automatic") %>%
-    summarise(
-      suites = length(unique(.data$result_file)),
-      tests = n(),
-      assertions = sum(.data$passed) + sum(.data$failed),
-      failed = sum(.data$failed)
-    )
-
-  cat(file = out_file,  val_summary, "\n", append = TRUE)
-  cat(file = out_file, knitr::kable(sum_auto_df), sep = "\n", append = TRUE)
-  cat(file = out_file,  glue("\n\n**Count of manual tests:** {sum_man}"), "\n", append = TRUE)
 
   # add automated test outputs
   cat(file = out_file,  "\n# Automated Test Results\n", append = TRUE)

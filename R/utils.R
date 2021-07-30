@@ -67,7 +67,7 @@ proc_issue <- function(txt) {
 #' @importFrom stringr str_squish
 #' @param x A single row from the [process_stories()] df
 format_spec <- function(x) {
-  header <- paste0("## ", x$StoryId[[1]], " ", x$StoryName[[1]], "\n")
+  header <- paste0("## User Story: ", x$StoryId[[1]], " ", x$StoryName[[1]], "\n")
   bod <- gsub("\r", "", x$StoryDescription[[1]])
   risk <- gsub("risk: ", "", x$ProductRisk[[1]])
 
@@ -80,9 +80,10 @@ format_spec <- function(x) {
   tst <- x %>%
     select(`test ID` = .data$TestId, `test name` = .data$TestName)
   tst_tab <- knitr::kable(tst, format="markdown")
-  c(header, "**Product risk**: ", risk, "\n\n",
-    "**Story**\n", bod, "\n\n",
-    "**Requirements**\n", reqs, "\n\n",
+  c(header,
+    bod, "\n\n",
+    "**Product risk**: ", risk, "\n\n",
+    "**Summary**\n", reqs, "\n\n",
     "**Tests**\n\n", tst_tab)
 }
 

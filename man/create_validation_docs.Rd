@@ -10,6 +10,7 @@ create_validation_docs(
   specs,
   auto_test_dir = NULL,
   man_test_dir = NULL,
+  roles = NULL,
   output_dir = getwd()
 )
 }
@@ -23,6 +24,9 @@ create_validation_docs(
 
 \item{auto_test_dir, man_test_dir}{path to directories containing automatic
 and manual test output files. See \link{input_formats}.}
+
+\item{roles}{A data frame of user roles that, if specified, is inserted into
+the requirements document.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
