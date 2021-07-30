@@ -31,6 +31,7 @@ parse_testthat_list_reporter <- function(result) {
   })
 }
 
+#' Extract test ID from a string.
 #' @importFrom stringr str_match
 parse_test_id <- function(string) {
   str_match(string, "\\[([A-Z]+-[A-Z]+-[0-9]+)\\]") %>%
