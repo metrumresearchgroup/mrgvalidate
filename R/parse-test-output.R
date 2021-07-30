@@ -14,7 +14,7 @@ parse_testthat_list_reporter <- function(result) {
     if (length(.t) > 1) {
       abort(paste("DEV ERROR: parsed more than one test name from results:", paste(.t, collapse = ", ")))
     }
-    tibble::tibble(test_name = .t,
+    tibble::tibble(TestName = .t,
                    passed = sum(map_lgl(.r$results, ~ inherits(.x, "expectation_success"))),
                    failed = sum(map_lgl(.r$results, ~ inherits(.x,
                                                                c("expectation_failure",
@@ -22,9 +22,9 @@ parse_testthat_list_reporter <- function(result) {
                                                                  "expectation_skip"))))
     ) %>%
       mutate(
-        TestId = parse_test_tag(.data$test_name),
+        TestId = parse_test_tag(.data$TestName),
         # TODO: It probably makes sense to replace flanking spaces here too.
-        test_name = str_replace(.data$test_name,
+        TestName = str_replace(.data$TestName,
                                 fixed(paste0("[", .data$TestId, "]")),
                                 "")
       )

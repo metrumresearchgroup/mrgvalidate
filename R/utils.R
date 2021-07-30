@@ -78,7 +78,7 @@ format_spec <- function(x) {
                  ": ", str_squish(reqs$RequirementDescription), "\n")
 
   tst <- x %>%
-    select(`test ID` = .data$TestId, `test name` = .data$test_name)
+    select(`test ID` = .data$TestId, `test name` = .data$TestName)
   tst_tab <- knitr::kable(tst, format="markdown")
   c(header, "**Product risk**: ", risk, "\n\n",
     "**Story**\n", bod, "\n\n",

@@ -13,7 +13,7 @@
 #' For automated tests, a directory should contain set of CSVs with the test
 #' results. A CSV file must have the following columns:
 #'
-#' * test_name: a description of the test
+#' * TestName: a description of the test
 #'
 #' * passed, failed: a count of passed and failed assertions for the test
 #'

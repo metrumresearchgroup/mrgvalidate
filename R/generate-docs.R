@@ -59,7 +59,7 @@ create_validation_docs <- function
     unnest(.data$TestIds) %>%
     rename(TestId = .data$TestIds)  %>%
     full_join(tests, by = "TestId") %>%
-    nest(tests = c(.data$TestId, .data$test_name,
+    nest(tests = c(.data$TestId, .data$TestName,
                    .data$passed, .data$failed, .data$man_test_content,
                    .data$result_file))
 

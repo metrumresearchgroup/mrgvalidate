@@ -5,7 +5,7 @@ test_that("read_csv_test_results() can read test results", {
 
   df <- tres$results
   expect_setequal(names(df),
-                  c("result_file", "test_name",
+                  c("result_file", "TestName",
                     "passed", "failed", "TestId"))
 
   info <- tres$info

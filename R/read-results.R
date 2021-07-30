@@ -26,7 +26,7 @@ read_csv_test_results <- function(test_output_dir) {
     csv_files,
     ~{
       read_csv(.x,
-               col_types = cols(test_name = "c", TestId = "c",
+               col_types = cols(TestName = "c", TestId = "c",
                                 passed = "i", failed = "i")) %>%
         add_column(
           result_file = str_replace(basename(.x), fixed(".csv"), ""),
@@ -67,6 +67,6 @@ read_manual_test_results <- function(test_output_dir) {
   results %>%
     extract(.data$content, "date", "\n\\* date: +(.*)",
             remove = FALSE) %>%
-    extract(.data$content, "test_name", "## MAN-[A-Z]+-[0-9]+: +(.*)",
+    extract(.data$content, "TestName", "## MAN-[A-Z]+-[0-9]+: +(.*)",
             remove = FALSE)
 }
