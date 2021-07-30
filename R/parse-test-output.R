@@ -32,10 +32,10 @@ parse_testthat_list_reporter <- function(result) {
 }
 
 #' @importFrom stringr str_match
-parse_test_id <- function(test_name) {
+parse_test_id <- function(string) {
   # TODO: we should probably unit test this
   # * the weird Julia case
   # * the nodejs case
-  str_match(test_name, "\\[([A-Z]+-[A-Z]+-[0-9]+(?:-[A-Za-z_0-9]+)?)\\]") %>%
+  str_match(string, "\\[([A-Z]+-[A-Z]+-[0-9]+(?:-[A-Za-z_0-9]+)?)\\]") %>%
     dplyr::nth(2)
 }
