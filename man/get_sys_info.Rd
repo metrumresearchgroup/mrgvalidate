@@ -4,17 +4,29 @@
 \alias{get_sys_info}
 \title{Capture system and session info}
 \usage{
-get_sys_info(out_path = NULL, env_vars = NULL, session = FALSE)
+get_sys_info(
+  out_path = NULL,
+  executor = NULL,
+  env_vars = NULL,
+  sys_info = FALSE,
+  session = FALSE
+)
 }
 \arguments{
 \item{out_path}{File path for resulting JSON file. Will also return
 the R list invisibly. If \code{NULL}, only returns list and does not write to
 file.}
 
+\item{executor}{Person who is calling the function, and presumably running
+the test suite in question. If \code{NULL}, will pull \code{Sys.getenv("USER")}.}
+
 \item{env_vars}{Character vector of enviroment variables to check and record,
 if present. Each will be a key in the \verb{[["info"]][["env_vars"]]} element of
 the resulting json. Any that are \emph{not} set at call time will be present with
 a value of \code{""}.}
+
+\item{sys_info}{Logical indicating whether to run \code{SessionInfo()} and store
+the results under \verb{[["info"]][["session"]]}. Defaults to \code{FALSE}.}
 
 \item{session}{Logical indicating whether to run \code{SessionInfo()} and store
 the results under \verb{[["info"]][["session"]]}. Defaults to \code{FALSE}.}
@@ -32,9 +44,10 @@ JSON file for later use.
 Structure of returned (and written) list is as follows:
 \itemize{
 \item \code{"date"} -- Date and time when function is called.
+\item \code{"executor"} -- String passed through from \code{executor} param.
 \item \code{"info"} -- Contains system and session info in sub-elements:
 \itemize{
-\item \code{"sys"} -- System info: sysname, version, release, machine.
+\item \code{"sys"} (Optional) -- System info: sysname, version, release, machine.
 \item \code{"env_vars"} (Optional) -- Environment variables passed by the user, with
 their current values at time of function call.
 \item \code{"session"} (Optional) -- Character vector with output from

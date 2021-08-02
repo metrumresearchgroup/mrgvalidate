@@ -83,6 +83,8 @@ Specification document.
 
 **Date Run:** {.suite$date}
 
+**Executor:** {.suite$executor}
+
 {print_info_list(.suite$info)}
 
 ')
