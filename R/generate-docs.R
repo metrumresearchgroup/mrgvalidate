@@ -11,6 +11,8 @@
 #'   the requirements document.
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
+#' @return In addition to creating the validation docs, a tibble that joins the
+#'   tests with `specs` is returned invisibly.
 #' @importFrom dplyr bind_rows full_join mutate rename
 #' @importFrom purrr map_chr
 #' @importFrom tidyr nest unnest

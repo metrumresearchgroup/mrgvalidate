@@ -31,6 +31,10 @@ the requirements document.}
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
 }
+\value{
+In addition to creating the validation docs, a tibble that joins the
+tests with \code{specs} is returned invisibly.
+}
 \description{
 This function is the main entry point for creating validation docs.
 }
