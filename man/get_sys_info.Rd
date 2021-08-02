@@ -25,8 +25,8 @@ if present. Each will be a key in the \verb{[["info"]][["env_vars"]]} element of
 the resulting json. Any that are \emph{not} set at call time will be present with
 a value of \code{""}.}
 
-\item{sys_info}{Logical indicating whether to run \code{SessionInfo()} and store
-the results under \verb{[["info"]][["session"]]}. Defaults to \code{FALSE}.}
+\item{sys_info}{Logical indicating whether to run \code{Sys.info()} and store
+the results under \verb{[["info"]][["sys"]]}. Defaults to \code{FALSE}.}
 
 \item{session}{Logical indicating whether to run \code{SessionInfo()} and store
 the results under \verb{[["info"]][["session"]]}. Defaults to \code{FALSE}.}

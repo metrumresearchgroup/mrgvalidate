@@ -28,8 +28,8 @@
 #'   if present. Each will be a key in the `[["info"]][["env_vars"]]` element of
 #'   the resulting json. Any that are _not_ set at call time will be present with
 #'   a value of `""`.
-#' @param sys_info Logical indicating whether to run `SessionInfo()` and store
-#'   the results under `[["info"]][["session"]]`. Defaults to `FALSE`.
+#' @param sys_info Logical indicating whether to run `Sys.info()` and store
+#'   the results under `[["info"]][["sys"]]`. Defaults to `FALSE`.
 #' @param session Logical indicating whether to run `SessionInfo()` and store
 #'   the results under `[["info"]][["session"]]`. Defaults to `FALSE`.
 #'
