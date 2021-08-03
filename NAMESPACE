@@ -2,6 +2,9 @@
 
 export("%>%")
 export(create_validation_docs)
+export(find_reqs_without_stories)
+export(find_reqs_without_tests)
+export(find_tests_without_reqs)
 export(generate_docs)
 export(get_issues)
 export(get_risk)
