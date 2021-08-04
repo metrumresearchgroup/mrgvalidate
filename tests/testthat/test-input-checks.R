@@ -32,13 +32,13 @@ test_that("find_tests_without_reqs() returns tests without reqs", {
   })
 })
 
-test_that("find_reqs_without_tests() returns reqs without tests", {
+test_that("find_reqs_with_missing_tests() returns reqs without tests", {
   withr::with_tempdir({
     setup_test_results()
     dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
                                  write = FALSE)
     expect_equal(
-      find_reqs_without_tests(dd),
+      find_reqs_with_missing_tests(dd),
       tibble::tribble(
         ~RequirementId, ~RequirementDescription, ~TestId,
         "req002", "req two", "FOO-OTHER-002"))

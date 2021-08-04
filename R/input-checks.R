@@ -2,7 +2,7 @@
 #' Find missing input pieces.
 #'
 #' find_tests_without_reqs()` returns IDs from the test results that are not
-#' associated with a requirement. `find_reqs_without_tests()` goes in the
+#' associated with a requirement. `find_reqs_with_missing_tests()` goes in the
 #' reverse direction, returning requirements with test IDs that aren't found in
 #' the test results. `find_reqs_without_stories()` returns requirements that are
 #' not linked to a story.
@@ -29,7 +29,7 @@ find_tests_without_reqs <- function(merged_inputs) {
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
 #' @export
-find_reqs_without_tests <- function(merged_inputs) {
+find_reqs_with_missing_tests <- function(merged_inputs) {
   merged_inputs %>%
     unnest(.data$tests) %>%
     # Checking that just TestId is NA isn't sufficient because TestId comes from
