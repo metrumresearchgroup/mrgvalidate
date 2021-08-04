@@ -1,4 +1,23 @@
 
+#' Check input test data.
+#'
+#' Warn about rows without test IDs and filter them out.
+#'
+#' @param tests Tibble with TestId column
+#' @return Tibble with NA tests IDs removed.
+#' @seealso [create_validation_docs()], [input_formats]
+#' @importFrom dplyr filter
+#' @importFrom rlang .data
+check_test_input <- function(tests) {
+  na_test_ids <- sum(is.na(tests$TestId))
+  if (na_test_ids > 0) {
+    warning(glue("Dropping {na_test_ids} test(s) with no ID"))
+    tests <- filter(tests, !is.na(.data$TestId))
+  }
+
+  return(tests)
+}
+
 #' Find missing input pieces.
 #'
 #' @description

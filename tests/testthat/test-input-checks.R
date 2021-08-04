@@ -3,8 +3,7 @@ TEST_RESULTS <- tibble::tribble(
   ~TestId, ~TestName, ~passed, ~failed,
   "FOO-BAR-001", "t1", 2, 0,
   "FOO-BAR-002", "t2", 1, 0,
-  "FOO-BAR-003", "t3", 1, 0,
-  NA, "t4", 3, 0)
+  "FOO-BAR-003", "t3", 1, 0)
 
 # Note: This function assumes that the caller cleans up (e.g., by calling this
 # within withr::with_tempdir()).
@@ -19,6 +18,14 @@ SPECS <- tibble::tribble(
   "st002", "req002", "req two", "FOO-OTHER-002",
   "st003", "req003", "req three", NA
 )
+
+test_that("check_test_input() filters NA IDs", {
+  input <- TEST_RESULTS %>%
+    dplyr::add_row(TestId = NA, TestName = "t4", passed = 1, failed = 0)
+  expect_warning(res <- check_test_input(input),
+                 "Dropping 1 test\\(s) with no ID")
+  expect_equal(res, TEST_RESULTS)
+})
 
 test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
