@@ -48,8 +48,8 @@ requirements and test specifications, are listed in the Requirements Specificati
   mat$StoryDescription[duplicated(mat$StoryDescription)] <- ""
   mat_out <- select(
     mat,
-    `user story` = .data$StoryDescription,
-    `test ID` = .data$TestId,
+    `User Story` = .data$StoryDescription,
+    `Test ID` = .data$TestId,
     .data$pass,
   )
 
