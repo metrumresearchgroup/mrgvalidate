@@ -1,7 +1,8 @@
 
 #' Check input test data.
 #'
-#' Warn about rows without test IDs and filter them out.
+#' * Warn about rows without test IDs and filter them out.
+#' * Abort if non-NA IDs are not unique across rows.
 #'
 #' @param tests Tibble with TestId column
 #' @return Tibble with NA tests IDs removed.
@@ -15,6 +16,12 @@ check_test_input <- function(tests) {
     tests <- filter(tests, !is.na(.data$TestId))
   }
 
+  dups <- tests$TestId[duplicated(tests$TestId)]
+  if (length(dups) > 0) {
+    abort(sprintf("Test input has test IDs repeated across rows: %s",
+                  paste0(dups, collapse = ", ")),
+          "mrgvalidate_input_error")
+  }
   return(tests)
 }
 

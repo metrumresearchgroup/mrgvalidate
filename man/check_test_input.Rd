@@ -13,7 +13,10 @@ check_test_input(tests)
 Tibble with NA tests IDs removed.
 }
 \description{
-Warn about rows without test IDs and filter them out.
+\itemize{
+\item Warn about rows without test IDs and filter them out.
+\item Abort if non-NA IDs are not unique across rows.
+}
 }
 \seealso{
 \code{\link[=create_validation_docs]{create_validation_docs()}}, \link{input_formats}

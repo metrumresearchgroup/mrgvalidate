@@ -27,6 +27,13 @@ test_that("check_test_input() filters NA IDs", {
   expect_equal(res, TEST_RESULTS)
 })
 
+test_that("check_test_input() aborts on repeated IDs", {
+  input <- TEST_RESULTS %>%
+    dplyr::add_row(TestId = "FOO-BAR-001", TestName = "t4",
+                   passed = 1, failed = 0)
+  expect_error(res <- check_test_input(input), class = )
+})
+
 test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
