@@ -35,7 +35,6 @@ Imports:
     dplyr,
     fs,
     glue,
-    ghpm (>= 0.5.1),
     knitr,
     magrittr,
     processx,
@@ -46,8 +45,7 @@ Imports:
     testthat,
     tibble,
     tidyr,
-    withr (>= 2.3.0),
-    googlesheets4
+    withr (>= 2.3.0)
 Suggests:
     checkmate,
     digest,
@@ -55,6 +53,5 @@ Suggests:
     stringr,
     yaml,
     forcats,
-    cli,
-    httpuv
+    cli
 Roxygen: list(markdown = TRUE)

@@ -8,7 +8,9 @@ In order to format validation docs, mrgvalidate must collect various pieces
 of information from the caller. This information can be broken down into two
 categories: information about the requirements and information about the
 executed tests. Below is a description of how this data is expected to be
-formatted.
+formatted. **Note: there a companion package \code{mrgvalprep} containing
+functions to preprocess common inputs (R's \code{testthat}, Googlesheets, etc.)
+into the format required by \code{mrgvalidate}.
 }
 \details{
 \subsection{Stories and requirements}{
@@ -45,7 +47,7 @@ results. The path will be passed to \code{auto_test_dir} argument of
 to stories/requirements.
 }
 
-For \code{testthat} tests, the \code{\link[=parse_testthat_list_reporter]{parse_testthat_list_reporter()}} helper can be used
+For \code{testthat} tests, the \code{\link[mrgvalprep:parse_testthat_list_reporter]{mrgvalprep::parse_testthat_list_reporter()}} helper can be used
 to convert \link[testthat:ListReporter]{testthat::ListReporter} results into the above format.
 
 Alongside each CSV, there must be a JSON file with the same base name. This
@@ -61,7 +63,7 @@ be rendered in the validation docs.\preformatted{\{
 \}
 }
 
-The \code{\link[=get_sys_info]{get_sys_info()}} helper can be used to capture various system details and
+The \code{\link[mrgvalprep:get_sys_info]{mrgvalprep::get_sys_info()}} helper can be used to capture various system details and
 write them to a JSON file.
 }
 
@@ -74,5 +76,5 @@ The path will be passed to \code{man_test_dir} argument of
 }
 }
 \seealso{
-\code{\link[=parse_testthat_list_reporter]{parse_testthat_list_reporter()}}, \code{\link[=get_sys_info]{get_sys_info()}}
+\code{\link[mrgvalprep:parse_testthat_list_reporter]{mrgvalprep::parse_testthat_list_reporter()}}, \code{\link[mrgvalprep:get_sys_info]{mrgvalprep::get_sys_info()}}
 }
