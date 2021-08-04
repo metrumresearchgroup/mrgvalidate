@@ -11,7 +11,8 @@ create_validation_docs(
   auto_test_dir = NULL,
   man_test_dir = NULL,
   roles = NULL,
-  output_dir = getwd()
+  output_dir = getwd(),
+  write = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,13 @@ the requirements document.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
+
+\item{write}{Whether to create the output docs. Setting this to \code{FALSE} is
+useful when you're just interested in the return value.}
+}
+\value{
+In addition to creating the validation docs, a tibble that joins the
+tests with \code{specs} is returned invisibly.
 }
 \description{
 This function is the main entry point for creating validation docs.
