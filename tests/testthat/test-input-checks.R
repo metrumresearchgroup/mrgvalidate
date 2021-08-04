@@ -46,11 +46,8 @@ test_that("find_reqs_without_tests() returns reqs without tests", {
 test_that("find_reqs_without_stories() returns reqs without stories", {
   expect_equal(
     find_reqs_without_stories(
-      tibble::tribble(
-        ~StoryId, ~RequirementId, ~RequirementDescription,
-        "st001", "req001", "req one",
-        NA, "req002", "req two",
-        "st003", "req003", "req three")),
+      dplyr::mutate(SPECS,
+                    StoryId = ifelse(RequirementId == "req002", NA, StoryId))),
     tibble::tribble(
       ~RequirementId, ~RequirementDescription,
       "req002", "req two"))
