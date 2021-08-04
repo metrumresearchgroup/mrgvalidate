@@ -1,4 +1,6 @@
 
+# Note: This function assumes that the caller cleans up (e.g., by calling this
+# within withr::with_tempdir()).
 setup_test_results <- function() {
   test_results <- tibble::tribble(
     ~TestId, ~TestName, ~passed, ~failed,
