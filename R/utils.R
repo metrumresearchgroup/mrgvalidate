@@ -71,11 +71,15 @@ format_spec <- function(x) {
   bod <- gsub("\r", "", x$StoryDescription[[1]])
   risk <- gsub("risk: ", "", x$ProductRisk[[1]])
 
-  reqs <- x %>%
-    arrange(.data$RequirementId) %>%
-    distinct(.data$RequirementId, .keep_all = TRUE)
-  reqs <- paste0("- ", reqs$RequirementId,
-                 ": ", str_squish(reqs$RequirementDescription), "\n")
+  if (all(c("RequirementId", "RequirementDescription") %in% names(x))) {
+    reqs <- x %>%
+      arrange(.data$RequirementId) %>%
+      distinct(.data$RequirementId, .keep_all = TRUE)
+    reqs <- paste0("- ", reqs$RequirementId,
+                   ": ", str_squish(reqs$RequirementDescription), "\n")
+  } else {
+    reqs <- NULL
+  }
 
   tst <- x %>%
     select(`test ID` = .data$TestId, `test name` = .data$TestName)
@@ -83,7 +87,7 @@ format_spec <- function(x) {
   c(header,
     bod, "\n\n",
     "**Product risk**: ", risk, "\n\n",
-    "**Summary**\n", reqs, "\n\n",
+    ifelse(is.null(reqs), "", c("**Summary**\n", reqs, "\n\n")),
     "**Tests**\n\n", tst_tab)
 }
 

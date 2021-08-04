@@ -45,6 +45,12 @@ requirements and test specifications, are listed in the Requirements Specificati
            pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
     arrange(.data$StoryId, .data$RequirementId, .data$TestId)
 
+  mat <- if ("RequirementId" %in% names(mat)) {
+    arrange(mat, .data$StoryId, .data$RequirementId, .data$TestId)
+  } else {
+    arrange(mat, .data$StoryId, .data$TestId)
+  }
+
   mat$StoryDescription[duplicated(mat$StoryDescription)] <- ""
   mat_out <- select(
     mat,
