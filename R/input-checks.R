@@ -19,6 +19,7 @@
 #'   list of tibbles.
 #' @seealso [create_validation_docs()], [input_formats]
 #' @importFrom purrr map_int
+#' @export
 find_missing <- function(merged_inputs) {
   res <- list(
     find_tests_without_reqs = find_tests_without_reqs(merged_inputs),
