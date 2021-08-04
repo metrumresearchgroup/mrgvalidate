@@ -1,14 +1,15 @@
 
+TEST_RESULTS <- tibble::tribble(
+  ~TestId, ~TestName, ~passed, ~failed,
+  "FOO-BAR-001", "t1", 2, 0,
+  "FOO-BAR-002", "t2", 1, 0,
+  "FOO-BAR-003", "t3", 1, 0,
+  NA, "t4", 3, 0)
+
 # Note: This function assumes that the caller cleans up (e.g., by calling this
 # within withr::with_tempdir()).
 setup_test_results <- function() {
-  test_results <- tibble::tribble(
-    ~TestId, ~TestName, ~passed, ~failed,
-    "FOO-BAR-001", "t1", 2, 0,
-    "FOO-BAR-002", "t2", 1, 0,
-    "FOO-BAR-003", "t3", 1, 0,
-    NA, "t4", 3, 0)
-  readr::write_csv(test_results, "t.csv")
+  readr::write_csv(TEST_RESULTS, "t.csv")
   get_sys_info(out_path = "t.json")
 }
 
