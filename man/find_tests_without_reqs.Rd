@@ -20,7 +20,10 @@ by \code{\link[=create_validation_docs]{create_validation_docs()}}.}
 Tibble with the missing items.
 }
 \description{
-find_tests_without_reqs()\verb{returns IDs from the test results that are not associated with a requirement.}find_reqs_with_missing_tests()\verb{goes in the reverse direction, returning requirements with test IDs that aren't found in the test results.}find_reqs_without_stories()` returns requirements that are
+\code{find_tests_without_reqs()} returns IDs from the test results that are not
+associated with a requirement. \code{find_reqs_with_missing_tests()} goes in the
+reverse direction, returning requirements with test IDs that aren't found in
+the test results. \code{find_reqs_without_stories()} returns requirements that are
 not linked to a story.
 }
 \seealso{

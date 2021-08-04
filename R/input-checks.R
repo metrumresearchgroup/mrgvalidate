@@ -1,7 +1,7 @@
 
 #' Find missing input pieces.
 #'
-#' find_tests_without_reqs()` returns IDs from the test results that are not
+#' `find_tests_without_reqs()` returns IDs from the test results that are not
 #' associated with a requirement. `find_reqs_with_missing_tests()` goes in the
 #' reverse direction, returning requirements with test IDs that aren't found in
 #' the test results. `find_reqs_without_stories()` returns requirements that are
