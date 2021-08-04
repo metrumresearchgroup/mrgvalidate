@@ -19,19 +19,19 @@ SPECS <- tibble::tribble(
   "st003", "req003", "req three", NA
 )
 
-test_that("check_inputs() returns missing pieces and prints messages", {
+test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
     dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
                                  write = FALSE)
     expect_message(
-      res_missing <- check_inputs(dd),
+      res_missing <- find_missing(dd),
       "2 missing piece\\(s\\) found\\. Check results")
     expect_equal(length(res_missing), 3)
 
     dd_good <- filter(dd, StoryId == "st001")
     expect_message(
-      res_no_missing <- check_inputs(dd_good),
+      res_no_missing <- find_missing(dd_good),
       "No missing pieces found")
     expect_equal(length(res_no_missing), 3)
   })
