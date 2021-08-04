@@ -14,7 +14,8 @@ write_traceability_matrix(
 )
 }
 \arguments{
-\item{df}{Tibble output from \code{\link[=process_stories]{process_stories()}}.}
+\item{df}{Tibble containing stories, requirements, and tests. Created in
+\code{\link[=create_validation_docs]{create_validation_docs()}}.}
 
 \item{product}{The name of the product you are validating, to be included in the output document.}
 
@@ -29,3 +30,4 @@ write_traceability_matrix(
 \description{
 Build the Traceability Matrix and write it to a output files
 }
+\keyword{internal}

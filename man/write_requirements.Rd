@@ -15,7 +15,8 @@ write_requirements(
 )
 }
 \arguments{
-\item{df}{Tibble output from \code{\link[=process_stories]{process_stories()}}.}
+\item{df}{Tibble containing stories, requirements, and tests. Created in
+\code{\link[=create_validation_docs]{create_validation_docs()}}.}
 
 \item{product_name}{The product you are validating, to be included in the output document.}
 
@@ -33,3 +34,4 @@ inserted as a table under a "User Roles" section.}
 \description{
 Build the Requirements Specification and write it to a markdown file
 }
+\keyword{internal}

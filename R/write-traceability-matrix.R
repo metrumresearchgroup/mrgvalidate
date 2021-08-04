@@ -8,13 +8,14 @@
 #' @importFrom rmarkdown render
 #' @importFrom rlang .data
 #' @importFrom fs dir_exists dir_create
-#' @param df Tibble output from [process_stories()].
+#' @param df Tibble containing stories, requirements, and tests. Created in
+#'   [create_validation_docs()].
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param out_file filename to write markdown file out to. Any extension will be ignored and replaced with .md
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
-#' @export
+#' @keywords internal
 write_traceability_matrix <- function(
   df,
   product,

@@ -45,3 +45,4 @@ written as tables of results, one per result file (\code{.csv} file found in
 have their \code{content} sections rendered sequentially below the automated
 tests.
 }
+\keyword{internal}
