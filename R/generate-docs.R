@@ -60,7 +60,8 @@ create_validation_docs <- function
       rename(man_test_content = .data$content)
   }
 
-  tests <- bind_rows(results)
+  tests <- check_test_input(bind_rows(results))
+
   dd <- specs %>%
     unnest(.data$TestIds) %>%
     rename(TestId = .data$TestIds)  %>%

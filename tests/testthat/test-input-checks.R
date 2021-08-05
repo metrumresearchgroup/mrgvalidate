@@ -1,14 +1,14 @@
 
+TEST_RESULTS <- tibble::tribble(
+  ~TestId, ~TestName, ~passed, ~failed,
+  "FOO-BAR-001", "t1", 2, 0,
+  "FOO-BAR-002", "t2", 1, 0,
+  "FOO-BAR-003", "t3", 1, 0)
+
 # Note: This function assumes that the caller cleans up (e.g., by calling this
 # within withr::with_tempdir()).
 setup_test_results <- function() {
-  test_results <- tibble::tribble(
-    ~TestId, ~TestName, ~passed, ~failed,
-    "FOO-BAR-001", "t1", 2, 0,
-    "FOO-BAR-002", "t2", 1, 0,
-    "FOO-BAR-003", "t3", 1, 0,
-    NA, "t4", 3, 0)
-  readr::write_csv(test_results, "t.csv")
+  readr::write_csv(TEST_RESULTS, "t.csv")
   get_sys_info(out_path = "t.json")
 }
 
@@ -19,19 +19,34 @@ SPECS <- tibble::tribble(
   "st003", "req003", "req three", NA
 )
 
-test_that("check_inputs() returns missing pieces and prints messages", {
+test_that("check_test_input() filters NA IDs", {
+  input <- TEST_RESULTS %>%
+    dplyr::add_row(TestId = NA, TestName = "t4", passed = 1, failed = 0)
+  expect_warning(res <- check_test_input(input),
+                 "Dropping 1 test\\(s) with no ID")
+  expect_equal(res, TEST_RESULTS)
+})
+
+test_that("check_test_input() aborts on repeated IDs", {
+  input <- TEST_RESULTS %>%
+    dplyr::add_row(TestId = "FOO-BAR-001", TestName = "t4",
+                   passed = 1, failed = 0)
+  expect_error(res <- check_test_input(input), class = )
+})
+
+test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
     dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
                                  write = FALSE)
     expect_message(
-      res_missing <- check_inputs(dd),
+      res_missing <- find_missing(dd),
       "2 missing piece\\(s\\) found\\. Check results")
     expect_equal(length(res_missing), 3)
 
     dd_good <- filter(dd, StoryId == "st001")
     expect_message(
-      res_no_missing <- check_inputs(dd_good),
+      res_no_missing <- find_missing(dd_good),
       "No missing pieces found")
     expect_equal(length(res_no_missing), 3)
   })

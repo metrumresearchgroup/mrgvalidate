@@ -1,4 +1,30 @@
 
+#' Check input test data.
+#'
+#' * Warn about rows without test IDs and filter them out.
+#' * Abort if non-NA IDs are not unique across rows.
+#'
+#' @param tests Tibble with TestId column
+#' @return Tibble with NA tests IDs removed.
+#' @seealso [create_validation_docs()], [input_formats]
+#' @importFrom dplyr filter
+#' @importFrom rlang .data
+check_test_input <- function(tests) {
+  na_test_ids <- sum(is.na(tests$TestId))
+  if (na_test_ids > 0) {
+    warning(glue("Dropping {na_test_ids} test(s) with no ID"))
+    tests <- filter(tests, !is.na(.data$TestId))
+  }
+
+  dups <- tests$TestId[duplicated(tests$TestId)]
+  if (length(dups) > 0) {
+    abort(sprintf("Test input has test IDs repeated across rows: %s",
+                  paste0(dups, collapse = ", ")),
+          "mrgvalidate_input_error")
+  }
+  return(tests)
+}
+
 #' Find missing input pieces.
 #'
 #' @description
@@ -9,17 +35,18 @@
 #' the test results. `find_reqs_without_stories()` returns requirements that are
 #' not linked to a story.
 #'
-#' `check_inputs()` is a convenience wrapper around all of the above functions.
+#' `find_missing()` is a convenience wrapper around all of the above functions.
 #' It returns their results in a list and also displays messages about the
 #' results.
 #'
 #' @param merged_inputs Tibble with stories, requirements and tests, as returned
 #'   by [create_validation_docs()].
-#' @return Tibble with the missing items, or, in the case of `check_inputs()`, a
+#' @return Tibble with the missing items, or, in the case of `find_missing()`, a
 #'   list of tibbles.
 #' @seealso [create_validation_docs()], [input_formats]
 #' @importFrom purrr map_int
-check_inputs <- function(merged_inputs) {
+#' @export
+find_missing <- function(merged_inputs) {
   res <- list(
     find_tests_without_reqs = find_tests_without_reqs(merged_inputs),
     find_reqs_with_missing_tests = find_reqs_with_missing_tests(merged_inputs),
@@ -34,7 +61,7 @@ check_inputs <- function(merged_inputs) {
   return(res)
 }
 
-#' @rdname check_inputs
+#' @rdname find_missing
 #' @importFrom dplyr arrange filter select
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
@@ -48,7 +75,7 @@ find_tests_without_reqs <- function(merged_inputs) {
     arrange(.data$TestId)
 }
 
-#' @rdname check_inputs
+#' @rdname find_missing
 #' @importFrom dplyr arrange filter select
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
@@ -64,7 +91,7 @@ find_reqs_with_missing_tests <- function(merged_inputs) {
     arrange(.data$RequirementId, .data$TestId)
 }
 
-#' @rdname check_inputs
+#' @rdname find_missing
 #' @importFrom dplyr arrange filter select
 #' @importFrom rlang .data
 #' @export

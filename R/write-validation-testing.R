@@ -42,12 +42,6 @@ write_validation_testing <- function(
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".md"))
 
-  na_test_ids <- sum(is.na(tests$TestId))
-  if (na_test_ids > 0) {
-    warning(glue("Dropping {na_test_ids} tests with no ID"))
-    tests <- filter(tests, !is.na(.data$TestId))
-  }
-
   # write to top section to file
   val_boiler <- glue('
 ---
