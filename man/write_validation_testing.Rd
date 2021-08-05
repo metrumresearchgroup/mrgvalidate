@@ -9,6 +9,7 @@ write_validation_testing(
   version,
   tests,
   auto_info,
+  style_dir = NULL,
   out_file = VAL_FILE,
   output_dir = getwd(),
   word_document = TRUE
@@ -30,6 +31,9 @@ would someone need to call them?**}
 from the \code{.json} files found in \code{auto_test_dir}, one element per \code{.json}
 (named with the filename \emph{without} extension). \strong{Same note as \code{tests} about
 exporting and specs.}}
+
+\item{style_dir}{Directory to check for a docx style reference that has the
+same base name as \code{out_file}.}
 
 \item{out_file}{Filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 

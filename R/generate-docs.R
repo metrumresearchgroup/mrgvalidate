@@ -9,6 +9,10 @@
 #'   and manual test output files. See [input_formats].
 #' @param roles A data frame of user roles that, if specified, is inserted into
 #'   the requirements document.
+#' @param style_dir Directory that has style references for the generated docx
+#'   files. When generating each output file, Pandoc will be instructed to use
+#'   the reference file from this directory that has the same base name (if it
+#'   exists).
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
 #' @param write Whether to create the output docs. Setting this to `FALSE` is
@@ -24,6 +28,7 @@ create_validation_docs <- function
 (
   product_name, version, specs,
   auto_test_dir = NULL, man_test_dir = NULL, roles = NULL,
+  style_dir = NULL,
   output_dir = getwd(), write = TRUE
 ) {
 
@@ -76,6 +81,7 @@ create_validation_docs <- function
       product_name,
       version,
       roles = roles,
+      style_dir = style_dir,
       out_file = REQ_FILE,
       output_dir = output_dir,
       word_document = TRUE
@@ -85,6 +91,7 @@ create_validation_docs <- function
       dd,
       product_name,
       version,
+      style_dir = style_dir,
       out_file = MAT_FILE,
       output_dir = output_dir,
       word_document = TRUE
@@ -95,6 +102,7 @@ create_validation_docs <- function
       version,
       tests,
       auto_info,
+      style_dir = style_dir,
       out_file = VAL_FILE,
       output_dir = output_dir,
       word_document = TRUE

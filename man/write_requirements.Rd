@@ -9,6 +9,7 @@ write_requirements(
   product_name,
   version,
   roles = NULL,
+  style_dir = NULL,
   out_file = REQ_FILE,
   output_dir = getwd(),
   word_document = TRUE
@@ -23,6 +24,9 @@ write_requirements(
 
 \item{roles}{A data frame of user roles. If specified, this will be
 inserted as a table under a "User Roles" section.}
+
+\item{style_dir}{Directory to check for a docx style reference that has the
+same base name as \code{out_file}.}
 
 \item{out_file}{filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 

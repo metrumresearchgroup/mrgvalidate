@@ -26,6 +26,8 @@
 #'   from the `.json` files found in `auto_test_dir`, one element per `.json`
 #'   (named with the filename _without_ extension). **Same note as `tests` about
 #'   exporting and specs.**
+#' @param style_dir Directory to check for a docx style reference that has the
+#'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .md
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
@@ -35,6 +37,7 @@ write_validation_testing <- function(
   version,
   tests,
   auto_info,
+  style_dir = NULL,
   out_file = VAL_FILE,
   output_dir = getwd(),
   word_document = TRUE
@@ -112,7 +115,8 @@ Specification document.
     message("  Rendering markdown to docx...")
     rmarkdown::render(
       out_file,
-      output_format = "word_document",
+      output_format = rmarkdown::word_document(
+        reference_docx = get_reference_docx(out_file, style_dir)),
       output_dir = dirname(out_file),
       quiet = TRUE
     )
