@@ -1,7 +1,7 @@
 
 #' Build the Traceability Matrix and write it to a output files
 #' @importFrom purrr map walk
-#' @importFrom dplyr arrange slice select mutate group_by ungroup n
+#' @importFrom dplyr arrange first group_by select
 #' @importFrom knitr kable
 #' @importFrom tidyr unnest
 #' @importFrom glue glue
@@ -41,13 +41,15 @@ requirements and test specifications, are listed in the Requirements Specificati
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
     filter(!is.na(.data$passed)) %>%
-    arrange(.data$StoryId, .data$RequirementId, .data$TestId)
+    arrange(.data$StoryId, .data$RequirementId, .data$TestId) %>%
+    group_by(.data$StoryId) %>%
+    summarise(test_ids = paste0(.data$TestId, collapse = " "),
+              description = first(.data$StoryDescription))
 
-  mat$StoryDescription[duplicated(mat$StoryDescription)] <- ""
   mat_out <- select(
     mat,
-    `User Story` = .data$StoryDescription,
-    `Test ID` = .data$TestId,
+    `User Story` = .data$description,
+    `Test ID` = .data$test_ids,
   )
 
   cat(file = out_file,  mat_boiler,"\n")
