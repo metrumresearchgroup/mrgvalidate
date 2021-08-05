@@ -87,8 +87,8 @@ Specification document.
     test_df <- tests %>%
       filter(.data$result_file == .x) %>%
       select(
-        `test ID` = .data$TestId,
-        `test name` = .data$TestName,
+        `Test ID` = .data$TestId,
+        `Test name` = .data$TestName,
         .data$passed,
         .data$failed
       )

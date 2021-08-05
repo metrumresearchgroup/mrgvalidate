@@ -41,16 +41,13 @@ requirements and test specifications, are listed in the Requirements Specificati
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
     filter(!is.na(.data$passed)) %>%
-    mutate(number = .data$passed + .data$failed,
-           pass = paste0(.data$number - .data$failed, " of ", .data$number)) %>%
     arrange(.data$StoryId, .data$RequirementId, .data$TestId)
 
   mat$StoryDescription[duplicated(mat$StoryDescription)] <- ""
   mat_out <- select(
     mat,
-    `user story` = .data$StoryDescription,
-    `test ID` = .data$TestId,
-    .data$pass,
+    `User Story` = .data$StoryDescription,
+    `Test ID` = .data$TestId,
   )
 
   cat(file = out_file,  mat_boiler,"\n")
