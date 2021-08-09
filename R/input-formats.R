@@ -36,6 +36,10 @@
 #' * TestIds: unique identifiers for tests that validate this requirement or
 #' story. This field is used to map stories/requirements to tests.
 #'
+#' The `mrgvalprep` packages has several helpers for importing stories into this
+#' format. See `mrgvalprep::read_spec_gsheets()` and
+#' `mrgvalprep::parse_github_issues()` for examples.
+#'
 #' ## Automated tests
 #'
 #' For automated tests, a directory containing any number of CSVs with the test
@@ -78,11 +82,12 @@
 #' The path will be passed to `man_test_dir` argument of
 #' [create_validation_docs()].
 #'
-#' @seealso `mrgvalprep::parse_testthat_list_reporter()`, `mrgvalprep::get_sys_info()`
+#' @seealso `mrgvalprep::parse_testthat_list_reporter()`,
+#'   `mrgvalprep::get_sys_info()`, `mrgvalprep::read_spec_gsheets()`,
+#'   `mrgvalprep::parse_github_issues()`
 #'
 #' @name input_formats
 NULL
 
-# TODO: Document requirements format here too?
 # TODO: Explain why there are multiple CSVs.
 # TODO: Manual tests.

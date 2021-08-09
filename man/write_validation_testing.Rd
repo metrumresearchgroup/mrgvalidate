@@ -2,7 +2,7 @@
 % Please edit documentation in R/write-validation-testing.R
 \name{write_validation_testing}
 \alias{write_validation_testing}
-\title{Build the Validation Testing document and write it to a markdown file}
+\title{Build the Validation Testing document and write it to output file(s)}
 \usage{
 write_validation_testing(
   product,

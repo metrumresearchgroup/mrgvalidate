@@ -33,6 +33,10 @@ requirement
 \item TestIds: unique identifiers for tests that validate this requirement or
 story. This field is used to map stories/requirements to tests.
 }
+
+The \code{mrgvalprep} packages has several helpers for importing stories into this
+format. See \code{mrgvalprep::read_spec_gsheets()} and
+\code{mrgvalprep::parse_github_issues()} for examples.
 }
 
 \subsection{Automated tests}{
@@ -76,5 +80,7 @@ The path will be passed to \code{man_test_dir} argument of
 }
 }
 \seealso{
-\code{mrgvalprep::parse_testthat_list_reporter()}, \code{mrgvalprep::get_sys_info()}
+\code{mrgvalprep::parse_testthat_list_reporter()},
+\code{mrgvalprep::get_sys_info()}, \code{mrgvalprep::read_spec_gsheets()},
+\code{mrgvalprep::parse_github_issues()}
 }

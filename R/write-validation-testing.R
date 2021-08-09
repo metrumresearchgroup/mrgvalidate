@@ -1,5 +1,5 @@
 
-#' Build the Validation Testing document and write it to a markdown file
+#' Build the Validation Testing document and write it to output file(s)
 #'
 #' This takes the input from automated and/or manual tests and writes them to a
 #' `.md` file (and optionally `.docx` file as well). The automated tests will be

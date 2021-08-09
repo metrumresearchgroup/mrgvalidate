@@ -2,7 +2,7 @@
 % Please edit documentation in R/write-requirements.R
 \name{write_requirements}
 \alias{write_requirements}
-\title{Build the Requirements Specification and write it to a markdown file}
+\title{Build the Requirements Specification and write it to output file(s)}
 \usage{
 write_requirements(
   df,
@@ -32,6 +32,6 @@ inserted as a table under a "User Roles" section.}
 \item{word_document}{Logical scaler indicating whether to render a docx document}
 }
 \description{
-Build the Requirements Specification and write it to a markdown file
+Build the Requirements Specification and write it to output file(s)
 }
 \keyword{internal}

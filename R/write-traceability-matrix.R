@@ -1,5 +1,5 @@
 
-#' Build the Traceability Matrix and write it to a output files
+#' Build the Traceability Matrix and write it to output file(s)
 #' @importFrom purrr map walk
 #' @importFrom dplyr arrange slice select mutate group_by ungroup n
 #' @importFrom knitr kable

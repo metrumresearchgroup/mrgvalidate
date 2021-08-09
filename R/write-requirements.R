@@ -1,5 +1,5 @@
 
-#' Build the Requirements Specification and write it to a markdown file
+#' Build the Requirements Specification and write it to output file(s)
 #' @importFrom purrr map walk
 #' @importFrom dplyr distinct filter group_rows slice
 #' @importFrom glue glue
