@@ -26,7 +26,7 @@ format_spec <- function(x) {
   }
 
   tst <- x %>%
-    select(`test ID` = .data$TestId, `test name` = .data$TestName)
+    select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
   tst_tab <- knitr::kable(tst, format="markdown")
   c(header,
     bod, "\n\n",

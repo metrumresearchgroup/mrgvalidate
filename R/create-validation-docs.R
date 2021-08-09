@@ -10,6 +10,10 @@
 #'   the requirements document.
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
+#' @param write Whether to create the output docs. Setting this to `FALSE` is
+#'   useful when you're just interested in the return value.
+#' @return In addition to creating the validation docs, a tibble that joins the
+#'   tests with `specs` is returned invisibly.
 #' @importFrom dplyr bind_rows full_join mutate rename
 #' @importFrom purrr map_chr
 #' @importFrom tidyr nest unnest
@@ -19,7 +23,7 @@ create_validation_docs <- function
 (
   product_name, version, specs,
   auto_test_dir = NULL, man_test_dir = NULL, roles = NULL,
-  output_dir = getwd()
+  output_dir = getwd(), write = TRUE
 ) {
 
   if (is.null(auto_test_dir) && is.null(man_test_dir)) {
@@ -55,7 +59,8 @@ create_validation_docs <- function
       rename(man_test_content = .data$content)
   }
 
-  tests <- bind_rows(results)
+  tests <- check_test_input(bind_rows(results))
+
   dd <- specs %>%
     unnest(.data$TestIds) %>%
     rename(TestId = .data$TestIds)  %>%
@@ -64,34 +69,36 @@ create_validation_docs <- function
                    .data$passed, .data$failed, .data$man_test_content,
                    .data$result_file))
 
-  write_requirements(
-    dd,
-    product_name,
-    version,
-    roles = roles,
-    out_file = REQ_FILE,
-    output_dir = output_dir,
-    word_document = TRUE
-  )
+  if (isTRUE(write)) {
+    write_requirements(
+      dd,
+      product_name,
+      version,
+      roles = roles,
+      out_file = REQ_FILE,
+      output_dir = output_dir,
+      word_document = TRUE
+    )
 
-  write_traceability_matrix(
-    dd,
-    product_name,
-    version,
-    out_file = MAT_FILE,
-    output_dir = output_dir,
-    word_document = TRUE
-  )
+    write_traceability_matrix(
+      dd,
+      product_name,
+      version,
+      out_file = MAT_FILE,
+      output_dir = output_dir,
+      word_document = TRUE
+    )
 
-  write_validation_testing(
-    product_name,
-    version,
-    tests,
-    auto_info,
-    out_file = VAL_FILE,
-    output_dir = output_dir,
-    word_document = TRUE
-  )
+    write_validation_testing(
+      product_name,
+      version,
+      tests,
+      auto_info,
+      out_file = VAL_FILE,
+      output_dir = output_dir,
+      word_document = TRUE
+    )
+  }
 
   return(invisible(dd))
 }
