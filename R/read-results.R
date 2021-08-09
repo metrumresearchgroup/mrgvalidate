@@ -6,7 +6,7 @@
 #'   metadata information for each test result set ("info").
 #' @importFrom glue glue
 #' @importFrom purrr map reduce
-#' @importFrom readr read_csv
+#' @importFrom readr read_csv cols
 #' @importFrom stringr str_replace fixed
 #' @importFrom tibble add_column
 #' @export
