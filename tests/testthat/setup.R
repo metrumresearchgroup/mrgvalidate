@@ -30,7 +30,7 @@ REQ_BOILER <- '
 ## Scope
 
 The purpose of this document is to define specific criteria for each testing
-task.  Testing shall be conducted in accordance to the requirements within this
+task.  Testing shall be conducted in accordance with the requirements within this
 document. The Requirement Specifications ensure that each requirement is tested.
 '
 
