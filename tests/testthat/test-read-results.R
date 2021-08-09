@@ -1,6 +1,5 @@
 test_that("read_csv_test_results() can read test results", {
-  output_dir <- system.file("validation-results-sample",
-                            package = "mrgvalidate")
+  output_dir <- file.path(TEST_INPUTS_DIR, "validation-results-sample")
   tres <- read_csv_test_results(output_dir)
 
   df <- tres$results
@@ -23,5 +22,20 @@ test_that("read_csv_test_results() errors if JSON sidecar is missing", {
     file.create("dummy.csv")
     expect_error(read_csv_test_results(getwd()),
                  class = "mrgvalidate_missing_result_info")
+  })
+})
+
+test_that("read_manual_test_results() works correctly", {
+  output_dir <- file.path(TEST_INPUTS_DIR, "manual-tests-sample")
+  res_df <- read_manual_test_results(output_dir)
+
+  expect_setequal(names(res_df),
+                  c("TestId", "content",
+                    "TestName", "date"))
+
+  purrr::walk(names(res_df), function(.n) {
+    expect_true(inherits(res_df[[.n]], "character"))
+    expect_true(all(purrr::map_lgl(res_df[[.n]], ~!is.null(.x))))
+    expect_true(all(purrr::map_lgl(res_df[[.n]], ~nchar(.x) > 1)))
   })
 })

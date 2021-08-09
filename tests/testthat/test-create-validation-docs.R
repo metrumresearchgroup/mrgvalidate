@@ -1,5 +1,3 @@
-context("Test full wrapper")
-
 library(stringr)
 
 test_that("create_validation_docs() renders markdown", {
