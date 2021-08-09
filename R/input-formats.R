@@ -49,7 +49,7 @@
 #' * TestId: a unique identifier of the test. This field is used to map tests
 #' to stories/requirements.
 #'
-#' For `testthat` tests, the [mrgvalprep::parse_testthat_list_reporter()] helper can be used
+#' For `testthat` tests, the `mrgvalprep::parse_testthat_list_reporter()` helper can be used
 #' to convert [testthat::ListReporter] results into the above format.
 #'
 #' Alongside each CSV, there must be a JSON file with the same base name. This
@@ -68,7 +68,7 @@
 #' }
 #' ```
 #'
-#' The [mrgvalprep::get_sys_info()] helper can be used to capture various system details and
+#' The `mrgvalprep::get_sys_info()` helper can be used to capture various system details and
 #' write them to a JSON file.
 #'
 #' ## Manual tests
@@ -78,7 +78,7 @@
 #' The path will be passed to `man_test_dir` argument of
 #' [create_validation_docs()].
 #'
-#' @seealso [mrgvalprep::parse_testthat_list_reporter()], [mrgvalprep::get_sys_info()]
+#' @seealso `mrgvalprep::parse_testthat_list_reporter()`, `mrgvalprep::get_sys_info()`
 #'
 #' @name input_formats
 NULL
