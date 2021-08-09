@@ -2,27 +2,21 @@ context("Test full wrapper")
 
 library(stringr)
 
-test_that("create_validation_docs() renders", {
-
-  abort("THESE TESTS ARENT IMPLEMENTED YET")
-
+test_that("create_validation_docs() renders markdown", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
 
-  specs <- data.frame() ### NEED TO ADD A TEST DF FOR THIS
-                          # (pull some subset of the googlesheet and write to inst?)
-  roles <- data.frame()   # same as ^
-
   mrgvalidate::create_validation_docs(
     product_name = "Metworx TEST",
     version = "vFAKE",
-    specs,
-    auto_test_dir = system.file("validation-results-sample", package = "mrgvalidate"),
-    man_test_dir = system.file("manual-tests-sample", package = "mrgvalidate"), ##### NEED TO ADD SOME SAMPLES HERE
-    roles = roles
+    specs = readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")),
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
+    roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
+    output_dir = output_dir
   )
 
   # check that files exist
@@ -46,5 +40,36 @@ test_that("create_validation_docs() renders", {
   mat_text <- readr::read_file(file.path(output_dir, MAT_FILE))
   expect_true(str_detect(mat_text, MAT_TITLE))
   expect_true(str_detect(mat_text, MAT_BOILER))
+
+})
+
+
+test_that("create_validation_docs() returns data df", {
+  # set up clean docs output dir
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit({ fs::dir_delete(output_dir) })
+
+  res_df <- mrgvalidate::create_validation_docs(
+    product_name = "Metworx TEST",
+    version = "vFAKE",
+    specs = readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")),
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
+    roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
+    output_dir = output_dir # CHANGE TO write = FALSE
+  )
+
+  expect_true(nrow(res_df) > 1)
+  expect_equal(names(res_df), CREATE_OUT_DF_NAMES)
+
+  purrr::walk(names(res_df)[1:ncol(res_df)-1], function(.n) {
+    expect_true(inherits(res_df[[.n]], "character"))
+    expect_true(all(purrr::map_lgl(res_df[[.n]], ~!is.null(.x))))
+    expect_true(all(purrr::map_lgl(res_df[[.n]], ~nchar(.x) > 1)))
+  })
+  expect_true(inherits(res_df$tests, "list"))
+  expect_true(all(purrr::map_lgl(res_df$tests, ~inherits(.x, "tbl_df"))))
 
 })
