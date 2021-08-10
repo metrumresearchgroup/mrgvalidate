@@ -25,19 +25,29 @@ test_that("create_validation_docs() renders markdown", {
   expect_true(fs::file_exists(file.path(output_dir, VAL_FILE)))
   expect_true(fs::file_exists(file.path(output_dir, MAT_FILE)))
 
+  # get TestId's we expect to see
+  test_ids <- c(
+    read_csv_test_results(file.path(TEST_INPUTS_DIR, "validation-results-sample"))$results %>% pull(TestId),
+    read_manual_test_results(file.path(TEST_INPUTS_DIR, "manual-tests-sample")) %>% pull(TestId)
+  ) %>% unique()
+
+
   # check that the markdown looks right
   # DO WE WANT TO HAVE GOLDEN FILES THAT WE CHECK AGAINST OR IS THIS ENOUGH?
   req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
   expect_true(str_detect(req_text, REQ_TITLE))
   expect_true(str_detect(req_text, REQ_BOILER))
+  expect_true(all(str_detect(req_text, test_ids)))
 
   val_text <- readr::read_file(file.path(output_dir, VAL_FILE))
   expect_true(str_detect(val_text, VAL_TITLE))
   expect_true(str_detect(val_text, VAL_BOILER))
+  expect_true(all(str_detect(val_text, test_ids)))
 
   mat_text <- readr::read_file(file.path(output_dir, MAT_FILE))
   expect_true(str_detect(mat_text, MAT_TITLE))
   expect_true(str_detect(mat_text, MAT_BOILER))
+  expect_true(all(str_detect(mat_text, test_ids)))
 
 })
 
