@@ -17,3 +17,4 @@ metadata information for each test result set ("info").
 \description{
 Read test results from CSV files in a directory.
 }
+\keyword{internal}
