@@ -11,6 +11,7 @@ create_validation_docs(
   auto_test_dir = NULL,
   man_test_dir = NULL,
   roles = NULL,
+  style_dir = NULL,
   output_dir = getwd(),
   write = TRUE
 )
@@ -27,6 +28,11 @@ and manual test output files. See \link{input_formats}.}
 
 \item{roles}{A data frame of user roles that, if specified, is inserted into
 the requirements document.}
+
+\item{style_dir}{Directory that has style references for the generated docx
+files. When generating each output file, Pandoc will be instructed to use
+the reference file from this directory that has the same base name (if it
+exists).}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
