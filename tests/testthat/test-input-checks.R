@@ -9,7 +9,10 @@ TEST_RESULTS <- tibble::tribble(
 # within withr::with_tempdir()).
 setup_test_results <- function() {
   readr::write_csv(TEST_RESULTS, "t.csv")
-  get_sys_info(out_path = "t.json")
+  fs::file_copy(
+    file.path(TEST_INPUTS_DIR, "validation-results-sample", "vscode-julia-results.json"),
+    "t.json"
+  )
 }
 
 SPECS <- tibble::tribble(
