@@ -6,10 +6,10 @@
 #'   metadata information for each test result set ("info").
 #' @importFrom glue glue
 #' @importFrom purrr map reduce
-#' @importFrom readr read_csv
+#' @importFrom readr read_csv cols
 #' @importFrom stringr str_replace fixed
 #' @importFrom tibble add_column
-#' @export
+#' @keywords internal
 read_csv_test_results <- function(test_output_dir) {
   csv_files <- list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE)
   json_files <- str_replace(csv_files, "\\.csv$", ".json")
@@ -48,7 +48,7 @@ read_csv_test_results <- function(test_output_dir) {
 #' @importFrom readr read_file
 #' @importFrom stringr str_replace str_replace_all fixed
 #' @importFrom tidyr extract
-#' @export
+#' @keywords internal
 read_manual_test_results <- function(test_output_dir) {
   # Drop trailing slash to avoid ugly "//" in returned value (e.g.,
   # ".../foo//MAN-VSC-001").

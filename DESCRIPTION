@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",
@@ -35,7 +35,6 @@ Imports:
     dplyr,
     fs,
     glue,
-    ghpm (>= 0.5.1),
     knitr,
     magrittr,
     processx,
@@ -43,18 +42,16 @@ Imports:
     readr,
     rlang,
     rmarkdown,
+    stringr,
     testthat,
     tibble,
     tidyr,
-    withr (>= 2.3.0),
-    googlesheets4
+    withr (>= 2.3.0)
 Suggests:
     checkmate,
     digest,
     jsonlite,
-    stringr,
     yaml,
     forcats,
-    cli,
-    httpuv
+    cli
 Roxygen: list(markdown = TRUE)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/write-validation-testing.R
 \name{write_validation_testing}
 \alias{write_validation_testing}
-\title{Build the Validation Testing document and write it to a markdown file}
+\title{Build the Validation Testing document and write it to output file(s)}
 \usage{
 write_validation_testing(
   product,
@@ -49,3 +49,4 @@ written as tables of results, one per result file (\code{.csv} file found in
 have their \code{content} sections rendered sequentially below the automated
 tests.
 }
+\keyword{internal}

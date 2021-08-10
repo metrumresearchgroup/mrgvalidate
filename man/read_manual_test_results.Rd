@@ -17,3 +17,4 @@ test's assets subdirectory are switched from relative to absolute paths.
 \description{
 Read manual test results.
 }
+\keyword{internal}
