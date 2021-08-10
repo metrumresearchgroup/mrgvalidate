@@ -41,8 +41,7 @@ requirements and test specifications, are listed in the Requirements Specificati
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%
     unnest(cols = c(.data$tests)) %>%
-    filter(!is.na(.data$passed)) %>%
-    arrange(.data$StoryId, .data$RequirementId, .data$TestId)
+    filter(!is.na(.data$passed))
 
   mat <- if ("RequirementId" %in% names(mat)) {
     arrange(mat, .data$StoryId, .data$RequirementId, .data$TestId)
