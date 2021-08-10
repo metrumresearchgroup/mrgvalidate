@@ -12,3 +12,6 @@ inst/doc
 all_tests.csv
 *.md
 *.docx
+
+renv/*
+pkgr.yml
