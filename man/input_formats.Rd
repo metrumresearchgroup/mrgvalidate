@@ -26,8 +26,8 @@ for the software being validated. Will be passed to \code{specs} argument of
 "Low", "Medium", "High", etc.)
 \item RequirementId (Optional): unique identifier of technical requirement
 associated with story. If included, there can be >1 requirement per story,
-each on its own line, in which case the first four columns will be repeated
-for each requirement.
+each with its own row in the table, in which case the first four columns will
+be repeated for each requirement.
 \item RequirementDescription (Optional): plain text description of the
 requirement
 \item TestIds: unique identifiers for tests that validate this requirement or

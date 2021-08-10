@@ -27,8 +27,8 @@
 #'
 #' * RequirementId (Optional): unique identifier of technical requirement
 #' associated with story. If included, there can be >1 requirement per story,
-#' each on its own line, in which case the first four columns will be repeated
-#' for each requirement.
+#' each with its own row in the table, in which case the first four columns will
+#' be repeated for each requirement.
 #'
 #' * RequirementDescription (Optional): plain text description of the
 #' requirement
