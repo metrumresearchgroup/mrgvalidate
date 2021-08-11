@@ -31,7 +31,7 @@ format_spec <- function(x) {
   c(header,
     bod, "\n\n",
     "**Product risk**: ", risk, "\n\n",
-    ifelse(is.null(reqs), "", c("**Summary**\n", reqs, "\n\n")),
+    if(is.null(reqs)) "" else c("**Summary**\n", reqs, "\n\n"),
     "**Tests**\n\n", tst_tab)
 }
 

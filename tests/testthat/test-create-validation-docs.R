@@ -7,10 +7,11 @@ test_that("create_validation_docs() renders markdown", {
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
 
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
   mrgvalidate::create_validation_docs(
     product_name = "Metworx TEST",
     version = "vFAKE",
-    specs = readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")),
+    specs = specs,
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
@@ -37,7 +38,8 @@ test_that("create_validation_docs() renders markdown", {
   req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
   expect_true(str_detect(req_text, REQ_TITLE))
   expect_true(str_detect(req_text, REQ_BOILER))
-  expect_true(all(str_detect(req_text, test_ids)))
+  expect_true(str_detect(req_text, REQ_TITLE))
+  expect_true(all(str_detect(req_text, specs$RequirementId)))
 
   val_text <- readr::read_file(file.path(output_dir, VAL_FILE))
   expect_true(str_detect(val_text, VAL_TITLE))
@@ -98,7 +100,6 @@ test_that("create_validation_docs() works with no requirements", {
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
     output_dir = output_dir,
-    write = FALSE
   )
 
   expect_true(nrow(res_df) > 1)
@@ -115,4 +116,7 @@ test_that("create_validation_docs() works with no requirements", {
   expect_true(inherits(res_df$tests, "list"))
   expect_true(all(purrr::map_lgl(res_df$tests, ~inherits(.x, "tbl_df"))))
 
+  req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
+  # Summary of requirements is dropped if there are no requirements.
+  expect_false(str_detect(req_text, "Summary"))
 })
