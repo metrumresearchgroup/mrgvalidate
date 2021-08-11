@@ -34,6 +34,13 @@ not linked to a story.
 It returns their results in a list and also displays messages about the
 results.
 }
+\details{
+The requirement columns (RequirementId and RequirementDescription) are
+optional (see \link{input_formats}). If not present, \code{find_tests_without_reqs()}
+and \code{find_reqs_with_missing_tests()} use stories in place of requirements.
+\code{find_reqs_without_stories()}, on the other hand, errors if the columns
+aren't present because it can't do anything sensible without them.
+}
 \seealso{
 \code{\link[=create_validation_docs]{create_validation_docs()}}, \link{input_formats}
 }
