@@ -54,6 +54,10 @@ to stories/requirements.
 For \code{testthat} tests, the \code{mrgvalprep::parse_testthat_list_reporter()} helper can be used
 to convert \link[testthat:ListReporter]{testthat::ListReporter} results into the above format.
 
+Note that if TestName and TestId columns are identical,
+\code{\link[=create_validation_docs]{create_validation_docs()}} will auto-generate IDs. This is a temporary kludge
+to support legacy tests and GitHub issues that don't use test IDs.
+
 Alongside each CSV, there must be a JSON file with the same base name. This
 file includes information about the run itself (e.g., the date it was
 executed and system details). At the minimum, it must have a "date" field.
