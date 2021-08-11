@@ -8,6 +8,7 @@ test_that("create_validation_docs() renders markdown", {
   on.exit({ fs::dir_delete(output_dir) })
 
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
+  specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
   mrgvalidate::create_validation_docs(
     product_name = "Metworx TEST",
     version = "vFAKE",
@@ -50,7 +51,7 @@ test_that("create_validation_docs() renders markdown", {
   expect_true(str_detect(mat_text, MAT_TITLE))
   expect_true(str_detect(mat_text, MAT_BOILER))
   expect_true(all(str_detect(mat_text, test_ids)))
-
+  expect_false(str_detect(mat_text, "LINE2!!"))
 })
 
 

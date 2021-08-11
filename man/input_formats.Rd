@@ -21,7 +21,9 @@ for the software being validated. Will be passed to \code{specs} argument of
 \itemize{
 \item StoryId: unique identifier for the story
 \item StoryName: short name of story (ideally 5-8 words max, but no hard limit)
-\item StoryDescription: body of the story ("As a user,...")
+\item StoryDescription: body of the story ("As a user,..."). This will be dumped
+as is into the requirements document. The text up to the first new line will
+be used the value of the "User Story" column in the traceability matrix.
 \item ProductRisk: specify the risk to the product of this story (typically
 "Low", "Medium", "High", etc.)
 \item RequirementId (Optional): unique identifier of technical requirement
