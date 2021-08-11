@@ -34,7 +34,8 @@ test_that("check_test_input() aborts on repeated IDs", {
   input <- TEST_RESULTS %>%
     dplyr::add_row(TestId = "FOO-BAR-001", TestName = "t4",
                    passed = 1, failed = 0)
-  expect_error(res <- check_test_input(input), class = )
+  expect_error(res <- check_test_input(input),
+               class = "mrgvalidate_input_error")
 })
 
 test_that("find_missing() returns missing pieces and prints messages", {
