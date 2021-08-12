@@ -68,13 +68,15 @@ Specification document.
 ')
   cat(file = out_file,  val_boiler,"\n")
 
-  # add automated test outputs
-  cat(file = out_file,  "\n# Automated Test Results\n", append = TRUE)
+  auto_tests <- filter(tests, .data$test_type == "automatic")
+  if (nrow(auto_tests) != 0) {
+    # add automated test outputs
+    cat(file = out_file,  "\n# Automated Test Results\n", append = TRUE)
 
-  walk(names(auto_info), ~ {
-    .suite <- auto_info[[.x]]
+    walk(names(auto_info), ~ {
+      .suite <- auto_info[[.x]]
 
-    val_info <- glue('
+      val_info <- glue('
 
 ### {.x}
 
@@ -86,28 +88,30 @@ Specification document.
 
 ')
 
-    # filter to relevant tests
-    test_df <- tests %>%
-      filter(.data$result_file == .x) %>%
-      select(
-        `Test ID` = .data$TestId,
-        `Test name` = .data$TestName,
-        .data$passed,
-        .data$failed
-      )
+      # filter to relevant tests
+      test_df <- auto_tests %>%
+        filter(.data$result_file == .x) %>%
+        select(
+          `Test ID` = .data$TestId,
+          `Test name` = .data$TestName,
+          .data$passed,
+          .data$failed
+        )
 
-    # write to file
-    cat(file = out_file,  val_info, sep = "\n", append = TRUE)
-    cat(file = out_file, knitr::kable(test_df), sep = "\n", append = TRUE)
-  })
+      # write to file
+      cat(file = out_file,  val_info, sep = "\n", append = TRUE)
+      cat(file = out_file, knitr::kable(test_df), sep = "\n", append = TRUE)
+    })
+  }
 
   # write manual test outputs
-  cat(file = out_file,  "\n# Manual Test Results\n", append = TRUE)
 
-  tests %>%
-    filter(.data$test_type == "manual") %>%
-    pull(.data$man_test_content) %>%
-    walk(~ cat(file = out_file,  glue("\n{.x}\n\n"), append = TRUE))
+  man_tests <- filter(tests, .data$test_type == "manual")
+  if (nrow(man_tests) != 0) {
+    cat(file = out_file,  "\n# Manual Test Results\n", append = TRUE)
+    pull(man_tests, .data$man_test_content) %>%
+      walk(~ cat(file = out_file,  glue("\n{.x}\n\n"), append = TRUE))
+  }
 
   message(glue("Finished writing to {out_file}"))
 

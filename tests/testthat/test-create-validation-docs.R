@@ -85,6 +85,43 @@ test_that("create_validation_docs() returns data df", {
 
 })
 
+test_that("create_validation_docs() drops missing test types", {
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit(fs::dir_delete(output_dir))
+
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
+
+  outdir_auto <- file.path(output_dir, "auto")
+  fs::dir_create(outdir_auto)
+
+  create_validation_docs(
+    product_name = "Metworx TEST",
+    version = "vFAKE",
+    specs = specs,
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    output_dir = outdir_auto)
+
+  val_text_auto <- readr::read_file(file.path(outdir_auto, VAL_FILE))
+  expect_true(str_detect(val_text_auto, "# Automated Test Results"))
+  expect_false(str_detect(val_text_auto, "# Manual Test Results"))
+
+  outdir_man <- file.path(output_dir, "man")
+  fs::dir_create(outdir_man)
+
+  create_validation_docs(
+    product_name = "Metworx TEST",
+    version = "vFAKE",
+    specs = specs,
+    man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
+    output_dir = outdir_man)
+
+  val_text_man <- readr::read_file(file.path(outdir_man, VAL_FILE))
+  expect_false(str_detect(val_text_man, "# Automated Test Results"))
+  expect_true(str_detect(val_text_man, "# Manual Test Results"))
+})
+
 test_that("create_validation_docs() works with no requirements", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
