@@ -21,11 +21,7 @@ write_validation_testing(
 \item{version}{The version number of the product you are validating, to be included in the output document.}
 
 \item{tests}{Tibble containing all test results, FORMAT: CREATED ON LINE 59
-OF \code{generate-docs.R} in \code{\link[=create_validation_docs]{create_validation_docs()}}. ** TODO: If we're gonna
-export this function we're gonna need to spell out what this tibble
-actually needs to look like so that someone could theoretically constuct
-it. We may just wanna make these \verb{write_*} functions private though. When
-would someone need to call them?**}
+OF \code{generate-docs.R} in \code{\link[=create_validation_docs]{create_validation_docs()}}.}
 
 \item{auto_info}{A named list containing the test suite information pulled
 from the \code{.json} files found in \code{auto_test_dir}, one element per \code{.json}
