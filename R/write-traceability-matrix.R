@@ -7,6 +7,7 @@
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
 #' @importFrom rlang .data
+#' @importFrom stringr str_extract str_trim
 #' @importFrom fs dir_exists dir_create
 #' @param df Tibble containing stories, requirements, and tests. Created in
 #'   [create_validation_docs()].
@@ -54,7 +55,8 @@ requirements and test specifications, are listed in the Requirements Specificati
 
   mat <- group_by(mat, .data$StoryId) %>%
     summarise(test_ids = paste0(.data$TestId, collapse = " "),
-              description = first(.data$StoryDescription))
+              description = first(.data$StoryDescription)) %>%
+    mutate(description = str_extract(str_trim(.data$description), "^.+"))
 
   mat_out <- select(
     mat,
