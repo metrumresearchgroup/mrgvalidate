@@ -18,8 +18,9 @@
 #'   useful when you're just interested in the return value.
 #' @return In addition to creating the validation docs, a tibble that joins the
 #'   tests with `specs` is returned invisibly.
-#' @importFrom dplyr bind_rows full_join mutate rename
+#' @importFrom dplyr bind_rows full_join mutate recode rename select
 #' @importFrom purrr map_chr
+#' @importFrom stringr str_pad
 #' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
 #' @export
@@ -69,10 +70,30 @@ create_validation_docs <- function
   dd <- specs %>%
     unnest(.data$TestIds) %>%
     rename(TestId = .data$TestIds)  %>%
-    full_join(tests, by = "TestId") %>%
-    nest(tests = c(.data$TestId, .data$TestName,
-                   .data$passed, .data$failed, .data$man_test_content,
-                   .data$result_file))
+    full_join(tests, by = "TestId")
+
+  # Kludge to support legacy tests/specs without IDs.
+  if (all(tests$TestId == tests$TestName)) {
+    # TODO: Consider using lifecycle here.
+    warning("Automatically generating IDs because test IDs match test names.
+This is a temporary kludge to make mrgvalidate >= 1.0 work with old style
+issues/tests. For new tests, please assign test IDs. ")
+    prefix <- substr(toupper(product_name), 1, min(4, nchar(product_name)))
+    ntests <- nrow(tests)
+    id_map <- paste0(
+      prefix, "-",
+      str_pad(1:ntests, nchar(toString(ntests)), pad = "0"))
+    names(id_map) <- tests$TestId
+
+    tests <- mutate(tests, TestId = recode(.data$TestId, !!!id_map))
+    dd <- mutate(dd, TestId = recode(.data$TestId, !!!id_map))
+  }
+  # End of kludge.
+
+  dd <- nest(dd,
+             tests = c(.data$TestId, .data$TestName,
+                       .data$passed, .data$failed, .data$man_test_content,
+                       .data$result_file))
 
   if (isTRUE(write)) {
     write_requirements(

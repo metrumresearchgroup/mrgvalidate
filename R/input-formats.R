@@ -56,6 +56,10 @@
 #' For `testthat` tests, the `mrgvalprep::parse_testthat_list_reporter()` helper can be used
 #' to convert [testthat::ListReporter] results into the above format.
 #'
+#' Note that if TestName and TestId columns are identical,
+#' [create_validation_docs()] will auto-generate IDs. This is a temporary kludge
+#' to support legacy tests and GitHub issues that don't use test IDs.
+#'
 #' Alongside each CSV, there must be a JSON file with the same base name. This
 #' file includes information about the run itself (e.g., the date it was
 #' executed and system details). At the minimum, it must have a "date" field.

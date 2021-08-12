@@ -157,3 +157,50 @@ test_that("create_validation_docs() works with no requirements", {
   # Summary of requirements is dropped if there are no requirements.
   expect_false(str_detect(req_text, "Summary"))
 })
+
+test_that("create_validation_docs() can auto-assign test IDs", {
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit(fs::dir_delete(output_dir))
+
+  specs <- tibble::tribble(
+    ~StoryId, ~StoryName, ~StoryDescription, ~ProductRisk, ~TestIds,
+    "st001", "sn1", "story one", "low", c("name one", "name two"),
+    "st002", "sn2", "story two", "low", "name three")
+
+  auto_test_dir <- file.path(output_dir, "auto-tests")
+  fs::dir_create(auto_test_dir)
+  readr::write_csv(
+    tibble::tribble(
+      ~TestName, ~TestId, ~passed, ~failed,
+      "name one", "name one", 1, 0,
+      "name two", "name two", 1, 0,
+      "name three", "name three", 1, 0),
+    file.path(auto_test_dir, "justname.csv"))
+
+  fs::file_copy(
+    file.path(TEST_INPUTS_DIR, "validation-results-sample",
+              "util-results.json"),
+    file.path(auto_test_dir, "justname.json"))
+
+  expect_warning(
+    res_df <- create_validation_docs(
+      product_name = "Metworx TEST",
+      version = "vFAKE",
+      specs = specs,
+      auto_test_dir = auto_test_dir,
+      output_dir = output_dir),
+    "temporary kludge")
+
+  expected_ids <- c("METW-1", "METW-2", "METW-3")
+  expect_setequal(
+    res_df %>% unnest(tests) %>% pull(TestId) %>% unique(),
+    expected_ids)
+
+  for (.f in c(REQ_FILE, VAL_FILE, MAT_FILE)) {
+    text <- readr::read_file(file.path(output_dir, REQ_FILE))
+    expect_true(all(str_detect(text, expected_ids)),
+                label = paste0("IDs in ", .f))
+  }
+})
