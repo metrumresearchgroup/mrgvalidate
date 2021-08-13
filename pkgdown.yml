@@ -1,0 +1,10 @@
+pandoc: 2.3.1
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  basic_usage: basic_usage.html
+last_built: 2021-08-13T19:08Z
+urls:
+  reference: https://metrumresearchgroup.github.io/mrgvalidate/reference
+  article: https://metrumresearchgroup.github.io/mrgvalidate/articles
+
