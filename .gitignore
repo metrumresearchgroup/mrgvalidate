@@ -14,4 +14,3 @@ all_tests.csv
 *.docx
 
 renv/*
-pkgr.yml

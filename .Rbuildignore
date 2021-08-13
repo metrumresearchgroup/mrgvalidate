@@ -5,3 +5,4 @@
 ^.Rprofile$
 ^LICENSE\.md$
 ^docs/
+pkgr.yml
