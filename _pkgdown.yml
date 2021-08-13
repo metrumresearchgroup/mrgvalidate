@@ -1,0 +1,11 @@
+url: https://metrumresearchgroup.github.io/mrgvalprep
+
+title: mrgvalprep
+template:
+  params:
+    bootswatch: flatly
+navbar:
+  type: inverse
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/metrumresearchgroup/mrgvalprep

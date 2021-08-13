@@ -25,7 +25,7 @@ By default, this call will write `.md` and `.docx` files for all three documents
 
 ### Preprocessing and formatting input data
 
-`mrgvalidate requires a specific format for the input data. The [`mrgvalprep`](https://github.com/metrumresearchgroup/mrgvalprep) package exists to transform a variety of common data sources into the format required by `mrgvalidate`.
+`mrgvalidate` requires a specific format for the input data. [The `mrgvalprep` package](https://github.com/metrumresearchgroup/mrgvalprep)  exists to transform a variety of common data sources into the format required by `mrgvalidate`.
 
 ### Input checkers
 
