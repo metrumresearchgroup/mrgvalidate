@@ -1,8 +1,6 @@
 # mrgvalidate
 R package for generating validation documents for other R packages developed by Metrum.
 
-See [the "Basic Usage" vignette](https://metrumresearchgroup.github.io/mrgvalidate/articles/basic_usage.html) for details on how to use for your package, as well as the documents that will be generated.
-
 ## Installation
 
 Install from source by [pulling the tarball](https://github.com/metrumresearchgroup/mrgvalidate/releases) or use:
@@ -13,19 +11,26 @@ devtools::install_github("metrumresearchgroup/mrgvalidate")
 
 ## One liner usage
 
-If everything is configured correctly (as described in the vignette mentioned above) you should only have to run this single line:
+If all input data conforms to what is described in `?mrgvalidate::input_formats` you should only have to run this single line:
 ```
-mrgvalidate::generate_docs(
-  org = "metrumresearchgroup",
-  repo = "yourpackage",
-  milestone = "v0.1.0", # the name of the milestone in github
-  version = "0.1.0"     # the tag that will be pulled for testing
+create_validation_docs(
+  product_name = "Fake Product", 
+  version = "vFake", 
+  specs = spec_df,           # a tibble containing stories and requirements to validate
+  auto_test_dir = "some_dir" # directory containing automated test results
 )
 ```
 
-## Dependency management
+By default, this call will write `.md` and `.docx` files for all three documents into your working directory. See `?create_validation_docs` for other arguments to tweak how and where the documents are rendered.
 
-`mrgvalidate` will clone the package being validated, from the tag passed to the `milestone` argument. The package is then built and installed into a temporary directory. Dependencies are pulled from the `.libPaths()` inherited from the user's session. Any dependencies _not_ found in `.libPaths()` are installed into the temporary directory automatically. See `?validate_tests` for more details.
+### Preprocessing and formatting input data
+
+`mrgvalidate` requires a specific format for the input data. [The `mrgvalprep` package](https://github.com/metrumresearchgroup/mrgvalprep)  exists to transform a variety of common data sources into the format required by `mrgvalidate`.
+
+### Input checkers
+
+There are several helper functions for checking the linkage between stories/requirements and tests. See `?find_missing` for details.
+
 
 ## Development
 
@@ -44,4 +49,4 @@ isolation. To replicate this environment,
 
 4. restart session
 
-Then, launch R with the repo as the working directory (open the project in 
+Then, launch R with the repo as the working directory (open the project in RStudio). renv will activate and find the project library.

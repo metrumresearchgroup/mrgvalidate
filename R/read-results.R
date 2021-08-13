@@ -9,6 +9,7 @@
 #' @importFrom readr read_csv cols
 #' @importFrom stringr str_replace fixed
 #' @importFrom tibble add_column
+#' @importFrom jsonlite read_json
 #' @keywords internal
 read_csv_test_results <- function(test_output_dir) {
   csv_files <- list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE)

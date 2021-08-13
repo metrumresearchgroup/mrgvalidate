@@ -12,5 +12,7 @@ inst/doc
 all_tests.csv
 *.md
 *.docx
+!NEWS.md
+docs/
 
 renv/*
