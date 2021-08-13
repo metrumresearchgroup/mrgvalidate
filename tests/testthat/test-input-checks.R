@@ -41,8 +41,10 @@ test_that("check_test_input() aborts on repeated IDs", {
 test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
-    dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                 write = FALSE)
+    expect_warning(
+      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
+                                   write = FALSE),
+      "not mentioned in `specs`")
     expect_message(
       res_missing <- find_missing(dd),
       "2 missing piece\\(s\\) found\\. Check results")
@@ -68,8 +70,10 @@ test_that("find_missing() returns missing pieces and prints messages", {
 test_that("find_tests_without_reqs() returns tests without reqs", {
   withr::with_tempdir({
     setup_test_results()
-    dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                 write = FALSE)
+    expect_warning(
+      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
+                                   write = FALSE),
+      "not mentioned in `specs`")
 
     expected <- tibble::tribble(
       ~TestId, ~TestName,
@@ -90,8 +94,10 @@ test_that("find_tests_without_reqs() returns tests without reqs", {
 test_that("find_reqs_with_missing_tests() returns reqs without tests", {
   withr::with_tempdir({
     setup_test_results()
-    dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                 write = FALSE)
+    expect_warning(
+      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
+                                   write = FALSE),
+      "not mentioned in `specs`")
     expect_equal(
       find_reqs_with_missing_tests(dd),
       tibble::tribble(

@@ -205,3 +205,41 @@ test_that("create_validation_docs() can auto-assign test IDs", {
                 label = paste0("IDs in ", .f))
   }
 })
+
+test_that("create_validation_docs() drops orphan test IDs from testing docs", {
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit(fs::dir_delete(output_dir))
+
+  specs <- tibble::tribble(
+    ~StoryId, ~StoryName, ~StoryDescription, ~ProductRisk, ~TestIds,
+    "st001", "sn1", "story one", "low", "t001")
+
+  auto_test_dir <- file.path(output_dir, "auto-tests")
+  fs::dir_create(auto_test_dir)
+  readr::write_csv(
+    tibble::tribble(
+      ~TestName, ~TestId, ~passed, ~failed,
+      "name one", "t001", 1, 0,
+      "name two", "t002", 1, 0),
+    file.path(auto_test_dir, "t.csv"))
+
+  fs::file_copy(
+    file.path(TEST_INPUTS_DIR, "validation-results-sample",
+              "util-results.json"),
+    file.path(auto_test_dir, "t.json"))
+
+  expect_warning(
+    res_df <- create_validation_docs(
+      product_name = "Metworx TEST",
+      version = "vFAKE",
+      specs = specs,
+      auto_test_dir = auto_test_dir,
+      output_dir = output_dir),
+    "not mentioned in `specs`")
+
+  text <- readr::read_file(file.path(output_dir, VAL_FILE))
+  expect_true(str_detect(text, "t001"))
+  expect_false(str_detect(text, "t002"))
+})

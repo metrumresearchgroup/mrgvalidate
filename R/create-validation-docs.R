@@ -18,7 +18,7 @@
 #'   useful when you're just interested in the return value.
 #' @return In addition to creating the validation docs, a tibble that joins the
 #'   tests with `specs` is returned invisibly.
-#' @importFrom dplyr bind_rows full_join mutate recode rename select
+#' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
 #' @importFrom purrr map_chr
 #' @importFrom stringr str_pad
 #' @importFrom tidyr nest unnest
@@ -89,6 +89,22 @@ issues/tests. For new tests, please assign test IDs. ")
     dd <- mutate(dd, TestId = recode(.data$TestId, !!!id_map))
   }
   # End of kludge.
+
+  # write_validation_testing() takes the `tests` tibble directly. Drop the test
+  # IDs that aren't linked to `specs` because those IDs won't make it into the
+  # other docs.
+  testids_linked <- dd %>%
+    filter(!is.na(.data$StoryId), !is.na(.data$TestId)) %>%
+    pull(.data$TestId) %>%
+    unique()
+  tests_is_linked <- tests$TestId %in% testids_linked
+  n_unlinked <- sum(!tests_is_linked)
+
+  if (n_unlinked > 0) {
+    warning(glue("Dropping {n_unlinked} test(s) not mentioned in `specs`.
+Call find_tests_without_reqs() with the returned data frame to see them."))
+    tests <- tests[tests_is_linked, ]
+  }
 
   dd <- nest(dd,
              tests = c(.data$TestId, .data$TestName,
