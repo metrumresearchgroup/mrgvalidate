@@ -1,0 +1,14 @@
+{
+  "date": "2021-07-29 12:14:00",
+  "info": {
+    "sys": {
+      "sysname": "Darwin",
+      "version": "Darwin Kernel Version 20.5.0: Sat May  8 05:10:33 PDT 2021; root:xnu-7195.121.3~9/RELEASE_X86_64",
+      "release": "20.5.0",
+      "machine": "x86_64"
+    },
+    "env_vars": {
+      "METWORX_VERSION": "21.06-fake"
+    }
+  }
+}

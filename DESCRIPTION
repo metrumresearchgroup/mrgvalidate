@@ -1,7 +1,7 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: 
     c(person(given = "Devin",
            family = "Pastoor",
@@ -11,6 +11,10 @@ Authors@R:
            family = "Green",
            role = c("aut"),
            email = "seth127@gmail.com"),
+    person(given = "Kyle",
+           family = "Meyer",
+           role = c("aut"),
+           email = "kylea@metrumrg.com"),
     person(given = "Kyle T",
            family = "Baron",
            role = c("aut"),
@@ -31,7 +35,6 @@ Imports:
     dplyr,
     fs,
     glue,
-    ghpm (>= 0.5.1),
     knitr,
     magrittr,
     processx,
@@ -39,6 +42,7 @@ Imports:
     readr,
     rlang,
     rmarkdown,
+    stringr,
     testthat,
     tibble,
     tidyr,
@@ -47,7 +51,6 @@ Suggests:
     checkmate,
     digest,
     jsonlite,
-    stringr,
     yaml,
     forcats,
     cli

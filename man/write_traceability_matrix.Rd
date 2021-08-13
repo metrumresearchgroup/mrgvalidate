@@ -2,23 +2,28 @@
 % Please edit documentation in R/write-traceability-matrix.R
 \name{write_traceability_matrix}
 \alias{write_traceability_matrix}
-\title{Build the Traceability Matrix and write it to a output files}
+\title{Build the Traceability Matrix and write it to output file(s)}
 \usage{
 write_traceability_matrix(
   df,
-  pkg,
+  product,
   version,
+  style_dir = NULL,
   out_file = MAT_FILE,
   output_dir = getwd(),
   word_document = TRUE
 )
 }
 \arguments{
-\item{df}{Tibble output from \code{\link[=process_stories]{process_stories()}}.}
+\item{df}{Tibble containing stories, requirements, and tests. Created in
+\code{\link[=create_validation_docs]{create_validation_docs()}}.}
 
-\item{pkg}{The name of the package you are validating, to be included in the output document.}
+\item{product}{The name of the product you are validating, to be included in the output document.}
 
-\item{version}{The version number of the package you are validating, to be included in the output document.}
+\item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{style_dir}{Directory to check for a docx style reference that has the
+same base name as \code{out_file}.}
 
 \item{out_file}{filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 
@@ -27,5 +32,6 @@ write_traceability_matrix(
 \item{word_document}{Logical scaler indicating whether to render a docx document}
 }
 \description{
-Build the Traceability Matrix and write it to a output files
+Build the Traceability Matrix and write it to output file(s)
 }
+\keyword{internal}

@@ -26,3 +26,22 @@ mrgvalidate::generate_docs(
 ## Dependency management
 
 `mrgvalidate` will clone the package being validated, from the tag passed to the `milestone` argument. The package is then built and installed into a temporary directory. Dependencies are pulled from the `.libPaths()` inherited from the user's session. Any dependencies _not_ found in `.libPaths()` are installed into the temporary directory automatically. See `?validate_tests` for more details.
+
+## Development
+
+`mrgvalidate` uses [pkgr](https://github.com/metrumresearchgroup/pkgr) to manage 
+development dependencies and [renv](https://rstudio.github.io/renv/) to provide 
+isolation. To replicate this environment, 
+
+1. clone the repo
+
+2. install pkgr
+
+3. open package in an R session and run `renv::init(bare = TRUE)` 
+   - install `renv` > 0.8.3-4 into default `.libPaths()` if not already installed
+
+3. run `pkgr install` in terminal within package directory
+
+4. restart session
+
+Then, launch R with the repo as the working directory (open the project in 

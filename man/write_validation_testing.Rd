@@ -2,39 +2,47 @@
 % Please edit documentation in R/write-validation-testing.R
 \name{write_validation_testing}
 \alias{write_validation_testing}
-\title{Build the Validation Testing document and write it to a markdown file}
+\title{Build the Validation Testing document and write it to output file(s)}
 \usage{
 write_validation_testing(
-  org,
-  repo,
+  product,
   version,
-  domain = VALID_DOMAINS,
-  extra_test_dirs = NULL,
+  tests,
+  auto_info,
+  style_dir = NULL,
   out_file = VAL_FILE,
   output_dir = getwd(),
-  word_document = TRUE,
-  dry_run = FALSE
+  word_document = TRUE
 )
 }
 \arguments{
-\item{org}{Github organization that the repo is under}
+\item{product}{The name of the product you are validating, to be included in the output document.}
 
-\item{repo}{The name of the repo for the package you are validating}
+\item{version}{The version number of the product you are validating, to be included in the output document.}
 
-\item{version}{The version number of the package you are validating. This must correspond to a tag in the repo.}
+\item{tests}{Tibble containing all test results, FORMAT: CREATED ON LINE 59
+OF \code{generate-docs.R} in \code{\link[=create_validation_docs]{create_validation_docs()}}.}
 
-\item{domain}{Domain where repo lives. Either "github.com" or "ghe.metrumrg.com", defaulting to "github.com"}
+\item{auto_info}{A named list containing the test suite information pulled
+from the \code{.json} files found in \code{auto_test_dir}, one element per \code{.json}
+(named with the filename \emph{without} extension). \strong{Same note as \code{tests} about
+exporting and specs.}}
 
-\item{extra_test_dirs}{Character vector of paths (relative to package root dir) to directories that contain additional tests to run}
+\item{style_dir}{Directory to check for a docx style reference that has the
+same base name as \code{out_file}.}
 
-\item{out_file}{filename to write markdown file out to. Any extension will be ignored and replaced with .md}
+\item{out_file}{Filename to write markdown file out to. Any extension will be ignored and replaced with .md}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to working directory.}
 
 \item{word_document}{Logical scaler indicating whether to render a docx document}
-
-\item{dry_run}{Boolean indicating whether to clone repo and run tests (if FALSE) or skip those steps and look for test results in "all_tests.csv" instead (if TRUE). FALSE by default.}
 }
 \description{
-This function will pull
+This takes the input from automated and/or manual tests and writes them to a
+\code{.md} file (and optionally \code{.docx} file as well). The automated tests will be
+written as tables of results, one per result file (\code{.csv} file found in
+\code{auto_test_dir} passed to \code{\link[=create_validation_docs]{create_validation_docs()}}). The manual tests will
+have their \code{content} sections rendered sequentially below the automated
+tests.
 }
+\keyword{internal}

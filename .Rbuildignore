@@ -1,5 +1,8 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.Rprofile$
 ^LICENSE\.md$
 ^docs/
+pkgr.yml
