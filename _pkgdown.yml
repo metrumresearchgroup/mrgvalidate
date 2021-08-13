@@ -1,6 +1,6 @@
-url: https://metrumresearchgroup.github.io/mrgvalprep
+url: https://metrumresearchgroup.github.io/mrgvalidate
 
-title: mrgvalprep
+title: mrgvalidate
 template:
   params:
     bootswatch: flatly
@@ -8,4 +8,4 @@ navbar:
   type: inverse
   right:
   - icon: fa-github fa-lg
-    href: https://github.com/metrumresearchgroup/mrgvalprep
+    href: https://github.com/metrumresearchgroup/mrgvalidate
