@@ -17,6 +17,13 @@ test_that("read_csv_test_results() can read test results", {
                                   "^[0-9]+\\-[0-9]+\\-[0-9]+"))
 })
 
+test_that("read_csv_test_results() gives helpful error if no CSVs are found", {
+  withr::with_tempdir({
+    expect_error(read_csv_test_results(getwd()),
+                 class = "mrgvalidate_input_error")
+  })
+})
+
 test_that("read_csv_test_results() errors if JSON sidecar is missing", {
   withr::with_tempdir({
     file.create("dummy.csv")

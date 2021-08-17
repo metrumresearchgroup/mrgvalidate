@@ -13,6 +13,12 @@
 #' @keywords internal
 read_csv_test_results <- function(test_output_dir) {
   csv_files <- list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE)
+  if (length(csv_files) == 0) {
+    rlang::abort(
+      glue("No .csv files found in {test_output_dir}"),
+      "mrgvalidate_input_error")
+  }
+
   json_files <- str_replace(csv_files, "\\.csv$", ".json")
 
   for (.j in json_files) {
