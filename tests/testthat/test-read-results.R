@@ -46,3 +46,10 @@ test_that("read_manual_test_results() works correctly", {
     expect_true(all(purrr::map_lgl(res_df[[.n]], ~nchar(.x) > 1)))
   })
 })
+
+test_that("read_manual_test_results() gives helpful error on empty input", {
+  withr::with_tempdir({
+    expect_error(read_manual_test_results(getwd()),
+                 class = "mrgvalidate_input_error")
+  })
+})
