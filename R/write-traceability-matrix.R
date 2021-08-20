@@ -36,9 +36,9 @@ write_traceability_matrix <- function(
 
 ## Scope
 
-This traceability matrix links requirement specifications and test results to
-specific user stories for the proposed software release. User stories, including
-requirements and test specifications, are listed in the Requirements Specification.
+This Traceability Matrix links test results to specific user stories for the 
+proposed software release. User stories, including requirements and test specifications, 
+are listed in the Requirements Specification.
 
 ')
 
