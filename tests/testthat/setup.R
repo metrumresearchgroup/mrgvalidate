@@ -38,8 +38,8 @@ MAT_TITLE <- "# Traceability Matrix"
 MAT_BOILER <- '
 ## Scope
 
-This traceability matrix links requirement specifications and test results to
-specific user stories for the proposed software release. User stories, including
-requirements and test specifications, are listed in the Requirements Specification.
+This Traceability Matrix links test results to specific user stories for the 
+proposed software release. User stories, including requirements and test specifications, 
+are listed in the Requirements Specification.
 '
 
