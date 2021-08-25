@@ -13,6 +13,12 @@
 #' @keywords internal
 read_csv_test_results <- function(test_output_dir) {
   csv_files <- list.files(test_output_dir, pattern = "\\.csv$", full.names = TRUE)
+  if (length(csv_files) == 0) {
+    rlang::abort(
+      glue("No .csv files found in {test_output_dir}"),
+      "mrgvalidate_input_error")
+  }
+
   json_files <- str_replace(csv_files, "\\.csv$", ".json")
 
   for (.j in json_files) {
@@ -56,6 +62,12 @@ read_manual_test_results <- function(test_output_dir) {
   test_output_dir <- str_replace(test_output_dir, "/$", "")
   testdirs <- list.files(test_output_dir, pattern = "^MAN-[A-Z]+-[0-9]+",
                          full.names = TRUE)
+  if (length(testdirs) == 0) {
+    rlang::abort(
+      glue("No 'MAN-[A-Z]+-[0-9]+' directories found in {test_output_dir}"),
+      "mrgvalidate_input_error")
+  }
+
   results <- map_dfr(testdirs, function(.dir) {
     .id <- basename(.dir)
     abs_asset_path <- file.path(.dir, paste0("assets_", .id))

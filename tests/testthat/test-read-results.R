@@ -17,6 +17,13 @@ test_that("read_csv_test_results() can read test results", {
                                   "^[0-9]+\\-[0-9]+\\-[0-9]+"))
 })
 
+test_that("read_csv_test_results() gives helpful error if no CSVs are found", {
+  withr::with_tempdir({
+    expect_error(read_csv_test_results(getwd()),
+                 class = "mrgvalidate_input_error")
+  })
+})
+
 test_that("read_csv_test_results() errors if JSON sidecar is missing", {
   withr::with_tempdir({
     file.create("dummy.csv")
@@ -37,5 +44,12 @@ test_that("read_manual_test_results() works correctly", {
     expect_true(inherits(res_df[[.n]], "character"))
     expect_true(all(purrr::map_lgl(res_df[[.n]], ~!is.null(.x))))
     expect_true(all(purrr::map_lgl(res_df[[.n]], ~nchar(.x) > 1)))
+  })
+})
+
+test_that("read_manual_test_results() gives helpful error on empty input", {
+  withr::with_tempdir({
+    expect_error(read_manual_test_results(getwd()),
+                 class = "mrgvalidate_input_error")
   })
 })
