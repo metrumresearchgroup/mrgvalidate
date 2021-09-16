@@ -79,8 +79,35 @@ write them to a JSON file.
 
 \subsection{Manual tests}{
 
-\emph{(fill in when settled)}
-For manual tests, a directory containing...
+For manual tests, a directory containing test subdirectories named by
+test ID, one subdirectory per manual test. For example:\preformatted{|-- MAN-ACC-001
+|   |-- assets_MAN-ACC-001
+|   |   `-- SSH-Access-1.png
+|   `-- test.md
+|-- MAN-ACC-002
+|   |-- assets_MAN-ACC-002
+|   |   |-- Guacamole-UI-1.png
+|   |   `-- Guacamole-UI-2.png
+|   `-- test.md
+}
+
+Each subdirectory must adhere to the following:
+\itemize{
+\item The subdirectory (and therefore the test ID) \emph{must} begin with \verb{MAN-}.
+\item It must contain a file called \code{test.md} which contains the user story, etc.
+\item If there are any images or other content linked in the \code{test.md} file,
+those files \emph{must} be in a subdirectory (in the same directory as the relevant \code{test.md})
+named \verb{assets_[test ID]}.
+\item The \code{test.md} file must have the following structure:
+\itemize{
+\item A subheading starting with \verb{## [test ID]: [test name]} at the top. The "test name"
+will be parsed through into the validation docs.
+\item A date that the test was run, on a line beginning with \verb{* date: [date the test was run]}
+\item Any other content you want parsed through into the Validation Testing document. For example,
+test description, run details, test results, links to images, etc.
+}
+}
+
 The path will be passed to \code{man_test_dir} argument of
 \code{\link[=create_validation_docs]{create_validation_docs()}}.
 }

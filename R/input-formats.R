@@ -83,8 +83,42 @@
 #'
 #' ## Manual tests
 #'
-#' _(fill in when settled)_
-#' For manual tests, a directory containing...
+#' For manual tests, a directory containing test subdirectories named by
+#' test ID, one subdirectory per manual test. For example:
+#'
+#' ```
+#' |-- MAN-ACC-001
+#' |   |-- assets_MAN-ACC-001
+#' |   |   `-- SSH-Access-1.png
+#' |   `-- test.md
+#' |-- MAN-ACC-002
+#' |   |-- assets_MAN-ACC-002
+#' |   |   |-- Guacamole-UI-1.png
+#' |   |   `-- Guacamole-UI-2.png
+#' |   `-- test.md
+#' ```
+#'
+#' Each subdirectory must adhere to the following:
+#'
+#' * The subdirectory (and therefore the test ID) _must_ begin with `MAN-`.
+#'
+#' * It must contain a file called `test.md` which contains the user story, etc.
+#'
+#' * If there are any images or other content linked in the `test.md` file,
+#' those files _must_ be in a subdirectory (in the same directory as the relevant `test.md`)
+#' named `assets_[test ID]`.
+#'
+#' * The `test.md` file must have the following structure:
+#'
+#'   * A subheading starting with `## [test ID]: [test name]` at the top. The "test name"
+#'   will be parsed through into the validation docs.
+#'
+#'   * A date that the test was run, on a line beginning with `* date: [date the test was run]`
+#'
+#'   * Any other content you want parsed through into the Validation Testing document. For example,
+#'   test description, run details, test results, links to images, etc.
+#'
+#'
 #' The path will be passed to `man_test_dir` argument of
 #' [create_validation_docs()].
 #'
