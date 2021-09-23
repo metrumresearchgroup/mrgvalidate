@@ -1,5 +1,9 @@
 # mrgvalidate
-R package for generating validation documents for other R packages developed by Metrum.
+The purpose of the `mrgvalidate` package is to generate three specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:
+
+* requirements-specification.docx
+* validation-testing.docx
+* traceability-matrix.docx
 
 ## Installation
 
@@ -9,9 +13,9 @@ Install from source by [pulling the tarball](https://github.com/metrumresearchgr
 devtools::install_github("metrumresearchgroup/mrgvalidate")
 ```
 
-## One liner usage
+## Usage
 
-If all input data conforms to what is described in `?mrgvalidate::input_formats` you should only have to run this single line:
+If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html) you should only have to run this single line:
 ```
 create_validation_docs(
   product_name = "Fake Product", 
@@ -21,15 +25,15 @@ create_validation_docs(
 )
 ```
 
-By default, this call will write `.md` and `.docx` files for all three documents into your working directory. See `?create_validation_docs` for other arguments to tweak how and where the documents are rendered.
+By default, this call will write `.md` and `.docx` files for all three documents into your working directory. See [`?create_validation_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html) for other arguments to tweak how and where the documents are rendered.
 
 ### Preprocessing and formatting input data
 
-`mrgvalidate` requires a specific format for the input data. [The `mrgvalprep` package](https://github.com/metrumresearchgroup/mrgvalprep)  exists to transform a variety of common data sources into the format required by `mrgvalidate`.
+`mrgvalidate` requires a specific format for the input data. [The `mrgvalprep` package](https://github.com/metrumresearchgroup/mrgvalprep)  exists to transform a variety of common data sources into the format required by `mrgvalidate`. **Please see the [`mrgvalprep` Basic Usage vignette](https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html) for details** on several different formats and use cases.
 
 ### Input checkers
 
-There are several helper functions for checking the linkage between stories/requirements and tests. See `?find_missing` for details.
+There are several helper functions for checking the linkage between stories/requirements and tests. See [`?find_missing`](https://metrumresearchgroup.github.io/mrgvalidate/reference/find_missing.html) for details.
 
 
 ## Development
