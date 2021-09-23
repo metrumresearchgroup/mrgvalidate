@@ -46,18 +46,6 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/basic_usage.html">Basic Usage of mrgvalidate</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -84,33 +72,38 @@
 <div id="mrgvalidate" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#mrgvalidate" class="anchor"></a>mrgvalidate</h1></div>
-<p>R package for generating validation documents for other R packages developed by Metrum.</p>
+<p>The purpose of the <code>mrgvalidate</code> package is to generate three specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:</p>
+<ul>
+<li>requirements-specification.docx</li>
+<li>validation-testing.docx</li>
+<li>traceability-matrix.docx</li>
+</ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install from source by <a href="https://github.com/metrumresearchgroup/mrgvalidate/releases">pulling the tarball</a> or use:</p>
 <pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("metrumresearchgroup/mrgvalidate")</a></code></pre>
 </div>
-<div id="one-liner-usage" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#one-liner-usage" class="anchor"></a>One liner usage</h2>
-<p>If all input data conforms to what is described in <code><a href="reference/input_formats.html">?mrgvalidate::input_formats</a></code> you should only have to run this single line:</p>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>If all input data conforms to what is described in <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html"><code>?mrgvalidate::input_formats</code></a> you should only have to run this single line:</p>
 <pre><code><a href="reference/create_validation_docs.html">create_validation_docs(
   product_name = "Fake Product", 
   version = "vFake", 
   specs = spec_df,           # a tibble containing stories and requirements to validate
   auto_test_dir = "some_dir" # directory containing automated test results
 )</a></code></pre>
-<p>By default, this call will write <code>.md</code> and <code>.docx</code> files for all three documents into your working directory. See <code><a href="reference/create_validation_docs.html">?create_validation_docs</a></code> for other arguments to tweak how and where the documents are rendered.</p>
+<p>By default, this call will write <code>.md</code> and <code>.docx</code> files for all three documents into your working directory. See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html"><code>?create_validation_docs</code></a> for other arguments to tweak how and where the documents are rendered.</p>
 <div id="preprocessing-and-formatting-input-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#preprocessing-and-formatting-input-data" class="anchor"></a>Preprocessing and formatting input data</h3>
-<p><code>mrgvalidate</code> requires a specific format for the input data. <a href="https://github.com/metrumresearchgroup/mrgvalprep">The <code>mrgvalprep</code> package</a> exists to transform a variety of common data sources into the format required by <code>mrgvalidate</code>.</p>
+<p><code>mrgvalidate</code> requires a specific format for the input data. <a href="https://github.com/metrumresearchgroup/mrgvalprep">The <code>mrgvalprep</code> package</a> exists to transform a variety of common data sources into the format required by <code>mrgvalidate</code>. <strong>Please see the <a href="https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html"><code>mrgvalprep</code> Basic Usage vignette</a> for details</strong> on several different formats and use cases.</p>
 </div>
 <div id="input-checkers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#input-checkers" class="anchor"></a>Input checkers</h3>
-<p>There are several helper functions for checking the linkage between stories/requirements and tests. See <code><a href="reference/find_missing.html">?find_missing</a></code> for details.</p>
+<p>There are several helper functions for checking the linkage between stories/requirements and tests. See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/find_missing.html"><code>?find_missing</code></a> for details.</p>
 </div>
 </div>
 <div id="development" class="section level2">
@@ -120,8 +113,7 @@
 <ol>
 <li><p>clone the repo</p></li>
 <li><p>install pkgr</p></li>
-<li>
-<p>open package in an R session and run <code><a href="https://rstudio.github.io/renv/reference/init.html">renv::init(bare = TRUE)</a></code></p>
+<li>open package in an R session and run <code><a href="https://rstudio.github.io/renv/reference/init.html">renv::init(bare = TRUE)</a></code>
 <ul>
 <li>install <code>renv</code> &gt; 0.8.3-4 into default <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> if not already installed</li>
 </ul>

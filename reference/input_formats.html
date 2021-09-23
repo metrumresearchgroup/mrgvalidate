@@ -93,18 +93,6 @@ into the format required by mrgvalidate." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/basic_usage.html">Basic Usage of mrgvalidate</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -212,9 +200,34 @@ write them to a JSON file.</p>
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Manual tests</h3>
 
 
-<p><em>(fill in when settled)</em>
-For manual tests, a directory containing...
-The path will be passed to <code>man_test_dir</code> argument of
+<p>For manual tests, a directory containing test subdirectories named by
+test ID, one subdirectory per manual test. For example:</p><pre>|-- MAN-ACC-001
+|   |-- assets_MAN-ACC-001
+|   |   `-- SSH-Access-1.png
+|   `-- test.md
+|-- MAN-ACC-002
+|   |-- assets_MAN-ACC-002
+|   |   |-- Guacamole-UI-1.png
+|   |   `-- Guacamole-UI-2.png
+|   `-- test.md
+</pre>
+
+<p>Each subdirectory must adhere to the following:</p><ul>
+<li><p>The subdirectory (and therefore the test ID) <em>must</em> begin with <code>MAN-</code>.</p></li>
+<li><p>It must contain a file called <code>test.md</code> which contains the user story, etc.</p></li>
+<li><p>If there are any images or other content linked in the <code>test.md</code> file,
+those files <em>must</em> be in a subdirectory (in the same directory as the relevant <code>test.md</code>)
+named <code>assets_[test ID]</code>.</p></li>
+<li><p>The <code>test.md</code> file must have the following structure:</p><ul>
+<li><p>A subheading starting with <code>## [test ID]: [test name]</code> at the top. The "test name"
+will be parsed through into the validation docs.</p></li>
+<li><p>A date that the test was run, on a line beginning with <code>* date: [date the test was run]</code></p></li>
+<li><p>Any other content you want parsed through into the Validation Testing document. For example,
+test description, run details, test results, links to images, etc.</p></li>
+</ul></li>
+</ul>
+
+<p>The path will be passed to <code>man_test_dir</code> argument of
 <code><a href='create_validation_docs.html'>create_validation_docs()</a></code>.</p>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
