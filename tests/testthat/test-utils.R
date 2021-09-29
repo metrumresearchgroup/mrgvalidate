@@ -7,3 +7,10 @@ test_that("get_reference_docx() returns default if file doesn't exist", {
     expect_equal(get_reference_docx("i-do-not-exist", getwd()), "default")
   })
 })
+
+test_that("get_reference_docx() returns an absolute path", {
+  withr::with_tempdir({
+    file.create("base.docx")
+    expect_true(fs::is_absolute_path(get_reference_docx("base.md", ".")))
+  })
+})

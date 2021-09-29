@@ -243,3 +243,37 @@ test_that("create_validation_docs() drops orphan test IDs from testing docs", {
   expect_true(str_detect(text, "t001"))
   expect_false(str_detect(text, "t002"))
 })
+
+test_that("create_validation_docs() works if passed style_dir and output_dir", {
+  withr::with_tempdir({
+    # Set up a directory of reference .docx files.
+    fs::dir_create("style-refs")
+    system2(rmarkdown::pandoc_exec(),
+            c("-o", file.path("style-refs", "ref.docx"),
+              "--print-default-data-file=reference.docx"))
+
+    base_names <- tools::file_path_sans_ext(c(REQ_FILE, VAL_FILE, MAT_FILE))
+    docxs <- paste0(base_names, ".docx")
+    for (.f in docxs) {
+      fs::file_copy(file.path("style-refs", "ref.docx"),
+                    file.path("style-refs", .f))
+    }
+
+    specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
+
+    # Regression case: if the path handling of style_dir isn't handled
+    # correctly, the underlying pandoc call will error here.
+    mrgvalidate::create_validation_docs(
+      product_name = "Metworx TEST",
+      version = "vFAKE",
+      specs = specs,
+      auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+      man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
+      output_dir = "output",
+      style_dir = "style-refs"
+    )
+    for (.f in docxs) {
+      expect_true(fs::file_exists(file.path("output", .f)))
+    }
+  })
+})
