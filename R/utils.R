@@ -46,10 +46,10 @@ format_spec <- function(x) {
 get_reference_docx <- function(out_file, style_dir) {
   ref <- "default"
   if (!is.null(style_dir)) {
-    refdocx <- file.path(
+    refdocx <- fs::path_abs(file.path(
       style_dir,
       paste0(tools::file_path_sans_ext(basename(out_file)),
-             ".docx"))
+             ".docx")))
     if (file.exists(refdocx)) {
       ref <- refdocx
     }
