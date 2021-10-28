@@ -1,3 +1,11 @@
+# mrgvalidate 1.0.2
+
+[`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html) now includes information about the expected directory layout for manual tests.
+
+## Bug fixes
+
+* Calling `create_validation_docs` with a relative path for `style_dir` did not work when `output_dir` was set to a value other than the current working directory.
+
 # mrgvalidate 1.0.1
 
 ## Bug fixes
