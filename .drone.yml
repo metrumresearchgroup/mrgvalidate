@@ -68,21 +68,20 @@ steps:
   - git config --global user.email drone@metrumrg.com
   - git config --global user.name Drony
   - git fetch --tags
-  - git checkout 1.0.2
   - R -s -e 'devtools::install_deps(upgrade = '"'"'always'"'"')'
   - R -s -e 'pkgpub::create_tagged_repo(.dir = '"'"'/ephemeral'"'"')'
   volumes:
   - name: cache
     path: /ephemeral
 
-- name: "Publish package: 1.0.2"
+- name: "Publish package: ${DRONE_TAG}"
   pull: if-not-exists
   image: plugins/s3
   settings:
     bucket: mpn.metworx.dev
-    source: /ephemeral/1.0.2/**/*
-    strip_prefix: /ephemeral/1.0.2/
-    target: /releases/${DRONE_REPO_NAME}/1.0.2
+    source: /ephemeral/${DRONE_TAG}/**/*
+    strip_prefix: /ephemeral/${DRONE_TAG}/
+    target: /releases/${DRONE_REPO_NAME}/${DRONE_TAG}
   volumes:
   - name: cache
     path: /ephemeral
@@ -92,8 +91,8 @@ steps:
   image: plugins/s3
   settings:
     bucket: mpn.metworx.dev
-    source: /ephemeral/1.0.2/**/*
-    strip_prefix: /ephemeral/1.0.2/
+    source: /ephemeral/${DRONE_TAG}/**/*
+    strip_prefix: /ephemeral/${DRONE_TAG}/
     target: /releases/${DRONE_REPO_NAME}/latest_tag
   volumes:
   - name: cache
@@ -108,7 +107,7 @@ volumes:
 
 trigger:
   event:
-  - push
+  - tag
 
 depends_on:
 - cran-latest
