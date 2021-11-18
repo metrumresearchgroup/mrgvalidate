@@ -3,6 +3,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.Rprofile$
+^.drone.yml$
 ^LICENSE\.md$
 ^docs/
 pkgr.yml
