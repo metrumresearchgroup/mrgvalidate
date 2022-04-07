@@ -4,7 +4,6 @@ Descriptions:
 
 Packages:
   - devtools
-  - renv
   - pkgdown
 
 Repos:
