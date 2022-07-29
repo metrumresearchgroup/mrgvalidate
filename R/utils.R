@@ -56,3 +56,21 @@ get_reference_docx <- function(out_file, style_dir) {
   }
   return(ref)
 }
+
+#' fetch template from package
+#' @param template string matching which template you want to render
+#' @param type the type of doc you want to render ("package" or "metworx")
+#'
+#' @export
+get_template <- function(
+  template = c("validation_plan", "testing_plan"),
+  type = c("package", "metworx")
+){
+  template <- match.arg(template)
+  type <- match.arg(type)
+  template_file <- system.file(
+    file.path("templates", type, paste0(template,"_",type,".Rmd")),
+    package = "mrgvalidate")
+  return(template_file)
+
+}

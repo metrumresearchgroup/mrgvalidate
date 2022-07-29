@@ -35,6 +35,7 @@ Imports:
     glue,
     jsonlite,
     knitr,
+    flextable,
     magrittr,
     purrr,
     readr,
