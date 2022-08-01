@@ -14,7 +14,7 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(knitr)
-library(kableExtra)
+library(flextable)
 ```
 
 # Testing Plan: `r params$product_name` `r params$version`
@@ -30,7 +30,8 @@ The table below outlines the automated tests that will be conducted:
 ```{r, results = "asis", echo=FALSE}
 test_df <- params$tests
 for(i in seq_along(test_df)){
-  knitr::kable(test_df[[i]]) %>% print()
-  cat("\n")
+  tab <- test_df[[i]] %>% flextable(theme_fun = theme_box) %>%
+    autofit()
+  cat(knit_print(tab))
 }
 ```

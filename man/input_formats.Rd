@@ -64,14 +64,16 @@ Alongside each CSV, there must be a JSON file with the same base name. This
 file includes information about the run itself (e.g., the date it was
 executed and system details). At the minimum, it must have a "date" field.
 Any key-value pairs that are specified under the top-level "info" field will
-be rendered in the validation docs.\preformatted{\{
+be rendered in the validation docs.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\{
     "date": "2021-07-26 12:20:10 EDT",
     "info":
     \{
         "commit": "78f70b9297a7f8b0f2ec2a18d17a9cc6722359c8"
     \}
 \}
-}
+}\if{html}{\out{</div>}}
 
 The \code{mrgvalprep::get_sys_info()} helper can be used to capture various system details and
 write them to a JSON file.
@@ -80,7 +82,9 @@ write them to a JSON file.
 \subsection{Manual tests}{
 
 For manual tests, a directory containing test subdirectories named by
-test ID, one subdirectory per manual test. For example:\preformatted{|-- MAN-ACC-001
+test ID, one subdirectory per manual test. For example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{|-- MAN-ACC-001
 |   |-- assets_MAN-ACC-001
 |   |   `-- SSH-Access-1.png
 |   `-- test.md
@@ -89,7 +93,7 @@ test ID, one subdirectory per manual test. For example:\preformatted{|-- MAN-ACC
 |   |   |-- Guacamole-UI-1.png
 |   |   `-- Guacamole-UI-2.png
 |   `-- test.md
-}
+}\if{html}{\out{</div>}}
 
 Each subdirectory must adhere to the following:
 \itemize{

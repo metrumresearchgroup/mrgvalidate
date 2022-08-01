@@ -6,6 +6,8 @@
 #' `.docx` file.
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
+#' @importFrom flextable flextable autofit theme_box
+#' @importFrom knitr knit_print
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
