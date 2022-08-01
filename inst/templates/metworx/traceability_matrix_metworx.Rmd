@@ -1,0 +1,29 @@
+---
+title: "Traceability Matrix"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "metworx"
+  version: "v1.0.0"
+  matrix: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+library(knitr)
+library(flextable)
+```
+
+# Traceability Matrix: `r params$product_name` `r params$version`
+
+## Scope
+This Traceability Matrix links test results to specific user stories for the proposed software release. User stories, including requirements and test specifications, are listed in the Requirements Specification.
+
+## Traceability Matrix
+```{r}
+params$matrix %>% flextable() %>% flextable_word()
+```
+

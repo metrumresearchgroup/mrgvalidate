@@ -41,6 +41,8 @@ Imports:
     readr,
     rlang,
     rmarkdown,
+    markdown,
+    checkmate,
     stringr,
     tibble,
     tidyr

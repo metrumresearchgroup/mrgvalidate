@@ -5,7 +5,8 @@
 \title{fetch template from package}
 \usage{
 get_template(
-  template = c("validation_plan", "testing_plan"),
+  template = c("validation_plan", "testing_plan", "testing_results",
+    "traceability_matrix"),
   type = c("package", "metworx")
 )
 }

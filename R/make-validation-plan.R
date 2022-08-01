@@ -7,9 +7,6 @@
 #' @importFrom fs file_copy
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
-#' @param auto_info A named list containing the test suite information pulled
-#'   from the `.json` files found in `auto_test_dir`, one element per `.json`
-#'   (named with the filename _without_ extension).
 #' @param style_dir Directory to check for a docx style reference that has the
 #'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .Rmd
@@ -19,7 +16,6 @@
 make_validation_plan <- function(
   product,
   version,
-  auto_info,
   style_dir = NULL,
   out_file = "validation-plan.Rmd",
   output_dir = getwd(),

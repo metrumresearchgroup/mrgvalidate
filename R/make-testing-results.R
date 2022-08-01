@@ -1,12 +1,11 @@
 
 
-#' Build the Testing Plan document and write it to output file(s)
+#' Build the Testing Results document and write it to output file(s)
 #'
 #' This takes the input from automated and/or manual tests and writes them to a
 #' `.docx` file.
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
-#' @importFrom stringr str_trim
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
@@ -21,19 +20,19 @@
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
-make_testing_plan <- function(
+make_testing_results <- function(
   product,
   version,
   tests,
   auto_info,
   style_dir = NULL,
-  out_file = "testing-plan.Rmd",
+  out_file = "testing-results.Rmd",
   output_dir = getwd(),
   type = "package",
   word_document = TRUE
 ){
 
-  template <- get_template("testing_plan", type = type)
+  template <- get_template("testing_results", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
@@ -48,22 +47,35 @@ make_testing_plan <- function(
       filter(.data$result_file == .x) %>%
       select(
         `Test ID` = .data$TestId,
-        `Test name` = .data$TestName
+        `Test name` = .data$TestName,
+        .data$passed,
+        .data$failed
       )
   }) %>% setNames(names(auto_info))
 
+  val_info <- map(names(auto_info), ~ {
+    .suite <- auto_info[[.x]]
+    glue('
+
+### {.x}
+
+**Date Run:** {.suite$date}
+
+**Executor:** {.suite$executor}
+
+{print_info_list(.suite$info)}
+
+')
+  })
 
   # write manual test outputs
   man_tests <- filter(tests, .data$test_type == "manual")
   if (nrow(man_tests) != 0) {
+    # cat(file = out_file,  "\n# Manual Test Results\n", append = TRUE)
+    # This needs to be revisited when we have data to test
+    # (definitely in wrong format, but im not sure what .data$man_test_content looks like)
+    # was:  walk(~ cat(file = out_file,  glue("\n{.x}\n\n"), append = TRUE))
     man_tests <- pull(man_tests, .data$man_test_content) %>%
-      # Remove Results from manual tests (everything after run details)
-      # might want a tryCatch here? (unsure if they're always in that format)
-      # revisit this for updated manual sections
-      map(~ {
-        .x <- gsub("### Run Details.*", "",.x)
-        str_trim(.x)
-      }) %>%
       map(~ glue("\n{.x}\n\n"))
   }
 
@@ -74,6 +86,7 @@ make_testing_plan <- function(
       params = list(
         product_name = product,
         version = version,
+        val_info = val_info,
         auto_tests = auto_tests,
         man_tests = man_tests
       ),
@@ -83,22 +96,6 @@ make_testing_plan <- function(
       quiet = TRUE
     )
     message("  Finished rendering")
-  }
-}
-
-#' Format automatic test plan into flextable in for word doc rendering
-#'
-#' @param test_df dataframe of automatic tests
-#'
-#' @importFrom flextable flextable autofit theme_box
-#' @importFrom knitr knit_print
-#'
-#' @keywords internal
-format_auto_test_plan <- function(test_df){
-  for(i in seq_along(test_df)){
-    tab <- test_df[[i]] %>% flextable(theme_fun = theme_box) %>%
-      flextable_word()
-    cat(knit_print(tab))
   }
 }
 
@@ -112,39 +109,13 @@ format_auto_test_plan <- function(test_df){
 #' @importFrom rlang is_empty
 #'
 #' @keywords internal
-format_man_test_plan <- function(test_df){
+format_man_test_results <- function(test_df){
   if(!is.null(test_df) & !is_empty(test_df)){
     man_test_str <-
       "\n
-## Manual Testing
+## Manual Test Results
 \n
-Manual tests will be conducted through following a manually written test script which outlines test instructions. Manual tests will use screenshots as test evidence.
-\n
-
-### Manual Test Design
-\n
-Manual tests are designed as follows:
-\n
-
-#### Set Up
-\n
-Describe the actions the test administrator must take prior to executing the test, whether it be adding a test file/script to the system, entering a software license, etc.
-\n
-
-#### Procedure
-\n
-Step-by-step instructions for executing the test.
-\n
-
-#### Expected Results
-\n
-Examples of the evidence users which confirm expected system behavior. A one sentence  summary of the evidence accompanies all screenshots to confirm testing evidence for Validation Reviewers.
-\n
-
-### Manual Tests
-\n
-The following manual tests will be conducted:
-\n"
+"
     cat(man_test_str)
     for(i in seq_along(test_df)){
       cat("\n")
@@ -152,3 +123,23 @@ The following manual tests will be conducted:
     }
   }
 }
+
+#' Format automatic test plan into flextable in for word doc rendering
+#'
+#' @param test_df dataframe of automatic tests
+#'
+#' @importFrom flextable flextable autofit theme_box
+#' @importFrom knitr knit_print
+#'
+#' @keywords internal
+format_auto_tests_results <- function(test_df, val_info){
+
+  for(i in seq_along(test_df)){
+    tab <- test_df[[i]] %>% flextable() %>%
+      flextable_word(column_shrink = "Test name")
+    cat(val_info[[i]])
+    cat("\n")
+    cat(knit_print(tab))
+  }
+}
+
