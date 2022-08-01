@@ -4,7 +4,7 @@
 \alias{flextable_word}
 \title{Autofit flextables in word}
 \usage{
-flextable_word(tab, pg_width = 8, column_shrink = NULL)
+flextable_word(tab, pg_width = 7, column_shrink = NULL)
 }
 \arguments{
 \item{tab}{a flextable object}

@@ -7,6 +7,7 @@
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
 #' @importFrom stringr str_trim
+#' @importFrom stats setNames
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
