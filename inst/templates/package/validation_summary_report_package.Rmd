@@ -1,0 +1,35 @@
+---
+title: "Validation Summary Report"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "package"
+  version: "v1.0.0"
+  release_notes: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Validation Summary Report: `r params$product_name` `r params$version`
+
+## Product Release Name or Number: `r params$product_name` `r params$version`
+
+## Scope
+This document summarizes the activities performed to Validate the `r params$product_name` `r params$version` as set forth in the `r params$product_name` `r params$version` Validation Plan to support deployment into production environments. 
+
+## Development Summary
+New features or bug fixes were initiated by opening a GitHub issue stating the requirements for the new feature or the bug to be fixed.  A label was attached to the issue indicating the estimated risk level for the new feature or bug fix. Code was developed to address the feature or fix the bug.  As new code matured, unit tests were written to test requirements associated with the new feature or confirm that the bug was fixed.  Unit tests were run throughout development both locally and on the continuous integration platform to understand the current state of development and also form the basis for testing in the validation phase. 
+
+## Testing Summary
+Product features included in this release were defined in the Requirements Specification and Validation Plan as User Stories and testing using the testing strategy outlined in the Testing Plan document. All planned features for this product release were successfully developed and tested using both manual and automatic tests. All requirements outlined in the Requirements Specification and associated tests have been matched and documented in the Traceability Matrix.  The following bugs were resolved in this release: 
+
+```{r}
+format_bugs(params$release_notes)
+```
+
+

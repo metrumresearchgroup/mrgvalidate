@@ -4,7 +4,7 @@
 \alias{format_man_test_results}
 \title{Format manual test plan into flextable in for word doc rendering}
 \usage{
-format_man_test_results(test_df)
+format_man_test_results(man_tests)
 }
 \arguments{
 \item{test_df}{dataframe of manual tests}

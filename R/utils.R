@@ -63,7 +63,7 @@ get_reference_docx <- function(out_file, style_dir) {
 #'
 #' @export
 get_template <- function(
-  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix", "requirements_specification"),
+  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix", "requirements_specification", "validation_summary_report"),
   type = c("package", "metworx")
 ){
   template <- match.arg(template)

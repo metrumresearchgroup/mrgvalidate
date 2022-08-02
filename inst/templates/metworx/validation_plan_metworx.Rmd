@@ -8,13 +8,11 @@ number_sections: yes
 params:
   product_name: "Metworx"
   version: "v1.0.0"
-  new_functionality: "data.frame()"
-  function_updates: ""
-  functions_removed: ""
+  release_notes: ""
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
 ```
 
 # Validation Plan: `r params$product_name` `r params$version`
@@ -69,21 +67,13 @@ A Validation Summary document will be developed after Validation is completed to
 * Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated.  
 
 
-## Release Notes (revisit)
-Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release. New User Story features in this release include:
+## Release Notes
+Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release.
+
 ```{r}
-params$new_functionality
+format_release_changes(params$release_notes)
 ```
 
-Additionally the Release includes updated:
-```{r}
-params$function_updates
-```
-
-The following items (if any) have been removed:
-```{r}
-params$functions_removed
-```
 
 <!-- ## To add:  -->
 <!-- User Stories -->
