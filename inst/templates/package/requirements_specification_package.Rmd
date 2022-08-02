@@ -1,0 +1,34 @@
+---
+title: "Requirements Specification"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "package"
+  version: "v1.0.0"
+  roles: ""
+  spec_chunks: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+library(knitr)
+library(flextable)
+```
+
+# Requirements Specification: `r params$product_name` `r params$version`
+
+## Scope
+The purpose of this document is to define specific criteria for each testing task. Testing shall be conducted in accordance with the requirements within this document. The Requirement Specifications ensure that each requirement is tested.
+
+```{r}
+format_roles(params$roles)
+```
+
+
+```{r}
+format_requirements(params$spec_chunks)
+```
+
