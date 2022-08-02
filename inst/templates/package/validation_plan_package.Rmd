@@ -46,18 +46,19 @@ A Traceability Matrix will be used to match all tests stated in the Testing Resu
 
 ## Validation Summary
 A Validation Summary document will be developed after Validation is completed to outline the results of the Validation process. All documents involved in the Validation process will be certified by the respective parties involved in their development. Validation certification will be provided by the following roles:
- * Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
- * Author: Person who creates the Validation documentation as follows.
-    * Validation Plan: Product Manager
-    * Requirements Specification: Business Analyst
-    * Testing Plan: Business Analyst
-    * Testing Results: Tester
-    * Traceability Matrix: Business Analyst
-    * Validation Summary: Product Manager
-    * Release Notes: Product Manager
-    * Change Management Form: Product Manager
- * Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
- * Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated. 
+
+* Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
+* Author: Person who creates the Validation documentation as follows.
+    + Validation Plan: Product Manager
+    + Requirements Specification: Business Analyst
+    + Testing Plan: Business Analyst
+    + Testing Results: Tester
+    + Traceability Matrix: Business Analyst
+    + Validation Summary: Product Manager
+    + Release Notes: Product Manager
+    + Change Management Form: Product Manager
+* Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
+* Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated. 
 
 
 ## Release Notes (revisit)
@@ -66,15 +67,12 @@ Release Notes identifying all of the features represented by the User Stories de
 params$new_functionality
 ```
 
-
 Additionally the Release includes updated:
 ```{r}
 params$function_updates
 ```
 
-
 The following items (if any) have been removed:
-`
 ```{r}
 params$functions_removed
 ```

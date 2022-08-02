@@ -35,6 +35,7 @@ Personas represented in this release are Users, and Administrators. Users will r
 
 ## Development Plan
 Feature development is facilitated through the use of Atlassian Jira Software Project based ticketing system (Jira). Jira operates as a Work Breakdown Structure to facilitate levels of work into manageable blocks that can be assigned to Project Team members programmatically. In Jira, these incremental blocks are called “tickets”. Several ticket types will be used in development of this Release:
+
  * Jira “Epic” type tickets will be used to outline the highest level of the Work Breakdown Structure. Epics may contain several related User Stories and work items related to the development of the features reflected in those items. 
  * Jira “User Story” type tickets will be used to represent each feature from the perspective of the Personas identified and to outline all related Functional and Non-Functional requirements for each User Story feature.  A label will be attached to each “User Story” type ticket to indicate the estimated risk level.  Code will be written to develop each User Story. Unit level and End to End tests will be created to test that each feature developed functions as necessary per the Functional and Non-Functional requirements specifications. 
  * Jira “Task” type tickets will be used to outline development tasks related to achieving the Functional and Non-Functional needs of each User Story. These may include work items that are technical or administrative in nature.  
@@ -53,29 +54,36 @@ A Traceability Matrix will be used to match all tests stated in the Testing Resu
 
 ## Validation Summary
 A Validation Summary document will be developed after Validation is completed to outline the results of the Validation process. All documents involved in the Validation process will be certified by the respective parties involved in their development. Validation certification will be provided by the following roles:
- * Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
- * Author: Person who creates the Validation documentation as follows.
-    * Validation Plan: Product Manager
-    * Requirements Specification: Business Analyst
-    * Testing Plan: Business Analyst
-    * Testing Results: Tester
-    * Traceability Matrix: Business Analyst
-    * Validation Summary: Product Manager
-    * Release Notes: Product Manager
-    * Change Management Form: Product Manager
- * Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
- * Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated. 
+
+* Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
+* Author: Person who creates the Validation documentation as follows.
+    + Validation Plan: Product Manager
+    + Requirements Specification: Business Analyst
+    + Testing Plan: Business Analyst
+    + Testing Results: Tester
+    + Traceability Matrix: Business Analyst
+    + Validation Summary: Product Manager
+    + Release Notes: Product Manager
+    + Change Management Form: Product Manager
+* Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
+* Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated.  
 
 
 ## Release Notes (revisit)
 Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release. New User Story features in this release include:
-`r params$new_functionality`
+```{r}
+params$new_functionality
+```
 
 Additionally the Release includes updated:
-`r params$function_updates`
+```{r}
+params$function_updates
+```
 
 The following items (if any) have been removed:
-`r params$functions_removed`
+```{r}
+params$functions_removed
+```
 
 <!-- ## To add:  -->
 <!-- User Stories -->
