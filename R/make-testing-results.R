@@ -107,20 +107,22 @@ make_testing_results <- function(
 #'
 #' @details this also includes text, as we do not want to render this section in the absence of manual tests
 #'
-#' @importFrom rlang is_empty
-#'
 #' @keywords internal
-format_man_test_results <- function(test_df){
-  if(!is.null(test_df) & !is_empty(test_df)){
-    man_test_str <-
-      "\n
+format_man_test_results <- function(man_tests){
+  if(is.null(man_tests)){
+    cat(NULL)
+  }else{
+    if(nrow(man_tests) > 0){
+      man_test_str <-
+        "\n
 ## Manual Test Results
 \n
 "
-    cat(man_test_str)
-    for(i in seq_along(test_df)){
-      cat("\n")
-      cat(test_df[[i]])
+      cat(man_test_str)
+      for(i in seq_along(man_tests)){
+        cat("\n")
+        cat(man_tests[[i]])
+      }
     }
   }
 }

@@ -2,7 +2,6 @@
 
 #' Build the Validation Plan document and write it to output file(s)
 #'
-
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
 #' @param product The name of the product you are validating, to be included in the output document.

@@ -29,7 +29,7 @@ The purpose of this Validation Testing document is to define the conditions for 
 format_auto_tests_results(params$auto_tests, params$val_info)
 ```
 
-## Manual Test Results
+
 ```{r}
 format_man_test_results(params$man_tests)
 ```

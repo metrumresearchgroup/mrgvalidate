@@ -30,8 +30,7 @@ Feature Requirements will be documented as User Stories from the perspective of 
 
 
 ## Personas
-Personas represented in this release are Users, and Administrators. Users will refer to the daily end users of the platform. In general, these will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
-
+Personas represented in this release are Users. Users will refer to the daily end users of the package In general, these will be scientists and statisticians. 
 
 ## Development Plan
 New features or bug fixes were initiated by opening a GitHub issue stating the requirements for the new feature or the bug to be fixed.  A label was attached to the issue indicating the estimated risk level for the new feature or bug fix. Code was developed to address the feature or fix the bug.  As new code matured, unit tests were written to test requirements associated with the new feature or confirm that the bug was fixed.  Unit tests were run throughout development both locally and on the continuous integration platform to understand the current state of development and also form the basis for testing in the validation phase. 
@@ -63,13 +62,22 @@ A Validation Summary document will be developed after Validation is completed to
 
 ## Release Notes (revisit)
 Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release. New User Story features in this release include:
-`r params$new_functionality`
+```{r}
+params$new_functionality
+```
+
 
 Additionally the Release includes updated:
-`r params$function_updates`
+```{r}
+params$function_updates
+```
+
 
 The following items (if any) have been removed:
-`r params$functions_removed`
+`
+```{r}
+params$functions_removed
+```
 
 <!-- ## To add:  -->
 <!-- User Stories -->
