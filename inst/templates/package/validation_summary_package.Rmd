@@ -32,6 +32,10 @@ Product features included in this release were defined in the Requirements Speci
 format_bugs(params$release_notes)
 ```
 
+## Deviations
+
+There were no deviations from the Validation Plan for this release.
+
 \newpage
 
 ```{r}

@@ -35,7 +35,7 @@ New features or bug fixes were initiated by opening a GitHub issue stating the r
 
 
 ## Testing Plan
-A Testing Plan document will be used to outline how tests will be developed, executed and recorded to ensure that the Requirements outlined in the Requirements Specification document are met. Testing in both development and Validation phases will be conducted using both manual and automatic tests as described in the Testing Plan document. Each test will have a unique identifier. Test results will be formally documented in a Testing Results document. Testing will occur throughout development and again during Validation at which point results will be formally documented and submitted for Validation with the date and time each test was run along with the attestation of the tester.
+A Testing Plan document will be used to outline how tests will be developed, executed and recorded to ensure that the Requirements outlined in the Requirements Specification document are met. Testing in both development and Validation phases will be conducted using automated tests as described in the Testing Plan document. Each test will have a unique identifier. Test results will be formally documented in a Testing Results document. Testing will occur throughout development and again during Validation at which point results will be formally documented and submitted for Validation with the date and time each test was run along with the attestation of the tester.
 
 
 ## Traceability Matrix

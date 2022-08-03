@@ -50,7 +50,7 @@ make_traceability_matrix <- function(
   mat <- group_by(mat, .data$StoryId) %>%
     summarise(test_ids = paste0(.data$TestId, collapse = " "),
               description = first(.data$StoryDescription)) %>%
-    mutate(description = str_extract(str_trim(.data$description), "^.+"))
+    mutate(description = glue("{str_extract(str_trim(.data$description), '^.+')} ({.data$StoryId})"))
 
   mat_out <- select(
     mat,
