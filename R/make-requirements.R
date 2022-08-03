@@ -56,8 +56,6 @@ make_requirements <- function(
     paste(x, collapse = "\n")
   })
 
-  message(glue("Finished writing to {out_file}"))
-
   if (isTRUE(word_document)) {
     message("  Rendering markdown to docx...")
     rmarkdown::render(

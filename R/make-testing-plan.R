@@ -28,7 +28,7 @@ make_testing_plan <- function(
   tests,
   auto_info,
   style_dir = NULL,
-  out_file = "testing-plan.Rmd",
+  out_file = TEST_PLAN_FILE,
   output_dir = getwd(),
   type = "package",
   word_document = TRUE

@@ -9,7 +9,7 @@ make_validation_plan(
   version,
   release_notes = NULL,
   style_dir = NULL,
-  out_file = "validation-plan.Rmd",
+  out_file = VAL_PLAN_FILE,
   output_dir = getwd(),
   type = "package",
   word_document = TRUE

@@ -10,7 +10,7 @@ make_testing_results(
   tests,
   auto_info,
   style_dir = NULL,
-  out_file = "testing-results.Rmd",
+  out_file = TEST_RESULTS_FILE,
   output_dir = getwd(),
   type = "package",
   word_document = TRUE

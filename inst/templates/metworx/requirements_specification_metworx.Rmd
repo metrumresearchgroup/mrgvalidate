@@ -32,3 +32,9 @@ format_roles(params$roles)
 format_requirements(params$spec_chunks)
 ```
 
+\newpage
+
+```{r}
+make_signature_line()
+```
+

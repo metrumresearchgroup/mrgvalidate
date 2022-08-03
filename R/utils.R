@@ -63,7 +63,7 @@ get_reference_docx <- function(out_file, style_dir) {
 #'
 #' @export
 get_template <- function(
-  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix", "requirements_specification", "validation_summary_report"),
+  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix", "requirements_specification", "validation_summary"),
   type = c("package", "metworx")
 ){
   template <- match.arg(template)
@@ -98,4 +98,55 @@ flextable_word <- function(tab, pg_width = 7, column_shrink = NULL){
 
   tab_out <- width(tab_out, width = dim(tab_out)$widths*pg_width /(flextable_dim(tab_out)$widths))
   return(tab_out)
+}
+
+#' Make signature page
+#'
+#' @details
+#' The template word docs were modified so that Heading 9 has a bottom border, which functions as a custom signature line
+#'
+#' @keywords internal
+make_signature_line <- function(){
+  sig_str <- glue('
+
+<br>
+
+## Signature Page:
+
+<br>
+
+<br>
+
+<br>
+
+#########
+**Authored by:**
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+#########
+**Reviewed by:**
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+#########
+**Quality Assurance Approved by:**
+')
+  cat(sig_str)
 }

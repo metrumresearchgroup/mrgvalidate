@@ -27,3 +27,9 @@ This Traceability Matrix links test results to specific user stories for the pro
 params$matrix %>% flextable() %>% flextable_word()
 ```
 
+\newpage
+
+```{r}
+make_signature_line()
+```
+

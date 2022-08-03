@@ -3,6 +3,9 @@
 # constants, etc.
 ##################
 
-VAL_FILE <- "validation-testing.md"
-REQ_FILE <- "requirements-specification.md"
-MAT_FILE <- "traceability-matrix.md"
+VAL_PLAN_FILE <- "validation-plan.Rmd"
+TEST_PLAN_FILE <- "testing-plan.Rmd"
+TEST_RESULTS_FILE <- "testing-results.Rmd"
+MAT_FILE <- "traceability-matrix.Rmd"
+REQ_FILE <- "requirements-specification.Rmd"
+VAL_SUM_FILE <- "validation-summary.Rmd"

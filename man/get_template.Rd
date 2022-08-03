@@ -6,7 +6,7 @@
 \usage{
 get_template(
   template = c("validation_plan", "testing_plan", "testing_results",
-    "traceability_matrix", "requirements_specification", "validation_summary_report"),
+    "traceability_matrix", "requirements_specification", "validation_summary"),
   type = c("package", "metworx")
 )
 }

@@ -32,4 +32,9 @@ Product features included in this release were defined in the Requirements Speci
 format_bugs(params$release_notes)
 ```
 
+\newpage
+
+```{r}
+make_signature_line()
+```
 

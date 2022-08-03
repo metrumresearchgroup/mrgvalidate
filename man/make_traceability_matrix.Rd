@@ -11,6 +11,7 @@ make_traceability_matrix(
   style_dir = NULL,
   out_file = MAT_FILE,
   output_dir = getwd(),
+  type = "package",
   word_document = TRUE
 )
 }

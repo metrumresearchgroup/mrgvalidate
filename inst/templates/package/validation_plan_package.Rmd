@@ -66,6 +66,12 @@ Release Notes identifying all of the features represented by the User Stories de
 format_release_changes(params$release_notes)
 ```
 
+\newpage
+
+```{r}
+make_signature_line()
+```
+
 
 <!-- ## To add:  -->
 <!-- User Stories -->

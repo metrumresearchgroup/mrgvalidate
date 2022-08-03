@@ -26,6 +26,7 @@ make_traceability_matrix <- function(
   style_dir = NULL,
   out_file = MAT_FILE,
   output_dir = getwd(),
+  type = "package",
   word_document = TRUE
 ) {
 
@@ -56,10 +57,6 @@ make_traceability_matrix <- function(
     `User Story` = .data$description,
     `Test ID` = .data$test_ids,
   )
-
-
-
-  message(glue("Finished writing to {out_file}"))
 
   if (isTRUE(word_document)) {
     message("  Rendering markdown to docx...")

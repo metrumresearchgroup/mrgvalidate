@@ -12,18 +12,18 @@
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
-make_validation_summary_report <- function(
+make_validation_summary <- function(
   product,
   version,
   release_notes = NULL,
   style_dir = NULL,
-  out_file = "validation-summary-report.Rmd",
+  out_file = VAL_SUM_FILE,
   output_dir = getwd(),
   type = "package",
   word_document = TRUE
 ){
 
-  template <- get_template("validation_summary_report", type = type)
+  template <- get_template("validation_summary", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
