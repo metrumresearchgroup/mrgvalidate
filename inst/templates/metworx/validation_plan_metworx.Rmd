@@ -28,7 +28,7 @@ Feature Requirements will be documented as User Stories from the perspective of 
 
 
 ## Personas
-Personas represented in this release are Users, and Administrators. Users will refer to the daily end users of the platform. In general, these will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
+Personas represented in this release are Users, and Administrators. Users will refer to the internal end users of the platform. In general, these will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
 
 
 ## Development Plan
