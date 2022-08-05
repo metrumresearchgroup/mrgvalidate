@@ -15,15 +15,20 @@ CREATE_OUT_DF_NAMES <- c(
   "tests"
 )
 
-VAL_PLAN_TITLE <- "Validation Plan"
-VAL_PLAN_BOILER <- "
+VAL_TITLE <- "Validation Testing"
+VAL_BOILER <- '
 ## Scope
-This document outlines the Validation Plan for the release of `r params$product_name` `r params$version` to support deployment into production environments.  This document outlines the activities that will be performed to Validate this release."
 
+The purpose of this Validation Testing document is to define the conditions for
+test execution and present the test results. All tests are specified and linked
+to release candidate user stories as numbered issues in the Requirements
+Specification document.
+'
 
 REQ_TITLE <- "# Requirements Specification"
 REQ_BOILER <- '
 ## Scope
+
 The purpose of this document is to define specific criteria for each testing
 task.  Testing shall be conducted in accordance with the requirements within this
 document. The Requirement Specifications ensure that each requirement is tested.

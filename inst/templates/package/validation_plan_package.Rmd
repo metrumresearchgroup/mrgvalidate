@@ -58,6 +58,7 @@ A Validation Summary document will be developed after Validation is completed to
 * Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
 * Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated. 
 
+\newpage
 
 ## Release Notes
 Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release.

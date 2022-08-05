@@ -63,7 +63,8 @@ get_reference_docx <- function(out_file, style_dir) {
 #'
 #' @export
 get_template <- function(
-  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix", "requirements_specification", "validation_summary"),
+  template = c("validation_plan", "testing_plan", "testing_results", "traceability_matrix",
+               "requirements_specification", "validation_summary", "release_notes"),
   type = c("package", "metworx")
 ){
   template <- match.arg(template)
@@ -149,4 +150,31 @@ make_signature_line <- function(){
 **Quality Assurance Approved by:**
 ')
   cat(sig_str)
+}
+
+#' Parse release notes and filter to current version
+#'
+#' @param release_notes lines of NEWS.md
+#' @param product_name name of package or metworx blueprint
+#' @param version the product's version number (must match NEWS.md)
+#'
+#' @keywords internal
+parse_release_notes <- function(release_notes, product_name, version, section_break = "##"){
+  sections <- grep(product_name, release_notes)[1:2] # cant do this because some functions might have the product name in them, might need last version too
+  this_release <- release_notes[sections[1]:sections[2]-1]
+  assert_true(any(grepl(version,this_release)))
+  this_release <- split(this_release, grepl(version, this_release))[[1]] %>% str_trim() # this doesnt work for trimming
+  release_sections <- grep(section_break, this_release)
+
+  release_list <- list()
+  for(i in seq_along(release_sections)){
+    header.i <- gsub("##", "", this_release[release_sections[i]]) %>% str_trim()
+    if(i < length(release_sections)){
+      release_list[[header.i]] <- this_release[release_sections[i]:(release_sections[i+1]-1)]
+    }else{
+      release_list[[header.i]] <- this_release[release_sections[i]:length(this_release)]
+    }
+  }
+
+  release_list
 }

@@ -14,6 +14,7 @@
 #'   exists).
 #' @param output_dir Directory to write the output documents to. Defaults to
 #'   working directory.
+#' @param type the type of doc you want to render ("package" or "metworx")
 #' @param write Whether to create the output docs. Setting this to `FALSE` is
 #'   useful when you're just interested in the return value.
 #' @return In addition to creating the validation docs, a tibble that joins the
@@ -29,7 +30,9 @@ create_validation_docs <- function
   product_name, version, specs,
   auto_test_dir = NULL, man_test_dir = NULL, roles = NULL,
   style_dir = NULL,
-  output_dir = getwd(), write = TRUE
+  output_dir = getwd(),
+  type = "package",
+  write = TRUE
 ) {
 
   if (is.null(auto_test_dir) && is.null(man_test_dir)) {
@@ -111,36 +114,117 @@ Call find_tests_without_reqs() with the returned data frame to see them."))
                        .data$passed, .data$failed, .data$man_test_content,
                        .data$result_file))
 
+  # Read in NEWS.md for release notes
+  release_notes <- file.path(auto_test_dir, "NEWS.md") %>% readLines() %>%
+    parse_release_notes(product_name, version)
+
+
   if (isTRUE(write)) {
-    write_requirements(
-      dd,
+    # write_requirements(
+    #   dd,
+    #   product_name,
+    #   version,
+    #   roles = roles,
+    #   style_dir = style_dir,
+    #   out_file = REQ_FILE,
+    #   output_dir = output_dir,
+    #   word_document = TRUE
+    # )
+    #
+    # write_traceability_matrix(
+    #   dd,
+    #   product_name,
+    #   version,
+    #   style_dir = style_dir,
+    #   out_file = MAT_FILE,
+    #   output_dir = output_dir,
+    #   word_document = TRUE
+    # )
+    #
+    # write_validation_testing(
+    #   product_name,
+    #   version,
+    #   tests,
+    #   auto_info,
+    #   style_dir = style_dir,
+    #   out_file = VAL_FILE,
+    #   output_dir = output_dir,
+    #   word_document = TRUE
+    # )
+
+    # Validation Plan
+    make_validation_plan(
       product_name,
       version,
-      roles = roles,
+      release_notes = release_notes,
       style_dir = style_dir,
-      out_file = REQ_FILE,
+      out_file = VAL_PLAN_FILE,
       output_dir = output_dir,
+      type = type,
       word_document = TRUE
     )
 
-    write_traceability_matrix(
+
+    # Testing Plan
+    make_testing_plan(
+      product_name,
+      version,
+      tests,
+      auto_info,
+      style_dir = style_dir,
+      out_file = TEST_PLAN_FILE,
+      output_dir = output_dir,
+      type = type,
+      word_document = TRUE
+    )
+
+    # Testing Results
+    make_testing_results(
+      product_name,
+      version,
+      tests,
+      auto_info,
+      style_dir = style_dir,
+      out_file = TEST_RESULTS_FILE,
+      output_dir = output_dir,
+      type = type,
+      word_document = TRUE
+    )
+
+    # Traceability Matrix
+    make_traceability_matrix(
       dd,
       product_name,
       version,
       style_dir = style_dir,
       out_file = MAT_FILE,
       output_dir = output_dir,
+      type = type,
       word_document = TRUE
     )
 
-    write_validation_testing(
+    # Requirements Specification
+    make_requirements(
+      dd,
       product_name,
       version,
-      tests,
-      auto_info,
+      roles = NULL,
       style_dir = style_dir,
-      out_file = VAL_FILE,
+      out_file = REQ_FILE,
       output_dir = output_dir,
+      type = type,
+      word_document = TRUE
+    )
+
+    # Validation Summary Report
+    make_validation_summary(
+      product_name,
+      version,
+      release_notes = NULL,
+      style_dir = style_dir,
+      out_file = VAL_SUM_FILE,
+      output_dir = output_dir,
+      type = type,
       word_document = TRUE
     )
   }

@@ -36,6 +36,8 @@ same base name as \code{out_file}.}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to working directory.}
 
+\item{type}{the type of doc you want to render ("package" or "metworx")}
+
 \item{word_document}{Logical scaler indicating whether to render a docx document}
 }
 \description{

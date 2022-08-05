@@ -10,6 +10,7 @@
 #'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .Rmd
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
+#' @param type the type of doc you want to render ("package" or "metworx")
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_validation_plan <- function(
@@ -54,25 +55,25 @@ make_validation_plan <- function(
 #'
 #' @keywords internal
 format_release_changes <- function(release_notes = NULL){
-  # some boiler plate
-  # This cant be fully done right now, as we need to know what the format of `release_notes` will be
 
-  # Determine variables below -from- `release_notes`
-  new_functionality <- c("blah_function()", "important_function()") # release_notes$new_functionality
-  function_updates <- c("hello()", "goodbye()")  # release_notes$function_updates
-  functions_removed <- c("fetch_stapler()", "put_in_fridge()")  # release_notes$functions_removed
+  release_text <- map(release_notes, ~{
+    glue("{paste(.x, collapse = '\n') %>% str_trim()}")
+  })
 
-  # hopefully we can get bugs in here too (`release_notes$bugs`)
 
-  release_text <- glue("
-New User Story features in this release include:\n
-{paste0('- ',new_functionality, collapse = '\n')}
-\n
-Additionally the Release includes updated:\n
-{paste0('- ',function_updates, collapse = '\n')}
-\n
-The following items (if any) have been removed:\n
-{paste0('- ',functions_removed, collapse = '\n')}
-")
-  cat(release_text)
+  #   release_text <- glue("
+  # New User Story features in this release include:\n
+  # {paste0('- ',new_functionality, collapse = '\n')}
+  # \n
+  # Additionally the Release includes updated:\n
+  # {paste0('- ',function_updates, collapse = '\n')}
+  # \n
+  # The following items (if any) have been removed:\n
+  # {paste0('- ',functions_removed, collapse = '\n')}
+  # ")
+
+  for(i in seq_along(release_text)){
+    cat(release_text[[i]])
+    cat("\n\n\n")
+  }
 }

@@ -13,6 +13,7 @@ create_validation_docs(
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
+  type = "package",
   write = TRUE
 )
 }
@@ -36,6 +37,8 @@ exists).}
 
 \item{output_dir}{Directory to write the output documents to. Defaults to
 working directory.}
+
+\item{type}{the type of doc you want to render ("package" or "metworx")}
 
 \item{write}{Whether to create the output docs. Setting this to \code{FALSE} is
 useful when you're just interested in the return value.}

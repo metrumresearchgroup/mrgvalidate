@@ -20,6 +20,7 @@
 #'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .Rmd
 #' @param output_dir Directory to write the output documents to. Defaults to working directory.
+#' @param type the type of doc you want to render ("package" or "metworx")
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_testing_plan <- function(

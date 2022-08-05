@@ -1,6 +1,6 @@
 
 
-#' Build the Validation Summary Report and write it to output file(s)
+#' Build the Release Notes document and write it to output file(s)
 #'
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
@@ -13,18 +13,18 @@
 #' @param type the type of doc you want to render ("package" or "metworx")
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
-make_validation_summary <- function(
+make_release_notes <- function(
   product,
   version,
   release_notes = NULL,
   style_dir = NULL,
-  out_file = VAL_SUM_FILE,
+  out_file = RLS_NOTES_FILE,
   output_dir = getwd(),
   type = "package",
   word_document = TRUE
 ){
 
-  template <- get_template("validation_summary", type = type)
+  template <- get_template("release_notes", type = "metworx")  # I think we only need this doc for metworx?
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
@@ -45,21 +45,6 @@ make_validation_summary <- function(
       quiet = TRUE
     )
     message("  Finished rendering")
-  }
-}
-
-#' format bugs from release_notes
-#'
-#' @param release_notes a list of release_notes
-#'
-#' @keywords internal
-format_bugs <- function(release_notes){
-  bugs <- release_notes$bugs
-  if(is.null(bugs)){
-    cat("No bugs were addressed in this release")
-  }else{
-    # This cant be fully done right now, as we need to know what the format of `bugs` will be
-    cat(NULL)
   }
 }
 

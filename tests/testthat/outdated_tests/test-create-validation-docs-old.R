@@ -16,23 +16,16 @@ test_that("create_validation_docs() renders markdown", {
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
-    output_dir = output_dir,
-    type = "package"
+    output_dir = output_dir
   )
 
   # check that files exist
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(VAL_PLAN_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(TEST_PLAN_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(TEST_RESULTS_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(MAT_FILE), ".docx"))))
   expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(REQ_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(VAL_SUM_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, VAL_PLAN_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, TEST_PLAN_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, TEST_RESULTS_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, MAT_FILE)))
+  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(VAL_FILE), ".docx"))))
+  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(MAT_FILE), ".docx"))))
   expect_true(fs::file_exists(file.path(output_dir, REQ_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, VAL_SUM_FILE)))
+  expect_true(fs::file_exists(file.path(output_dir, VAL_FILE)))
+  expect_true(fs::file_exists(file.path(output_dir, MAT_FILE)))
 
   # get TestId's we expect to see
   test_ids <- c(
@@ -43,16 +36,16 @@ test_that("create_validation_docs() renders markdown", {
 
   # check that the markdown looks right
   # DO WE WANT TO HAVE GOLDEN FILES THAT WE CHECK AGAINST OR IS THIS ENOUGH?
-  val_text <- readr::read_file(file.path(output_dir, VAL_PLAN_FILE))
-  expect_true(str_detect(val_text, VAL_PLAN_TITLE))
-  expect_true(grepl(VAL_PLAN_BOILER, val_text, fixed = TRUE)) # str_detect doesnt work for special characters
-
-
   req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
   expect_true(str_detect(req_text, REQ_TITLE))
   expect_true(str_detect(req_text, REQ_BOILER))
   expect_true(str_detect(req_text, REQ_TITLE))
   expect_true(all(str_detect(req_text, specs$RequirementId)))
+
+  val_text <- readr::read_file(file.path(output_dir, VAL_FILE))
+  expect_true(str_detect(val_text, VAL_TITLE))
+  expect_true(str_detect(val_text, VAL_BOILER))
+  expect_true(all(str_detect(val_text, test_ids)))
 
   mat_text <- readr::read_file(file.path(output_dir, MAT_FILE))
   expect_true(str_detect(mat_text, MAT_TITLE))
