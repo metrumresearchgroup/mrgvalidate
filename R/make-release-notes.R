@@ -27,8 +27,8 @@ make_release_notes <- function(
   template <- get_template("release_notes", type = "metworx")  # I think we only need this doc for metworx?
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   if (isTRUE(word_document)) {
     message("  Rendering markdown to docx...")

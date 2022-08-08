@@ -34,8 +34,8 @@ make_traceability_matrix <- function(
   template <- get_template("traceability_matrix", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%

@@ -27,8 +27,8 @@ make_validation_summary <- function(
   template <- get_template("validation_summary", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   if (isTRUE(word_document)) {
     message("  Rendering markdown to docx...")
@@ -37,7 +37,7 @@ make_validation_summary <- function(
       params = list(
         product_name = product,
         version = version,
-        release_notes = release_notes
+        bugs = extract_bug_section(release_notes)
       ),
       output_format = rmarkdown::word_document(
         reference_docx = get_reference_docx(out_file, style_dir)),
@@ -48,18 +48,4 @@ make_validation_summary <- function(
   }
 }
 
-#' format bugs from release_notes
-#'
-#' @param release_notes a list of release_notes
-#'
-#' @keywords internal
-format_bugs <- function(release_notes){
-  bugs <- release_notes$bugs
-  if(is.null(bugs)){
-    cat("No bugs were addressed in this release")
-  }else{
-    # This cant be fully done right now, as we need to know what the format of `bugs` will be
-    cat(NULL)
-  }
-}
 

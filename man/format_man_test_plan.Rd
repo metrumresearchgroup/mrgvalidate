@@ -4,9 +4,11 @@
 \alias{format_man_test_plan}
 \title{Format manual test plan into flextable in for word doc rendering}
 \usage{
-format_man_test_plan(man_tests)
+format_man_test_plan(man_tests, template = FALSE)
 }
 \arguments{
+\item{template}{logical (T/F). If \code{TRUE} spit out text instead of formatting a dataframe.}
+
 \item{test_df}{dataframe of manual tests}
 }
 \description{

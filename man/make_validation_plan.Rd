@@ -8,6 +8,7 @@ make_validation_plan(
   product,
   version,
   release_notes = NULL,
+  auto_info = NULL,
   style_dir = NULL,
   out_file = VAL_PLAN_FILE,
   output_dir = getwd(),
@@ -19,6 +20,13 @@ make_validation_plan(
 \item{product}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{release_notes}{list of release notes, formatted for rmarkdown.}
+
+\item{auto_info}{A named list containing the test suite information pulled
+from the \code{.json} files found in \code{auto_test_dir}, one element per \code{.json}
+(named with the filename \emph{without} extension). \strong{Same note as \code{tests} about
+exporting and specs.}}
 
 \item{style_dir}{Directory to check for a docx style reference that has the
 same base name as \code{out_file}.}

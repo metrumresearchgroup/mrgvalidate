@@ -4,8 +4,15 @@
 #'
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
+#' @importFrom purrr map_chr
 #' @param product The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
+#' @param repo_url Character string denoting the url of repository.
+#' @param release_notes list of release notes, formatted for rmarkdown.
+#' @param auto_info A named list containing the test suite information pulled
+#'   from the `.json` files found in `auto_test_dir`, one element per `.json`
+#'   (named with the filename _without_ extension). **Same note as `tests` about
+#'   exporting and specs.**
 #' @param style_dir Directory to check for a docx style reference that has the
 #'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .Rmd
@@ -16,7 +23,9 @@
 make_validation_plan <- function(
   product,
   version,
+  repo_url = NULL,
   release_notes = NULL,
+  auto_info = NULL,
   style_dir = NULL,
   out_file = VAL_PLAN_FILE,
   output_dir = getwd(),
@@ -24,11 +33,15 @@ make_validation_plan <- function(
   word_document = TRUE
 ){
 
+  if(type == "package"){
+    checkmate::assert_string(repo_url, null.ok = FALSE)
+  }
+
   template <- get_template("validation_plan", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   if (isTRUE(word_document)) {
     message("  Rendering markdown to docx...")
@@ -37,7 +50,8 @@ make_validation_plan <- function(
       params = list(
         product_name = product,
         version = version,
-        release_notes = release_notes
+        release_notes = release_notes,
+        repo = glue("`{repo_url}`")
       ),
       output_format = rmarkdown::word_document(
         reference_docx = get_reference_docx(out_file, style_dir)),
@@ -59,18 +73,6 @@ format_release_changes <- function(release_notes = NULL){
   release_text <- map(release_notes, ~{
     glue("{paste(.x, collapse = '\n') %>% str_trim()}")
   })
-
-
-  #   release_text <- glue("
-  # New User Story features in this release include:\n
-  # {paste0('- ',new_functionality, collapse = '\n')}
-  # \n
-  # Additionally the Release includes updated:\n
-  # {paste0('- ',function_updates, collapse = '\n')}
-  # \n
-  # The following items (if any) have been removed:\n
-  # {paste0('- ',functions_removed, collapse = '\n')}
-  # ")
 
   for(i in seq_along(release_text)){
     cat(release_text[[i]])

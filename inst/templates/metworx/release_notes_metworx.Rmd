@@ -15,12 +15,9 @@ params:
 knitr::opts_chunk$set(results = "asis", echo=FALSE)
 ```
 
-# Validation Plan: `r params$product_name` `r params$version`
-
-## Product Release Name or Number: `r params$product_name` `r params$version`
+# Release Notes: `r params$product_name` `r params$version`
 
 ## Scope
-This document outlines the Validation Plan for the release of `r params$product_name` `r params$version` to support deployment into production environments.  This document outlines the activities that will be performed to Validate this release.
 
 The purpose of this document is to outline the steps taken to implement the changes outlined in the `r params$product_name` `r params$version` Change Request (CR-###).  All efforts were tracked and facilitated through the use of a Jira ticketing system as outlined in this document. Jira tickets were used to outline the requirements for the new feature.  A label was attached to the issue indicating the estimated risk level.  Code was written to develop the feature and unit tests were created to test that the feature functioned as necessary per the requirements specifications. Unit and end-to-end test scenarios were created and defined to ensure functionality across all developed features and components/modules. All work efforts were conducted to address the business requirements outlined in the Requirements Specification document regarding the User Stories outlined in this document. 
 

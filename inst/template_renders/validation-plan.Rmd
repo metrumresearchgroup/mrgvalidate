@@ -54,13 +54,10 @@ A Validation Summary document will be developed after Validation is completed to
 \newpage
 
 ## Release Notes
-Release Notes identifying all functionality changes and bugs addressed in this release will be provided along with the Release. Each item is accompanied by the number of the associated Pull Request in the package's GitHub repository.
-
-**GitHub Repository:** `r params$repo`
+Release Notes identifying all functionality changes and bugs addressed in this release will be provided along with the Release. Each item is accompanied by the number of the associated Pull Request in the package's GitHub repository: `r params$repo`
 
 ```{r}
-# format_release_changes(params$release_notes)
-cat(params$release_notes, sep = "\n")
+format_release_changes(params$release_notes)
 ```
 
 \newpage

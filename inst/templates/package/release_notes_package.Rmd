@@ -1,0 +1,37 @@
+---
+title: "Release Notes"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "metworx"
+  version: "v1.0.0"
+  release_notes: ""
+  repo: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Release Notes: `r params$product_name` `r params$version`
+
+## Scope
+The purpose of this document is to identify all functionality changes and bugs addressed in this release. Each item listed below is accompanied by the number of the associated Pull Request in the package's GitHub repository. Development and testing were undertaken as documented in the accompanying Validation Summary and Testing Results documents.
+
+**GitHub Repository:** `r params$repo`
+
+## Release Notes
+```{r}
+# format_release_changes(params$release_notes)
+cat(params$release_notes, sep = "\n")
+```
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+

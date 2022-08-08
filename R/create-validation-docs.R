@@ -1,39 +1,65 @@
 #' Create validation docs
 #'
 #' This function is the main entry point for creating validation docs.
-#' @param product_name The product being validated.
-#' @param version The version number of the product.
-#' @param specs tibble of stories and requirements. See [input_formats].
-#' @param auto_test_dir,man_test_dir path to directories containing automatic
-#'   and manual test output files. See [input_formats].
-#' @param roles A data frame of user roles that, if specified, is inserted into
-#'   the requirements document.
-#' @param style_dir Directory that has style references for the generated docx
-#'   files. When generating each output file, Pandoc will be instructed to use
-#'   the reference file from this directory that has the same base name (if it
-#'   exists).
-#' @param output_dir Directory to write the output documents to. Defaults to
-#'   working directory.
-#' @param type the type of doc you want to render ("package" or "metworx")
-#' @param write Whether to create the output docs. Setting this to `FALSE` is
-#'   useful when you're just interested in the return value.
-#' @return In addition to creating the validation docs, a tibble that joins the
-#'   tests with `specs` is returned invisibly.
+#'
+#' @param type character string denoting which type of docs you want to generate. Either "package" or "metworx"
+#'
+#' @details
+#' For packages, release notes will come from the corresponding `NEWS.md` document.
+#' This should be copied into `auto_test_dir` in the build script before creating the docs via `create_validation_docs` or `create_package_docs`:
+#' `fs::file_copy("NEWS.md", file.path(auto_test_dir, "NEWS.md"))`
+#'
+#' For metworx, a formatted markdown file path must be provided via the `release_notes_file` argument.
+#'
+#' Make sure sections are separated by `Heading 2 (##)` in both cases.
+#'
 #' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
 #' @importFrom purrr map_chr
 #' @importFrom stringr str_pad
 #' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
+#'
 #' @export
 create_validation_docs <- function
 (
-  product_name, version, specs,
-  auto_test_dir = NULL, man_test_dir = NULL, roles = NULL,
+  product_name,
+  version,
+  specs,
+  auto_test_dir = NULL,
+  man_test_dir = NULL,
+  release_notes_file = NULL,
+  roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
-  type = "package",
+  type = c("package", "metworx"),
   write = TRUE
 ) {
+
+  type <- match.arg(type)
+  checkmate::assert_logical(template)
+  checkmate::assert_logical(write)
+
+  switch (type,
+    package = create_package_docs(product_name, version, repo_url = "blah", specs, auto_test_dir, man_test_dir,
+                                  style_dir, output_dir, write),
+    metworx = create_metworx_docs(product_name, version, specs, auto_test_dir, man_test_dir,
+                                  release_notes_file, roles, style_dir, output_dir, write)
+  )
+}
+
+
+#' Format stories, tests, and other relevant information into usable objects
+#'
+#' @inheritParams create_validation_docs
+#'
+#' @keywords internal
+create_test_framework <- function(
+  product_name,
+  specs,
+  auto_test_dir = NULL,
+  man_test_dir = NULL,
+  type = "package"
+){
 
   if (is.null(auto_test_dir) && is.null(man_test_dir)) {
     abort("Must specify `auto_test_dir` or `man_test_dir`",
@@ -48,7 +74,7 @@ create_validation_docs <- function
     results[[1]] <- auto_res$results %>%
       mutate(date = map_chr(.data$result_file, ~ auto_res$info[[.x]]$date)) %>%
       mutate(test_type = "automatic", man_test_content = NA)
-    auto_info <- auto_res$info
+    auto_info <- get_repo_vars(auto_res$info, type)
     rm(auto_res)
   } else {
     # if no auto tests, set info to NULL.
@@ -113,121 +139,50 @@ Call find_tests_without_reqs() with the returned data frame to see them."))
              tests = c(.data$TestId, .data$TestName,
                        .data$passed, .data$failed, .data$man_test_content,
                        .data$result_file))
+  return(
+    list(
+      dd = dd,
+      tests = tests,
+      auto_info = auto_info
+         )
+  )
+}
 
-  # Read in NEWS.md for release notes
-  release_notes <- file.path(auto_test_dir, "NEWS.md") %>% readLines() %>%
-    parse_release_notes(product_name, version)
+#' Get repo URL and commit hash
+#'
+#' @param auto_info named list
+#' @param type either "package" or "metworx"
+#'
+#' @details
+#' Environment variables not set, but included in `mrgvalprep::get_sys_info`, will show up as an empty character string ('')
+#' If these variables are not set or included in `mrgvalprep::get_sys_info`, values will show up as NULL.
+#' This function accounts for both cases, and will only fetch these values if not specified.
+#' This method was chosen to preserve existing functionality of validation build scripts.
+#'
+#' @keywords internal
+get_repo_vars <- function(auto_info, type){
+  if(type == "package"){
+    repo_info <- map(auto_info, ~{
+      env_vars <- .x$info$env_vars
 
+      if(is.null(env_vars$COMMIT_HASH)) env_vars$COMMIT_HASH <- ""
+      if(is.null(env_vars$REPO)) env_vars$REPO <- ""
 
-  if (isTRUE(write)) {
-    # write_requirements(
-    #   dd,
-    #   product_name,
-    #   version,
-    #   roles = roles,
-    #   style_dir = style_dir,
-    #   out_file = REQ_FILE,
-    #   output_dir = output_dir,
-    #   word_document = TRUE
-    # )
-    #
-    # write_traceability_matrix(
-    #   dd,
-    #   product_name,
-    #   version,
-    #   style_dir = style_dir,
-    #   out_file = MAT_FILE,
-    #   output_dir = output_dir,
-    #   word_document = TRUE
-    # )
-    #
-    # write_validation_testing(
-    #   product_name,
-    #   version,
-    #   tests,
-    #   auto_info,
-    #   style_dir = style_dir,
-    #   out_file = VAL_FILE,
-    #   output_dir = output_dir,
-    #   word_document = TRUE
-    # )
-
-    # Validation Plan
-    make_validation_plan(
-      product_name,
-      version,
-      release_notes = release_notes,
-      style_dir = style_dir,
-      out_file = VAL_PLAN_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
-
-
-    # Testing Plan
-    make_testing_plan(
-      product_name,
-      version,
-      tests,
-      auto_info,
-      style_dir = style_dir,
-      out_file = TEST_PLAN_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
-
-    # Testing Results
-    make_testing_results(
-      product_name,
-      version,
-      tests,
-      auto_info,
-      style_dir = style_dir,
-      out_file = TEST_RESULTS_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
-
-    # Traceability Matrix
-    make_traceability_matrix(
-      dd,
-      product_name,
-      version,
-      style_dir = style_dir,
-      out_file = MAT_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
-
-    # Requirements Specification
-    make_requirements(
-      dd,
-      product_name,
-      version,
-      roles = NULL,
-      style_dir = style_dir,
-      out_file = REQ_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
-
-    # Validation Summary Report
-    make_validation_summary(
-      product_name,
-      version,
-      release_notes = NULL,
-      style_dir = style_dir,
-      out_file = VAL_SUM_FILE,
-      output_dir = output_dir,
-      type = type,
-      word_document = TRUE
-    )
+      if(env_vars$COMMIT_HASH == ""){
+        env_vars$COMMIT_HASH <- system("git rev-parse HEAD", intern=TRUE)
+      }
+      if(env_vars$REPO == ""){
+        env_vars$REPO <- system("git config --get remote.origin.url", intern=TRUE)
+      }
+      .x$info$env_vars <- env_vars
+      .x
+    })
+  }else if(type == "metworx"){
+    # We may eventually want to collect different information for metworx
+    # For now, dont overwrite
+    repo_info <- auto_info
   }
 
-  return(invisible(dd))
+  return(repo_info)
 }
+

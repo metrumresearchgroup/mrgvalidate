@@ -157,18 +157,19 @@ make_signature_line <- function(){
 #' @param release_notes lines of NEWS.md
 #' @param product_name name of package or metworx blueprint
 #' @param version the product's version number (must match NEWS.md)
+#' @param section_break character string identifying where section breaks occur. Generally a header character such as `###`
 #'
 #' @keywords internal
 parse_release_notes <- function(release_notes, product_name, version, section_break = "##"){
-  sections <- grep(product_name, release_notes)[1:2] # cant do this because some functions might have the product name in them, might need last version too
+  sections <- grep(product_name, release_notes)[1:2] # likely cant do this because some functions might have the product name in them, might need last version too
   this_release <- release_notes[sections[1]:sections[2]-1]
   assert_true(any(grepl(version,this_release)))
-  this_release <- split(this_release, grepl(version, this_release))[[1]] %>% str_trim() # this doesnt work for trimming
+  this_release <- split(this_release, grepl(version, this_release))[[1]]
   release_sections <- grep(section_break, this_release)
 
   release_list <- list()
   for(i in seq_along(release_sections)){
-    header.i <- gsub("##", "", this_release[release_sections[i]]) %>% str_trim()
+    header.i <- gsub(section_break, "", this_release[release_sections[i]]) %>% str_trim()
     if(i < length(release_sections)){
       release_list[[header.i]] <- this_release[release_sections[i]:(release_sections[i+1]-1)]
     }else{
@@ -177,4 +178,35 @@ parse_release_notes <- function(release_notes, product_name, version, section_br
   }
 
   release_list
+}
+
+
+#' Extract bugs section from release notes character vector
+#' @param notes_lines release notes character vector
+#' @keywords internal
+extract_bug_section <- function(notes_lines) {
+  # find beginning of bugs section
+  bug_line <- which(stringr::str_detect(notes_lines, "^#+.+[Bb]ug.+"))
+  if (length(bug_line) == 0) {
+    return("No bugs addressed in this release.")
+  } else if (length(bug_line) > 1) {
+    warning(paste(
+      glue::glue("Found multiple potential Bugs sections in {release_notes_file}:"),
+      paste(notes_lines[bug_line], collapse = "\n"),
+      "Using first section and ignoring subsequent sections.",
+      sep = "\n"
+    ))
+  }
+
+  # find end of bugs section
+  bug_heading <- unlist(stringr::str_split(notes_lines[bug_line], "\\b"))[1] %>%
+    stringr::str_trim()
+
+  end_of_bugs <- NULL
+  for (.i in (bug_line + 1):length(notes_lines)) {
+    if (grepl(bug_heading, notes_lines[.i])) end_of_bugs <- .i-1
+  }
+  if (is.null(end_of_bugs)) end_of_bugs <- length(notes_lines)
+
+  return(notes_lines[bug_line:end_of_bugs])
 }

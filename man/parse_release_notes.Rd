@@ -12,6 +12,8 @@ parse_release_notes(release_notes, product_name, version, section_break = "##")
 \item{product_name}{name of package or metworx blueprint}
 
 \item{version}{the product's version number (must match NEWS.md)}
+
+\item{section_break}{character string identifying where section breaks occur. Generally a header character such as \verb{###}}
 }
 \description{
 Parse release notes and filter to current version

@@ -8,7 +8,7 @@ number_sections: yes
 params:
   product_name: "package"
   version: "v1.0.0"
-  release_notes: ""
+  bugs: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +29,7 @@ New features or bug fixes were initiated by opening a GitHub issue stating the r
 Product features included in this release were defined in the Requirements Specification and Validation Plan as User Stories and testing using the testing strategy outlined in the Testing Plan document. All planned features for this product release were successfully developed and tested using both manual and automatic tests. All requirements outlined in the Requirements Specification and associated tests have been matched and documented in the Traceability Matrix.  The following bugs were resolved in this release: 
 
 ```{r}
-format_bugs(params$release_notes)
+cat(params$bugs, sep = "\n")
 ```
 
 ## Deviations

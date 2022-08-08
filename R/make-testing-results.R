@@ -37,8 +37,8 @@ make_testing_results <- function(
   template <- get_template("testing_results", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   auto_tests <- filter(tests, .data$test_type == "automatic")
 
@@ -55,20 +55,7 @@ make_testing_results <- function(
       )
   }) %>% setNames(names(auto_info))
 
-  val_info <- map(names(auto_info), ~ {
-    .suite <- auto_info[[.x]]
-    glue('
-
-### {.x}
-
-**Date Run:** {.suite$date}
-
-**Executor:** {.suite$executor}
-
-{print_info_list(.suite$info)}
-
-')
-  })
+  val_info <- format_val_info(auto_info)
 
   # write manual test outputs
   man_tests <- filter(tests, .data$test_type == "manual")
@@ -147,3 +134,25 @@ format_auto_tests_results <- function(test_df, val_info){
   }
 }
 
+#' Format info on automatic tests
+#'
+#' @param auto_info named list
+#'
+#' @keywords internal
+format_val_info <- function(auto_info){
+  val_info <- map(names(auto_info), ~ {
+    .suite <- auto_info[[.x]]
+    glue('
+
+### {.x}
+
+**Date Run:** {.suite$date}
+
+**Executor:** {.suite$executor}
+
+{print_info_list(.suite$info)}
+
+')
+  })
+  return(val_info)
+}

@@ -4,10 +4,12 @@
 \alias{format_auto_test_plan}
 \title{Format automatic test plan into flextable in for word doc rendering}
 \usage{
-format_auto_test_plan(test_df)
+format_auto_test_plan(test_df, template = FALSE)
 }
 \arguments{
 \item{test_df}{dataframe of automatic tests}
+
+\item{template}{logical (T/F). If \code{TRUE} spit out text instead of formatting a dataframe.}
 }
 \description{
 Format automatic test plan into flextable in for word doc rendering

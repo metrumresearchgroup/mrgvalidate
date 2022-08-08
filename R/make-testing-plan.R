@@ -38,8 +38,8 @@ make_testing_plan <- function(
   template <- get_template("testing_plan", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, paste0(tools::file_path_sans_ext(out_file), ".Rmd"))
-  fs::file_copy(template, out_file)
+  out_file <- file.path(output_dir, out_file)
+  fs::file_copy(template, out_file, overwrite = TRUE)
 
   auto_tests <- filter(tests, .data$test_type == "automatic")
 
@@ -91,16 +91,22 @@ make_testing_plan <- function(
 #' Format automatic test plan into flextable in for word doc rendering
 #'
 #' @param test_df dataframe of automatic tests
+#' @param template logical (T/F). If `TRUE` spit out text instead of formatting a dataframe.
 #'
 #' @importFrom flextable flextable autofit theme_box
 #' @importFrom knitr knit_print
 #'
 #' @keywords internal
-format_auto_test_plan <- function(test_df){
-  for(i in seq_along(test_df)){
-    tab <- test_df[[i]] %>% flextable(theme_fun = theme_box) %>%
-      flextable_word()
-    cat(knit_print(tab))
+format_auto_test_plan <- function(test_df, template = FALSE){
+  if(template){
+    cat("\n")
+    cat(test_df)
+  }else{
+    for(i in seq_along(test_df)){
+      tab <- as.data.frame(test_df[[i]]) %>% flextable(theme_fun = theme_box) %>%
+        flextable_word()
+      cat(knit_print(tab))
+    }
   }
 }
 
@@ -108,11 +114,12 @@ format_auto_test_plan <- function(test_df){
 #' Format manual test plan into flextable in for word doc rendering
 #'
 #' @param test_df dataframe of manual tests
+#' @param template logical (T/F). If `TRUE` spit out text instead of formatting a dataframe.
 #'
 #' @details this also includes text, as we do not want to render this section in the absence of manual tests
 #'
 #' @keywords internal
-format_man_test_plan <- function(man_tests){
+format_man_test_plan <- function(man_tests, template = FALSE){
   if(is.null(man_tests)){
     cat(NULL)
   }else{
@@ -148,10 +155,15 @@ Examples of the evidence users which confirm expected system behavior. A one sen
 \n
 The following manual tests will be conducted:
 \n"
+
       cat(man_test_str)
-      for(i in seq_along(man_tests)){
-        cat("\n")
-        cat(man_tests[[i]])
+      cat("\n")
+      if(template){
+        cat(man_tests)
+      }else{
+        for(i in seq_along(man_tests)){
+          cat(man_tests[[i]])
+        }
       }
     }
   }
