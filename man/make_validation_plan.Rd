@@ -7,6 +7,7 @@
 make_validation_plan(
   product,
   version,
+  repo_url = NULL,
   release_notes = NULL,
   auto_info = NULL,
   style_dir = NULL,
@@ -20,6 +21,8 @@ make_validation_plan(
 \item{product}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{repo_url}{Character string denoting the url of repository.}
 
 \item{release_notes}{list of release notes, formatted for rmarkdown.}
 

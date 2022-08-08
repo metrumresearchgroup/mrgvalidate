@@ -23,7 +23,9 @@ create_metworx_docs(
 create_package_docs(
   product_name,
   version,
+  repo_url,
   specs,
+  release_notes_file,
   auto_test_dir = NULL,
   man_test_dir = NULL,
   style_dir = NULL,

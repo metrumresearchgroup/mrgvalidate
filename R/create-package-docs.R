@@ -48,8 +48,7 @@ create_package_docs <- function
                                      type = "package")
 
   # Read in NEWS.md for release notes - change this
-  release_notes <- file.path(auto_test_dir, "NEWS.md") %>% readLines() %>%
-    parse_release_notes(product_name, version)
+  release_notes <- release_notes_file %>% readLines()
 
 
   if (isTRUE(write)) {

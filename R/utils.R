@@ -152,34 +152,6 @@ make_signature_line <- function(){
   cat(sig_str)
 }
 
-#' Parse release notes and filter to current version
-#'
-#' @param release_notes lines of NEWS.md
-#' @param product_name name of package or metworx blueprint
-#' @param version the product's version number (must match NEWS.md)
-#' @param section_break character string identifying where section breaks occur. Generally a header character such as `###`
-#'
-#' @keywords internal
-parse_release_notes <- function(release_notes, product_name, version, section_break = "##"){
-  sections <- grep(product_name, release_notes)[1:2] # likely cant do this because some functions might have the product name in them, might need last version too
-  this_release <- release_notes[sections[1]:sections[2]-1]
-  assert_true(any(grepl(version,this_release)))
-  this_release <- split(this_release, grepl(version, this_release))[[1]]
-  release_sections <- grep(section_break, this_release)
-
-  release_list <- list()
-  for(i in seq_along(release_sections)){
-    header.i <- gsub(section_break, "", this_release[release_sections[i]]) %>% str_trim()
-    if(i < length(release_sections)){
-      release_list[[header.i]] <- this_release[release_sections[i]:(release_sections[i+1]-1)]
-    }else{
-      release_list[[header.i]] <- this_release[release_sections[i]:length(this_release)]
-    }
-  }
-
-  release_list
-}
-
 
 #' Extract bugs section from release notes character vector
 #' @param notes_lines release notes character vector
