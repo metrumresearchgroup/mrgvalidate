@@ -48,7 +48,7 @@ make_requirements <- function(
     group_rows() %>%
     map(~ df_story[.x, ])
 
-  # write markdown file
+  # Format stories
   spec_chunks <- map(tests_by_story, format_spec)
 
   # collapse stories

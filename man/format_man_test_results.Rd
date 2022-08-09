@@ -2,15 +2,15 @@
 % Please edit documentation in R/make-testing-results.R
 \name{format_man_test_results}
 \alias{format_man_test_results}
-\title{Format manual test plan into flextable in for word doc rendering}
+\title{Format manual test results for word doc rendering}
 \usage{
 format_man_test_results(man_tests)
 }
 \arguments{
-\item{test_df}{dataframe of manual tests}
+\item{man_tests}{list of manual tests}
 }
 \description{
-Format manual test plan into flextable in for word doc rendering
+Format manual test results for word doc rendering
 }
 \details{
 this also includes text, as we do not want to render this section in the absence of manual tests

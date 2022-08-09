@@ -7,11 +7,10 @@ output:
     latex_engine: xelatex
 number_sections: yes
 params:
-  product_name: "package"
-  version: "v1.0.0"
+  product_name: "{Release Name}"
+  version: ""
   auto_tests: ""
   man_tests: ""
-  template: FALSE
 ---
 
 ```{r setup, include=FALSE}
@@ -33,7 +32,7 @@ Testing in both development and validation phases proceeded using a standardized
 ### Automated Tests
 The table below outlines the automated tests that will be conducted:
 ```{r}
-format_auto_test_plan(params$auto_tests, params$template)
+format_auto_test_plan(params$auto_tests)
 ```
 
 \newpage

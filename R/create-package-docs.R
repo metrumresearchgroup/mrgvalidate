@@ -2,7 +2,7 @@
 #'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
-#' @param repo_url
+#' @param repo_url Character string denoting the url of repository.
 #' @param specs tibble of stories and requirements. See [input_formats].
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
 #' @param auto_test_dir,man_test_dir path to directories containing automatic
@@ -48,7 +48,13 @@ create_package_docs <- function
                                      type = "package")
 
   # Read in NEWS.md for release notes - change this
-  release_notes <- release_notes_file %>% readLines()
+  if(!is.null(release_notes_file)){
+    assert_true(fs::file_exists(release_notes_file))
+    # likely need a separate function for metworx (package handling placeholder)
+    release_notes <- release_notes_file %>% readLines()
+  }else{
+    release_notes <- NULL
+  }
 
 
   if (isTRUE(write)) {

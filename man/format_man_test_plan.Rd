@@ -2,17 +2,15 @@
 % Please edit documentation in R/make-testing-plan.R
 \name{format_man_test_plan}
 \alias{format_man_test_plan}
-\title{Format manual test plan into flextable in for word doc rendering}
+\title{Format manual test plan for word doc rendering}
 \usage{
-format_man_test_plan(man_tests, template = FALSE)
+format_man_test_plan(man_tests)
 }
 \arguments{
-\item{template}{logical (T/F). If \code{TRUE} spit out text instead of formatting a dataframe.}
-
-\item{test_df}{dataframe of manual tests}
+\item{man_tests}{list of manual tests}
 }
 \description{
-Format manual test plan into flextable in for word doc rendering
+Format manual test plan for word doc rendering
 }
 \details{
 this also includes text, as we do not want to render this section in the absence of manual tests

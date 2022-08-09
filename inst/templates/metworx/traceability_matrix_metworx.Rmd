@@ -6,8 +6,8 @@ output:
     latex_engine: xelatex
 number_sections: yes
 params:
-  product_name: "metworx"
-  version: "v1.0.0"
+  product_name: "{Release Name}"
+  version: ""
   matrix: ""
 ---
 
@@ -24,7 +24,7 @@ This Traceability Matrix links test results to specific user stories for the pro
 
 ## Traceability Matrix
 ```{r}
-params$matrix %>% flextable() %>% flextable_word()
+params$matrix %>% flextable_word()
 ```
 
 \newpage

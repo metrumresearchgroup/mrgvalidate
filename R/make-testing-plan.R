@@ -97,33 +97,26 @@ make_testing_plan <- function(
 #' @importFrom knitr knit_print
 #'
 #' @keywords internal
-format_auto_test_plan <- function(test_df, template = FALSE){
-  if(template){
-    cat("\n")
-    cat(test_df)
-  }else{
-    for(i in seq_along(test_df)){
-      tab <- as.data.frame(test_df[[i]]) %>% flextable(theme_fun = theme_box) %>%
-        flextable_word()
-      cat(knit_print(tab))
-    }
+format_auto_test_plan <- function(test_df){
+  for(i in seq_along(test_df)){
+    tab <- test_df[[i]] %>% flextable_word()
+    cat(knit_print(tab))
   }
 }
 
 
-#' Format manual test plan into flextable in for word doc rendering
+#' Format manual test plan for word doc rendering
 #'
-#' @param test_df dataframe of manual tests
-#' @param template logical (T/F). If `TRUE` spit out text instead of formatting a dataframe.
+#' @param man_tests list of manual tests
 #'
 #' @details this also includes text, as we do not want to render this section in the absence of manual tests
 #'
 #' @keywords internal
-format_man_test_plan <- function(man_tests, template = FALSE){
+format_man_test_plan <- function(man_tests){
   if(is.null(man_tests)){
     cat(NULL)
   }else{
-    if(nrow(man_tests) > 0){
+    if(length(man_tests) > 0){
       man_test_str <-
         "\n
 ## Manual Testing
@@ -157,13 +150,9 @@ The following manual tests will be conducted:
 \n"
 
       cat(man_test_str)
-      cat("\n")
-      if(template){
-        cat(man_tests)
-      }else{
-        for(i in seq_along(man_tests)){
-          cat(man_tests[[i]])
-        }
+      for(i in seq_along(man_tests)){
+        cat("\n***\n\n")
+        cat(man_tests[[i]])
       }
     }
   }

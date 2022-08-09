@@ -73,6 +73,8 @@ working directory.}
 \item{write}{Whether to create the output docs. Setting this to \code{FALSE} is
 useful when you're just interested in the return value.}
 
+\item{repo_url}{Character string denoting the url of repository.}
+
 \item{type}{character string denoting which type of docs you want to generate. Either "package" or "metworx"}
 }
 \value{

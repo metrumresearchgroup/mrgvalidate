@@ -6,12 +6,11 @@ output:
     latex_engine: xelatex
 number_sections: yes
 params:
-  product_name: "package"
-  version: "v1.0.0"
+  product_name: "{Release Name}"
+  version: ""
   auto_tests: ""
   man_tests: ""
   val_info: ""
-  template: FALSE
 ---
 
 ```{r setup, include=FALSE}
@@ -27,7 +26,7 @@ The purpose of this Validation Testing document is to define the conditions for 
 
 ## Automated Tests Results
 ```{r}
-format_auto_tests_results(params$auto_tests, params$val_info, params$template)
+format_auto_tests_results(params$auto_tests, params$val_info)
 ```
 
 \newpage

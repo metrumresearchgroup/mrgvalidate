@@ -52,8 +52,7 @@ create_metworx_docs <- function
   if(!is.null(release_notes_file)){
     assert_true(fs::file_exists(release_notes_file))
     # likely need a separate function for metworx (package handling placeholder)
-    release_notes <- release_notes_file %>% readLines() %>%
-      parse_release_notes(product_name, version)
+    release_notes <- release_notes_file %>% readLines()
   }else{
     release_notes <- NULL
   }

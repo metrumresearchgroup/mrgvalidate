@@ -24,7 +24,7 @@ make_release_notes <- function(
   word_document = TRUE
 ){
 
-  template <- get_template("release_notes", type = "metworx")  # I think we only need this doc for metworx?
+  template <- get_template("release_notes", type = type)
 
   if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
   out_file <- file.path(output_dir, out_file)

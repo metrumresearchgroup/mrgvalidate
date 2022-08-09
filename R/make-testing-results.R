@@ -36,9 +36,10 @@ make_testing_results <- function(
 
   template <- get_template("testing_results", type = type)
 
-  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, out_file)
+  out_file <- format_rmd_name(output_dir, out_file, append = product)
   fs::file_copy(template, out_file, overwrite = TRUE)
+  # if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
+  # out_file <- file.path(output_dir, out_file)
 
   auto_tests <- filter(tests, .data$test_type == "automatic")
 
@@ -89,9 +90,9 @@ make_testing_results <- function(
 }
 
 
-#' Format manual test plan into flextable in for word doc rendering
+#' Format manual test results for word doc rendering
 #'
-#' @param test_df dataframe of manual tests
+#' @param man_tests list of manual tests
 #'
 #' @details this also includes text, as we do not want to render this section in the absence of manual tests
 #'
@@ -100,7 +101,7 @@ format_man_test_results <- function(man_tests){
   if(is.null(man_tests)){
     cat(NULL)
   }else{
-    if(nrow(man_tests) > 0){
+    if(length(man_tests) > 0){
       man_test_str <-
         "\n
 ## Manual Test Results
@@ -108,7 +109,7 @@ format_man_test_results <- function(man_tests){
 "
       cat(man_test_str)
       for(i in seq_along(man_tests)){
-        cat("\n")
+        cat("\n***\n\n")
         cat(man_tests[[i]])
       }
     }
@@ -126,7 +127,7 @@ format_man_test_results <- function(man_tests){
 format_auto_tests_results <- function(test_df, val_info){
 
   for(i in seq_along(test_df)){
-    tab <- test_df[[i]] %>% flextable() %>%
+    tab <- test_df[[i]] %>%
       flextable_word(column_shrink = "Test name")
     cat(val_info[[i]])
     cat("\n")

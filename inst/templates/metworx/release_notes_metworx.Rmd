@@ -6,8 +6,8 @@ output:
     latex_engine: xelatex
 number_sections: yes
 params:
-  product_name: "metworx"
-  version: "v1.0.0"
+  product_name: "{Release Name}"
+  version: ""
   release_notes: ""
 ---
 

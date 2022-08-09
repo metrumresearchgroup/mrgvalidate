@@ -6,9 +6,9 @@ output:
     latex_engine: xelatex
 number_sections: yes
 params:
-  product_name: "package"
-  version: "v1.0.0"
-  repo: ""
+  product_name: "{Release Name}"
+  version: ""
+  repo: "[Repo URL]"
   release_notes: ""
 ---
 

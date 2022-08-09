@@ -4,7 +4,7 @@
 \alias{format_auto_test_plan}
 \title{Format automatic test plan into flextable in for word doc rendering}
 \usage{
-format_auto_test_plan(test_df, template = FALSE)
+format_auto_test_plan(test_df)
 }
 \arguments{
 \item{test_df}{dataframe of automatic tests}

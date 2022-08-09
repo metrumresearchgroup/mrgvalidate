@@ -63,13 +63,21 @@ make_validation_plan <- function(
 }
 
 
-#' format function changes from release_notes
+#' Format Release Notes
 #'
-#' @param release_notes a list of release_notes
+#' Format `release_notes` to have evenly spaced headers with no white space
+#'
+#' @param release_notes a list or character vector of release_notes
+#'
+#' @details
+#' Note: `release_notes` *cannot* be a glue object for formatting changes to work
 #'
 #' @keywords internal
 format_release_changes <- function(release_notes = NULL){
 
+  if(!is.list(release_notes)){
+    release_notes <- list(release_notes)
+  }
   release_text <- map(release_notes, ~{
     glue("{paste(.x, collapse = '\n') %>% str_trim()}")
   })

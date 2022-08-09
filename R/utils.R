@@ -57,6 +57,31 @@ get_reference_docx <- function(out_file, style_dir) {
   return(ref)
 }
 
+
+#' Format an info JSON suite element for printing
+#' @importFrom purrr map
+#' @importFrom glue glue
+#' @keywords internal
+print_info_list <- function(.l) {
+  if (is.null(.l)) return("")
+
+  map(names(.l), ~ {
+    .v <- .l[[.x]]
+    if (inherits(.v, "list")) {
+      return(print_info_list(.v)) # recursive y'all
+    }
+
+    if (length(.v) > 1) {
+      .v <- paste(.v, collapse = "; ")
+    }
+
+    return(glue("**{.x}:** {.v}"))
+  }) %>%
+    unlist() %>%
+    paste(collapse = "\n\n")
+}
+
+
 #' fetch template from package
 #' @param template string matching which template you want to render
 #' @param type the type of doc you want to render ("package" or "metworx")
@@ -89,11 +114,12 @@ get_template <- function(
 #' @keywords internal
 flextable_word <- function(tab, pg_width = 7, column_shrink = NULL){
 
-  tab_out <- tab %>% theme_vanilla() %>% autofit()
+  tab_out <- tab %>% as.data.frame() %>% flextable() %>%
+    theme_vanilla() %>% autofit()
 
   if(!is.null(column_shrink)){
     assert_character(column_shrink)
-    assert_true(column_shrink %in% names(tab$body$dataset))
+    assert_true(column_shrink %in% names(tab))
     tab_out <- width(tab_out, glue("{column_shrink}"), width = 2.5)
   }
 
@@ -158,7 +184,7 @@ make_signature_line <- function(){
 #' @keywords internal
 extract_bug_section <- function(notes_lines) {
   # find beginning of bugs section
-  bug_line <- which(stringr::str_detect(notes_lines, "^#+.+[Bb]ug.+"))
+  bug_line <- which(stringr::str_detect(notes_lines, "\\#+.+[Bb]ug.+"))
   if (length(bug_line) == 0) {
     return("No bugs addressed in this release.")
   } else if (length(bug_line) > 1) {
@@ -181,4 +207,24 @@ extract_bug_section <- function(notes_lines) {
   if (is.null(end_of_bugs)) end_of_bugs <- length(notes_lines)
 
   return(notes_lines[bug_line:end_of_bugs])
+}
+
+#' Rename template
+#'
+#' @param output_dir directory for `out_file` to be copied to
+#' @param out_file name of file, including extension. Note: this is not a file path.
+#' @param append character string to append to out_file. Will be separated by '-'.
+#'
+#' @keywords internal
+format_rmd_name <- function(output_dir, out_file, append = NULL){
+  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
+
+  if(!is.null(append)){
+    assert_character(append)
+    out_file <- paste0(tools::file_path_sans_ext(out_file),"-",append, ".Rmd")
+  }
+
+  out_file <- file.path(output_dir, out_file)
+
+  return(out_file)
 }

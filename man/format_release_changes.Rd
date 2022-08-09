@@ -2,14 +2,17 @@
 % Please edit documentation in R/make-validation-plan.R
 \name{format_release_changes}
 \alias{format_release_changes}
-\title{format function changes from release_notes}
+\title{Format Release Notes}
 \usage{
 format_release_changes(release_notes = NULL)
 }
 \arguments{
-\item{release_notes}{a list of release_notes}
+\item{release_notes}{a list or character vector of release_notes}
 }
 \description{
-format function changes from release_notes
+Format \code{release_notes} to have evenly spaced headers with no white space
+}
+\details{
+Note: \code{release_notes} \emph{cannot} be a glue object for formatting changes to work
 }
 \keyword{internal}
