@@ -248,23 +248,10 @@ As a [role], I want [functionality] so that [value driver].
 
 
   ## cleanup RMDs
-  cleanup_template_rmds(output_dir = output_dir, append = append)
+  cleanup_rmds(output_dir = output_dir, append = append)
 }
 
 
-
-
-cleanup_template_rmds <- function(output_dir = system.file("template_renders", package = "mrgvalidate"),
-                                  file_names = c(VAL_PLAN_FILE, TEST_PLAN_FILE, TEST_RESULTS_FILE,
-                                                 MAT_FILE, REQ_FILE, VAL_SUM_FILE, RLS_NOTES_FILE),
-                                  append = NULL
-){
-  for(i in seq_along(file_names)){
-    file.i <- format_rmd_name(output_dir, file_names[i], append)
-    if(fs::file_exists(file.i)) fs::file_delete(file.i)
-  }
-
-}
 
 ### Create templates
 # Note: you must download the style docs and point `style_dir` to their location for the metrum formatting to work
