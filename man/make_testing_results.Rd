@@ -5,7 +5,7 @@
 \title{Build the Testing Results document and write it to output file(s)}
 \usage{
 make_testing_results(
-  product,
+  product_name,
   version,
   tests,
   auto_info,
@@ -17,7 +17,7 @@ make_testing_results(
 )
 }
 \arguments{
-\item{product}{The name of the product you are validating, to be included in the output document.}
+\item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
 

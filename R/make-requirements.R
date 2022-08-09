@@ -7,10 +7,10 @@
 #' @importFrom rmarkdown render
 #' @importFrom fs dir_exists dir_create
 #' @importFrom rlang .data
-#' @param df Tibble containing stories, requirements, and tests. Created in
-#'   [create_validation_docs()].
 #' @param product_name The product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
+#' @param df Tibble containing stories, requirements, and tests. Created in
+#'   [create_test_framework()].
 #' @param roles A data frame of user roles. If specified, this will be
 #'   inserted as a table under a "User Roles" section.
 #' @param style_dir Directory to check for a docx style reference that has the
@@ -20,9 +20,9 @@
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_requirements <- function(
-  df,
   product_name,
   version,
+  df,
   roles = NULL,
   style_dir = NULL,
   out_file = REQ_FILE,
@@ -31,10 +31,10 @@ make_requirements <- function(
   word_document = TRUE
 ) {
 
+  # Setup
   template <- get_template("requirements_specification", type = type)
-
-  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, out_file)
+  reference_docx <- get_reference_docx(file.path(output_dir, out_file), style_dir) # set this before appending out_file
+  out_file <- format_rmd_name(output_dir, out_file, append = product_name)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
   df_story <- df %>%
@@ -67,7 +67,7 @@ make_requirements <- function(
         spec_chunks = spec_chunks
       ),
       output_format = rmarkdown::word_document(
-        reference_docx = get_reference_docx(out_file, style_dir)),
+        reference_docx = reference_docx),
       output_dir = dirname(out_file),
       quiet = TRUE
     )

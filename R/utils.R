@@ -228,3 +228,23 @@ format_rmd_name <- function(output_dir, out_file, append = NULL){
 
   return(out_file)
 }
+
+
+#' Delete copied RMD's used to render word documents
+#'
+#' @param output_dir directory where word documents will be generated
+#' @param file_names file names of every validation plan
+#' @param append package or 'metworx' appended to file name
+#'
+#' @keywords internal
+cleanup_rmds <- function(output_dir,
+                         file_names = c(VAL_PLAN_FILE, TEST_PLAN_FILE, TEST_RESULTS_FILE,
+                                        MAT_FILE, REQ_FILE, VAL_SUM_FILE, RLS_NOTES_FILE),
+                         append = NULL
+){
+  for(i in seq_along(file_names)){
+    file.i <- format_rmd_name(output_dir, file_names[i], append)
+    if(fs::file_exists(file.i)) fs::file_delete(file.i)
+  }
+
+}

@@ -4,7 +4,7 @@
 #'
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
-#' @param product The name of the product you are validating, to be included in the output document.
+#' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param style_dir Directory to check for a docx style reference that has the
 #'   same base name as `out_file`.
@@ -14,7 +14,7 @@
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_validation_summary <- function(
-  product,
+  product_name,
   version,
   release_notes = NULL,
   style_dir = NULL,
@@ -24,10 +24,10 @@ make_validation_summary <- function(
   word_document = TRUE
 ){
 
+  # Setup
   template <- get_template("validation_summary", type = type)
-
-  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, out_file)
+  reference_docx <- get_reference_docx(file.path(output_dir, out_file), style_dir) # set this before appending out_file
+  out_file <- format_rmd_name(output_dir, out_file, append = product_name)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
   if (isTRUE(word_document)) {
@@ -35,12 +35,12 @@ make_validation_summary <- function(
     rmarkdown::render(
       out_file,
       params = list(
-        product_name = product,
+        product_name = product_name,
         version = version,
         bugs = extract_bug_section(release_notes)
       ),
       output_format = rmarkdown::word_document(
-        reference_docx = get_reference_docx(out_file, style_dir)),
+        reference_docx = reference_docx),
       output_dir = dirname(out_file),
       quiet = TRUE
     )

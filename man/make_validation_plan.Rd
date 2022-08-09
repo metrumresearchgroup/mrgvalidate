@@ -5,7 +5,7 @@
 \title{Build the Validation Plan document and write it to output file(s)}
 \usage{
 make_validation_plan(
-  product,
+  product_name,
   version,
   repo_url = NULL,
   release_notes = NULL,
@@ -18,7 +18,7 @@ make_validation_plan(
 )
 }
 \arguments{
-\item{product}{The name of the product you are validating, to be included in the output document.}
+\item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
 

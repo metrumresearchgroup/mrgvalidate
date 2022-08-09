@@ -5,9 +5,9 @@
 \title{Build the Requirements Specification and write it to output file(s)}
 \usage{
 make_requirements(
-  df,
   product_name,
   version,
+  df,
   roles = NULL,
   style_dir = NULL,
   out_file = REQ_FILE,
@@ -17,12 +17,12 @@ make_requirements(
 )
 }
 \arguments{
-\item{df}{Tibble containing stories, requirements, and tests. Created in
-\code{\link[=create_validation_docs]{create_validation_docs()}}.}
-
 \item{product_name}{The product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{df}{Tibble containing stories, requirements, and tests. Created in
+\code{\link[=create_test_framework]{create_test_framework()}}.}
 
 \item{roles}{A data frame of user roles. If specified, this will be
 inserted as a table under a "User Roles" section.}

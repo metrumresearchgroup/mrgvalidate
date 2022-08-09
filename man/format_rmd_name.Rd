@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{format_rmd_name}
 \alias{format_rmd_name}
-\title{Copy over and rename template}
+\title{Rename template}
 \usage{
 format_rmd_name(output_dir, out_file, append = NULL)
 }
@@ -14,6 +14,6 @@ format_rmd_name(output_dir, out_file, append = NULL)
 \item{append}{character string to append to out_file. Will be separated by '-'.}
 }
 \description{
-Copy over and rename template
+Rename template
 }
 \keyword{internal}

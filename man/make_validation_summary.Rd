@@ -5,7 +5,7 @@
 \title{Build the Validation Summary Report and write it to output file(s)}
 \usage{
 make_validation_summary(
-  product,
+  product_name,
   version,
   release_notes = NULL,
   style_dir = NULL,
@@ -16,7 +16,7 @@ make_validation_summary(
 )
 }
 \arguments{
-\item{product}{The name of the product you are validating, to be included in the output document.}
+\item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
 

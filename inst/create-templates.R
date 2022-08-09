@@ -104,6 +104,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("validation_plan", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, VAL_PLAN_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, VAL_PLAN_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -114,7 +115,7 @@ As a [role], I want [functionality] so that [value driver].
       repo = auto_info[[1]]$info$env_vars$REPO
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -124,6 +125,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("testing_plan", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, TEST_PLAN_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, TEST_PLAN_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -134,7 +136,7 @@ As a [role], I want [functionality] so that [value driver].
       man_tests = "{Insert tests with Test Name, description and Test IDs for each test}"
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -144,6 +146,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("testing_results", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, TEST_RESULTS_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, TEST_RESULTS_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -155,7 +158,7 @@ As a [role], I want [functionality] so that [value driver].
       man_tests = list(man_tests)
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -165,6 +168,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("traceability_matrix", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, MAT_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, MAT_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -174,7 +178,7 @@ As a [role], I want [functionality] so that [value driver].
       matrix = mat_out
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -184,6 +188,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("requirements_specification", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, REQ_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, REQ_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -194,7 +199,7 @@ As a [role], I want [functionality] so that [value driver].
       spec_chunks = spec_chunks
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -204,6 +209,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("validation_summary", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, VAL_SUM_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, VAL_SUM_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -213,7 +219,7 @@ As a [role], I want [functionality] so that [value driver].
       bugs = extract_bug_section(release_notes)
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
@@ -223,6 +229,7 @@ As a [role], I want [functionality] so that [value driver].
 
 
   template <- get_template("release_notes", type = type)
+  reference_docx <- get_reference_docx(file.path(output_dir, RLS_NOTES_FILE), style_dir)
   out_file <- format_rmd_name(output_dir, RLS_NOTES_FILE, append = append)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
@@ -233,10 +240,13 @@ As a [role], I want [functionality] so that [value driver].
       release_notes = release_notes
     ),
     output_format = rmarkdown::word_document(
-      reference_docx = get_reference_docx(out_file, style_dir)),
+      reference_docx = reference_docx),
     output_dir = dirname(out_file),
     quiet = TRUE
   )
+
+
+
   ## cleanup RMDs
   cleanup_template_rmds(output_dir = output_dir, append = append)
 }

@@ -3,9 +3,9 @@
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
 #' @param specs tibble of stories and requirements. See [input_formats].
+#' @param release_notes_file file path to a formatted markdown doc of release notes.
 #' @param auto_test_dir,man_test_dir path to directories containing automatic
 #'   and manual test output files. See [input_formats].
-#' @param release_notes_file file path to a formatted markdown doc of release notes.
 #' @param roles A data frame of user roles that, if specified, is inserted into
 #'   the requirements document.
 #' @param style_dir Directory that has style references for the generated docx
@@ -16,6 +16,8 @@
 #'   working directory.
 #' @param write Whether to create the output docs. Setting this to `FALSE` is
 #'   useful when you're just interested in the return value.
+#' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
+#'  Defaults to `TRUE`.
 #'
 #'
 #' @return In addition to creating the validation docs, a tibble that joins the
@@ -38,7 +40,8 @@ create_metworx_docs <- function
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 ) {
 
   test_data <- create_test_framework(product_name = product_name,
@@ -136,6 +139,12 @@ create_metworx_docs <- function
       word_document = TRUE
     )
   }
+
+  if(cleanup_rmd){
+    cleanup_rmds(output_dir = output_dir, append = product_name)
+  }
+
+  dd <- test_data$dd
 
   return(invisible(dd))
 }

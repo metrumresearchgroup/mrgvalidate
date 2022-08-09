@@ -5,7 +5,8 @@
 #' @importFrom rmarkdown render
 #' @importFrom fs file_copy
 #' @importFrom purrr map_chr
-#' @param product The name of the product you are validating, to be included in the output document.
+#' @importFrom checkmate assert_string
+#' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param repo_url Character string denoting the url of repository.
 #' @param release_notes list of release notes, formatted for rmarkdown.
@@ -21,7 +22,7 @@
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_validation_plan <- function(
-  product,
+  product_name,
   version,
   repo_url = NULL,
   release_notes = NULL,
@@ -34,13 +35,13 @@ make_validation_plan <- function(
 ){
 
   if(type == "package"){
-    checkmate::assert_string(repo_url, null.ok = FALSE)
+    assert_string(repo_url, null.ok = FALSE)
   }
 
+  # Setup
   template <- get_template("validation_plan", type = type)
-
-  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, out_file)
+  reference_docx <- get_reference_docx(file.path(output_dir, out_file), style_dir) # set this before appending out_file
+  out_file <- format_rmd_name(output_dir, out_file, append = product_name)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
   if (isTRUE(word_document)) {
@@ -48,13 +49,13 @@ make_validation_plan <- function(
     rmarkdown::render(
       out_file,
       params = list(
-        product_name = product,
+        product_name = product_name,
         version = version,
         release_notes = release_notes,
         repo = glue("`{repo_url}`")
       ),
       output_format = rmarkdown::word_document(
-        reference_docx = get_reference_docx(out_file, style_dir)),
+        reference_docx = reference_docx),
       output_dir = dirname(out_file),
       quiet = TRUE
     )

@@ -15,6 +15,8 @@
 #'   working directory.
 #' @param write Whether to create the output docs. Setting this to `FALSE` is
 #'   useful when you're just interested in the return value.
+#' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
+#'  Defaults to `TRUE`.
 #'
 #'
 #' @return In addition to creating the validation docs, a tibble that joins the
@@ -37,7 +39,8 @@ create_package_docs <- function
   man_test_dir = NULL,
   style_dir = NULL,
   output_dir = getwd(),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 ) {
 
 
@@ -61,8 +64,8 @@ create_package_docs <- function
 
     # Validation Plan
     make_validation_plan(
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
       repo_url = repo_url,
       release_notes = release_notes,
       auto_info = test_data$auto_info,
@@ -76,8 +79,8 @@ create_package_docs <- function
 
     # Testing Plan
     make_testing_plan(
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
       test_data$tests,
       test_data$auto_info,
       style_dir = style_dir,
@@ -89,8 +92,8 @@ create_package_docs <- function
 
     # Testing Results
     make_testing_results(
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
       test_data$tests,
       test_data$auto_info,
       style_dir = style_dir,
@@ -102,9 +105,9 @@ create_package_docs <- function
 
     # Traceability Matrix
     make_traceability_matrix(
-      test_data$dd,
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
+      df = test_data$dd,
       style_dir = style_dir,
       out_file = MAT_FILE,
       output_dir = output_dir,
@@ -114,9 +117,9 @@ create_package_docs <- function
 
     # Requirements Specification
     make_requirements(
-      test_data$dd,
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
+      df = test_data$dd,
       roles = NULL,
       style_dir = style_dir,
       out_file = REQ_FILE,
@@ -127,8 +130,8 @@ create_package_docs <- function
 
     # Validation Summary Report
     make_validation_summary(
-      product_name,
-      version,
+      product_name = product_name,
+      version = version,
       release_notes = release_notes,
       style_dir = style_dir,
       out_file = VAL_SUM_FILE,
@@ -137,6 +140,12 @@ create_package_docs <- function
       word_document = TRUE
     )
   }
+
+  if(cleanup_rmd){
+    cleanup_rmds(output_dir = output_dir, append = product_name)
+  }
+
+  dd <- test_data$dd
 
   return(invisible(dd))
 }

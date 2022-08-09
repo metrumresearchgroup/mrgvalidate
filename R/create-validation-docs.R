@@ -25,14 +25,15 @@ create_validation_docs <- function
   product_name,
   version,
   specs,
+  release_notes_file = NULL,
   auto_test_dir = NULL,
   man_test_dir = NULL,
-  release_notes_file = NULL,
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
   type = c("package", "metworx"),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 ) {
 
   type <- match.arg(type)
@@ -40,10 +41,10 @@ create_validation_docs <- function
   checkmate::assert_logical(write)
 
   switch (type,
-    package = create_package_docs(product_name, version, repo_url = "blah", specs, auto_test_dir, man_test_dir,
-                                  style_dir, output_dir, write),
-    metworx = create_metworx_docs(product_name, version, specs, auto_test_dir, man_test_dir,
-                                  release_notes_file, roles, style_dir, output_dir, write)
+    package = create_package_docs(product_name, version, repo_url, specs, release_notes_file, auto_test_dir,
+                                  man_test_dir, style_dir, output_dir, write, cleanup_rmd),
+    metworx = create_metworx_docs(product_name, version, specs, release_notes_file, auto_test_dir, man_test_dir,
+                                  release_notes_file, roles, style_dir, output_dir, write, cleanup_rmd)
   )
 }
 

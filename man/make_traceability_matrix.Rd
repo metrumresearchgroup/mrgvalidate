@@ -5,9 +5,9 @@
 \title{Build the Traceability Matrix and write it to output file(s)}
 \usage{
 make_traceability_matrix(
-  df,
-  product,
+  product_name,
   version,
+  df,
   style_dir = NULL,
   out_file = MAT_FILE,
   output_dir = getwd(),
@@ -16,12 +16,12 @@ make_traceability_matrix(
 )
 }
 \arguments{
-\item{df}{Tibble containing stories, requirements, and tests. Created in
-\code{\link[=create_validation_docs]{create_validation_docs()}}.}
-
-\item{product}{The name of the product you are validating, to be included in the output document.}
+\item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{df}{Tibble containing stories, requirements, and tests. Created in
+\code{\link[=create_test_framework]{create_test_framework()}}.}
 
 \item{style_dir}{Directory to check for a docx style reference that has the
 same base name as \code{out_file}.}

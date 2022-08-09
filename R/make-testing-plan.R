@@ -8,7 +8,7 @@
 #' @importFrom fs file_copy
 #' @importFrom stringr str_trim
 #' @importFrom stats setNames
-#' @param product The name of the product you are validating, to be included in the output document.
+#' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
 #'   OF `generate-docs.R` in [create_validation_docs()].
@@ -24,7 +24,7 @@
 #' @param word_document Logical scaler indicating whether to render a docx document
 #' @keywords internal
 make_testing_plan <- function(
-  product,
+  product_name,
   version,
   tests,
   auto_info,
@@ -35,14 +35,13 @@ make_testing_plan <- function(
   word_document = TRUE
 ){
 
+  # Setup
   template <- get_template("testing_plan", type = type)
-
-  if (!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
-  out_file <- file.path(output_dir, out_file)
+  reference_docx <- get_reference_docx(file.path(output_dir, out_file), style_dir) # set this before appending out_file
+  out_file <- format_rmd_name(output_dir, out_file, append = product_name)
   fs::file_copy(template, out_file, overwrite = TRUE)
 
   auto_tests <- filter(tests, .data$test_type == "automatic")
-
   auto_tests <- map(names(auto_info), ~ {
     .suite <- auto_info[[.x]]
     # filter to relevant tests
@@ -74,13 +73,13 @@ make_testing_plan <- function(
     rmarkdown::render(
       out_file,
       params = list(
-        product_name = product,
+        product_name = product_name,
         version = version,
         auto_tests = auto_tests,
         man_tests = man_tests
       ),
       output_format = rmarkdown::word_document(
-        reference_docx = get_reference_docx(out_file, style_dir)),
+        reference_docx = reference_docx),
       output_dir = dirname(out_file),
       quiet = TRUE
     )

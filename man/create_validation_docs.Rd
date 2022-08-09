@@ -17,7 +17,8 @@ create_metworx_docs(
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 )
 
 create_package_docs(
@@ -30,7 +31,8 @@ create_package_docs(
   man_test_dir = NULL,
   style_dir = NULL,
   output_dir = getwd(),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 )
 
 create_validation_docs(
@@ -72,6 +74,9 @@ working directory.}
 
 \item{write}{Whether to create the output docs. Setting this to \code{FALSE} is
 useful when you're just interested in the return value.}
+
+\item{cleanup_rmd}{Whether to delete the copied RMD's after the word documents are generated.
+Defaults to \code{TRUE}.}
 
 \item{repo_url}{Character string denoting the url of repository.}
 
