@@ -54,12 +54,16 @@ create_validation_templates <- function(type = c("package", "metworx"),
 [Test Description]
 
 ### Run Details
-*   	Executor: [Name]
-*   	Blueprint configuration: [Name if applicable]
-*   	Date: [Date]
+
+ - Executor: [Name]
+ - Blueprint configuration: [Name if applicable]
+ - Date: [Date]
+
 [Screenshots as needed]
+
 [Description of process for each screenshot as needed]
-                    ")
+
+")
   }else{
     NULL
   }
@@ -246,7 +250,6 @@ cleanup_template_rmds <- function(output_dir = system.file("template_renders", p
                                   append = NULL
 ){
   for(i in seq_along(file_names)){
-    format_rmd_name()
     file.i <- format_rmd_name(output_dir, file_names[i], append)
     if(fs::file_exists(file.i)) fs::file_delete(file.i)
   }

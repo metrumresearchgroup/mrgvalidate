@@ -184,7 +184,7 @@ make_signature_line <- function(){
 #' @keywords internal
 extract_bug_section <- function(notes_lines) {
   # find beginning of bugs section
-  bug_line <- which(stringr::str_detect(notes_lines, "\\#+.+[Bb]ug.+"))
+  bug_line <- which(stringr::str_detect(notes_lines, stringr::regex("^#+.+[Bb]ug.+", multiline = TRUE)))
   if (length(bug_line) == 0) {
     return("No bugs addressed in this release.")
   } else if (length(bug_line) > 1) {
