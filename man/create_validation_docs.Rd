@@ -39,14 +39,15 @@ create_validation_docs(
   product_name,
   version,
   specs,
+  release_notes_file = NULL,
   auto_test_dir = NULL,
   man_test_dir = NULL,
-  release_notes_file = NULL,
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
   type = c("package", "metworx"),
-  write = TRUE
+  write = TRUE,
+  cleanup_rmd = TRUE
 )
 }
 \arguments{

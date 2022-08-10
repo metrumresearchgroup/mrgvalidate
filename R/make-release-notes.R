@@ -6,6 +6,8 @@
 #' @importFrom fs file_copy
 #' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
+#' @param repo_url Character string denoting the url of repository.
+#' @param release_notes list of release notes, formatted for rmarkdown.
 #' @param style_dir Directory to check for a docx style reference that has the
 #'   same base name as `out_file`.
 #' @param out_file Filename to write markdown file out to. Any extension will be ignored and replaced with .Rmd
@@ -16,6 +18,7 @@
 make_release_notes <- function(
   product_name,
   version,
+  repo_url = NULL,
   release_notes = NULL,
   style_dir = NULL,
   out_file = RLS_NOTES_FILE,
@@ -23,6 +26,10 @@ make_release_notes <- function(
   type = "package",
   word_document = TRUE
 ){
+
+  if(type == "package"){
+    assert_string(repo_url, null.ok = FALSE)
+  }
 
   # Setup
   template <- get_template("release_notes", type = type)
@@ -37,6 +44,7 @@ make_release_notes <- function(
       params = list(
         product_name = product_name,
         version = version,
+        repo = glue("`{repo_url}`"),
         release_notes = release_notes
       ),
       output_format = rmarkdown::word_document(

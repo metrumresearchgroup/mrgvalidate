@@ -189,11 +189,12 @@ extract_bug_section <- function(notes_lines) {
     return("No bugs addressed in this release.")
   } else if (length(bug_line) > 1) {
     warning(paste(
-      glue::glue("Found multiple potential Bugs sections in {release_notes_file}:"),
+      glue::glue("Found multiple potential Bugs sections in `release_notes_file`:"),
       paste(notes_lines[bug_line], collapse = "\n"),
       "Using first section and ignoring subsequent sections.",
       sep = "\n"
     ))
+    bug_line <- bug_line[1]
   }
 
   # find end of bugs section
@@ -248,3 +249,5 @@ cleanup_rmds <- function(output_dir,
   }
 
 }
+
+

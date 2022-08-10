@@ -7,6 +7,7 @@
 make_release_notes(
   product_name,
   version,
+  repo_url = NULL,
   release_notes = NULL,
   style_dir = NULL,
   out_file = RLS_NOTES_FILE,
@@ -19,6 +20,10 @@ make_release_notes(
 \item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{repo_url}{Character string denoting the url of repository.}
+
+\item{release_notes}{list of release notes, formatted for rmarkdown.}
 
 \item{style_dir}{Directory to check for a docx style reference that has the
 same base name as \code{out_file}.}

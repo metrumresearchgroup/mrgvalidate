@@ -138,6 +138,18 @@ create_metworx_docs <- function
       type = "metworx",
       word_document = TRUE
     )
+
+    # Release Notes
+    make_release_notes(
+      product_name = product_name,
+      version = version,
+      release_notes = release_notes,
+      style_dir = style_dir,
+      out_file = RLS_NOTES_FILE,
+      output_dir = output_dir,
+      type = "metworx",
+      word_document = TRUE
+    )
   }
 
   if(cleanup_rmd){
