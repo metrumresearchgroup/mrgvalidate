@@ -129,7 +129,7 @@ test_that("create_package_docs() drops missing test types", {
       write = FALSE,
       cleanup_rmd = FALSE)
   },
-    "Dropping 2 test(s) that did not have matching requirements", fixed = TRUE)
+    "Dropping 2 test(s) referenced in requirements, but not found in test outputs", fixed = TRUE)
 })
 
 test_that("create_package_docs() works with no requirements", {

@@ -138,7 +138,7 @@ Call find_tests_without_reqs() with the returned data frame to see them."))
 
   if(any(is.na(dd$TestName)) | any(is.na(dd$passed))){
     missing_tests <- dd %>% filter(is.na(dd$TestName) | is.na(dd$passed))
-    warning(glue("Dropping {nrow(missing_tests)} test(s) that did not have matching requirements: {paste(missing_tests$TestId, collapse = ', ')}"))
+    warning(glue("Dropping {nrow(missing_tests)} test(s) referenced in requirements, but not found in test outputs: {paste(missing_tests$TestId, collapse = ', ')}"))
     dd <- dd %>% filter(!is.na(.data$passed))
   }
 
