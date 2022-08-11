@@ -24,10 +24,10 @@ create_validation_docs <- function
 (
   product_name,
   version,
+  repo_url = NULL,
   specs,
   release_notes_file = NULL,
   auto_test_dir = NULL,
-  man_test_dir = NULL,
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
@@ -41,10 +41,10 @@ create_validation_docs <- function
   checkmate::assert_logical(write)
 
   switch (type,
-    package = create_package_docs(product_name, version, repo_url, specs, release_notes_file, auto_test_dir,
-                                  man_test_dir, style_dir, output_dir, write, cleanup_rmd),
-    metworx = create_metworx_docs(product_name, version, specs, release_notes_file, auto_test_dir, man_test_dir,
-                                  release_notes_file, roles, style_dir, output_dir, write, cleanup_rmd)
+          package = create_package_docs(product_name, version, repo_url, specs, release_notes_file, auto_test_dir,
+                                        style_dir, output_dir, write, cleanup_rmd),
+          metworx = create_metworx_docs(product_name, version, specs, release_notes_file, auto_test_dir, man_test_dir,
+                                        roles, style_dir, output_dir, write, cleanup_rmd)
   )
 }
 
@@ -120,7 +120,7 @@ issues/tests. For new tests, please assign test IDs. ")
   }
   # End of kludge.
 
-  # write_validation_testing() takes the `tests` tibble directly. Drop the test
+  # make_testing_results() takes the `tests` tibble directly. Drop the test
   # IDs that aren't linked to `specs` because those IDs won't make it into the
   # other docs.
   testids_linked <- dd %>%
@@ -136,15 +136,24 @@ Call find_tests_without_reqs() with the returned data frame to see them."))
     tests <- tests[tests_is_linked, ]
   }
 
+  if(any(is.na(dd$TestName)) | any(is.na(dd$passed))){
+    missing_tests <- dd %>% filter(is.na(dd$TestName) | is.na(dd$passed))
+    warning(glue("Dropping {nrow(missing_tests)} test(s) that did not have matching requirements: {paste(missing_tests$TestId, collapse = ', ')}"))
+    dd <- dd %>% filter(!is.na(.data$passed))
+  }
+
+
   dd <- nest(dd,
              tests = c(.data$TestId, .data$TestName,
                        .data$passed, .data$failed, .data$man_test_content,
                        .data$result_file))
+
+
   return(
     list(
       dd = dd,
       tests = tests,
       auto_info = auto_info
-         )
+    )
   )
 }

@@ -28,7 +28,6 @@ create_package_docs(
   specs,
   release_notes_file,
   auto_test_dir = NULL,
-  man_test_dir = NULL,
   style_dir = NULL,
   output_dir = getwd(),
   write = TRUE,
@@ -38,10 +37,10 @@ create_package_docs(
 create_validation_docs(
   product_name,
   version,
+  repo_url = NULL,
   specs,
   release_notes_file = NULL,
   auto_test_dir = NULL,
-  man_test_dir = NULL,
   roles = NULL,
   style_dir = NULL,
   output_dir = getwd(),
@@ -82,6 +81,9 @@ Defaults to \code{TRUE}.}
 \item{repo_url}{Character string denoting the url of repository.}
 
 \item{type}{character string denoting which type of docs you want to generate. Either "package" or "metworx"}
+
+\item{auto_test_dir}{path to directories containing automatic
+test output files. See \link{input_formats}.}
 }
 \value{
 In addition to creating the validation docs, a tibble that joins the

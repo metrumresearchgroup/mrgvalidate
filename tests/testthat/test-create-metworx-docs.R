@@ -1,6 +1,6 @@
 library(stringr)
 
-test_that("create_validation_docs() renders markdown", {
+test_that("create_metworx_docs() renders markdown", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -9,30 +9,21 @@ test_that("create_validation_docs() renders markdown", {
 
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
   specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
-  mrgvalidate::create_validation_docs(
-    product_name = "Metworx TEST",
+  product_name <- "metworx_TEST"
+
+  mrgvalidate::create_metworx_docs(
+    product_name = product_name,
     version = "vFAKE",
     specs = specs,
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
     output_dir = output_dir,
-    type = "package"
+    cleanup_rmd = FALSE
   )
 
   # check that files exist
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(VAL_PLAN_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(TEST_PLAN_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(TEST_RESULTS_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(MAT_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(REQ_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, paste0(tools::file_path_sans_ext(VAL_SUM_FILE), ".docx"))))
-  expect_true(fs::file_exists(file.path(output_dir, VAL_PLAN_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, TEST_PLAN_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, TEST_RESULTS_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, MAT_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, REQ_FILE)))
-  expect_true(fs::file_exists(file.path(output_dir, VAL_SUM_FILE)))
+  check_files(product_name)
 
   # get TestId's we expect to see
   test_ids <- c(
@@ -42,23 +33,31 @@ test_that("create_validation_docs() renders markdown", {
 
 
   # check that the markdown looks right
-  # DO WE WANT TO HAVE GOLDEN FILES THAT WE CHECK AGAINST OR IS THIS ENOUGH?
-  val_text <- readr::read_file(file.path(output_dir, VAL_PLAN_FILE))
-  expect_true(str_detect(val_text, VAL_PLAN_TITLE))
-  expect_true(grepl(VAL_PLAN_BOILER, val_text, fixed = TRUE)) # str_detect doesnt work for special characters
+  boiler_text <- get_boiler_text("metworx")
 
+  val_plan_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_PLAN_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$VAL_PLAN_BOILER, val_plan_text, fixed = TRUE))
 
-  req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
-  expect_true(str_detect(req_text, REQ_TITLE))
-  expect_true(str_detect(req_text, REQ_BOILER))
-  expect_true(str_detect(req_text, REQ_TITLE))
-  expect_true(all(str_detect(req_text, specs$RequirementId)))
+  test_plan_text <- readr::read_file(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$TEST_PLAN_BOILER, test_plan_text, fixed = TRUE))
 
-  mat_text <- readr::read_file(file.path(output_dir, MAT_FILE))
-  expect_true(str_detect(mat_text, MAT_TITLE))
-  expect_true(str_detect(mat_text, MAT_BOILER))
-  expect_true(all(str_detect(mat_text, test_ids)))
-  expect_false(str_detect(mat_text, "LINE2!!"))
+  test_results_text <- readr::read_file(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$TEST_RESULTS_BOILER, test_results_text, fixed = TRUE))
+
+  req_text <- readr::read_file(file.path(output_dir, rename_val_file(REQ_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$REQ_BOILER, req_text, fixed = TRUE))
+  # expect_true(all(str_detect(req_text, specs$RequirementId))) # Cant inspect data in parameterized RMD - thoughts?
+
+  mat_text <- readr::read_file(file.path(output_dir, rename_val_file(MAT_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$MAT_BOILER, mat_text, fixed = TRUE))
+  # expect_true(all(str_detect(mat_text, test_ids))) # Cant inspect data in parameterized RMD - thoughts?
+  # expect_false(str_detect(mat_text, "LINE2!!"))
+
+  val_sum_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_SUM_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$VAL_SUM_BOILER, val_sum_text, fixed = TRUE))
+
+  rls_notes_text <- readr::read_file(file.path(output_dir, rename_val_file(RLS_NOTES_FILE, product_name, "Rmd")))
+  expect_true(grepl(boiler_text$RLS_NOTES_BOILER, rls_notes_text, fixed = TRUE))
 })
 
 
