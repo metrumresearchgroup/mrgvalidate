@@ -40,8 +40,12 @@ make_requirements <- function(
   df_story <- df %>%
     filter(!is.na(.data$StoryId)) %>%
     unnest(.data$tests) %>%
-    filter(!is.na(.data$passed)) %>%
     distinct(.data$StoryId, .data$TestId, .keep_all = TRUE)
+
+  if(any(is.na(df_story$TestName)) | any(is.na(df_story$passed))){
+    missing_tests <- df_story %>% filter(is.na(df_story$TestName) | is.na(df_story$passed))
+    stop("The following Test IDs did not have matching requirements: ", paste(missing_tests$TestId, collapse = ", "))
+  }
 
   tests_by_story <- df_story %>%
     group_by(.data$StoryId) %>%
