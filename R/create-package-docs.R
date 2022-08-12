@@ -1,13 +1,10 @@
 #' @title Create validation docs
-#' @description Create validation docs for packages
 #'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
 #' @param repo_url Character string denoting the url of repository.
 #' @param specs tibble of stories and requirements. See [input_formats].
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
-#' @param auto_test_dir path to directories containing automatic
-#'   test output files. See [input_formats].
 #' @param style_dir Directory that has style references for the generated docx
 #'   files. When generating each output file, Pandoc will be instructed to use
 #'   the reference file from this directory that has the same base name (if it
@@ -22,6 +19,7 @@
 #' @details
 #' For packages, release notes will come from the corresponding `NEWS.md` document.
 #'
+#' @describeIn create_package_docs Create validation docs for packages
 #'
 #' @return In addition to creating the validation docs, a tibble that joins the
 #'   tests with `specs` is returned invisibly.

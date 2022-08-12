@@ -62,19 +62,21 @@ useful when you're just interested in the return value.}
 Defaults to \code{TRUE}.}
 
 \item{repo_url}{Character string denoting the url of repository.}
-
-\item{auto_test_dir}{path to directories containing automatic
-test output files. See \link{input_formats}.}
 }
 \value{
 In addition to creating the validation docs, a tibble that joins the
 tests with \code{specs} is returned invisibly.
 }
 \description{
-Create validation docs for metworx
-
-Create validation docs for packages
+Create validation docs
 }
 \details{
 For packages, release notes will come from the corresponding \code{NEWS.md} document.
 }
+\section{Functions}{
+\itemize{
+\item \code{create_metworx_docs()}: Create validation docs for metworx
+
+\item \code{create_package_docs()}: Create validation docs for packages
+
+}}

@@ -1,5 +1,3 @@
-#' @description Create validation docs for metworx
-#'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
 #' @param specs tibble of stories and requirements. See [input_formats].
@@ -19,7 +17,7 @@
 #' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
 #'  Defaults to `TRUE`.
 #'
-#' @rdname create_package_docs
+#' @describeIn create_package_docs Create validation docs for metworx
 #'
 #' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
 #' @importFrom purrr map_chr
