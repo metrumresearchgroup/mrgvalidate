@@ -12,7 +12,7 @@ test_that("read_csv_test_results() can read test results", {
   expect_setequal(files, c("util-results", "vscode-julia-results"))
   expect_setequal(files, names(info))
 
-  expect_setequal(names(info[[1]]), c("date", "info"))
+  expect_setequal(names(info[[1]]), c("date", "executor", "info"))
   expect_true(stringr::str_detect(info[[1]]$date,
                                   "^[0-9]+\\-[0-9]+\\-[0-9]+"))
 })

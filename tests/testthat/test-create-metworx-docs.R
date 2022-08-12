@@ -1,6 +1,7 @@
 library(stringr)
 library(officer)
 
+product_name <- "metworx_TEST"
 
 test_that("create_metworx_docs() renders markdown", {
   # set up clean docs output dir
@@ -11,7 +12,6 @@ test_that("create_metworx_docs() renders markdown", {
 
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
   specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
-  product_name <- "metworx_TEST"
 
   mrgvalidate::create_metworx_docs(
     product_name = product_name,
@@ -25,7 +25,7 @@ test_that("create_metworx_docs() renders markdown", {
   )
 
   # check that files exist
-  check_files(product_name)
+  check_files(product_name, output_dir)
 
   # get TestId's we expect to see
   test_ids <- c(
@@ -78,6 +78,8 @@ test_that("create_metworx_docs() returns data df", {
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
+
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
 
   res_df <- mrgvalidate::create_metworx_docs(
     product_name = product_name,

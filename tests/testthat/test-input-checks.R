@@ -11,7 +11,8 @@ setup_test_results <- function() {
   readr::write_csv(TEST_RESULTS, "t.csv")
   fs::file_copy(
     file.path(TEST_INPUTS_DIR, "validation-results-sample", "vscode-julia-results.json"),
-    "t.json"
+    "t.json",
+    overwrite = TRUE
   )
 }
 
@@ -42,8 +43,11 @@ test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      dd <- create_metworx_docs(product_name = "product",
+                                version = "1.0",
+                                specs = SPECS,
+                                auto_test_dir = getwd(),
+                                write = FALSE),
       "not mentioned in `specs`")
     expect_message(
       res_missing <- find_missing(dd),
@@ -71,8 +75,11 @@ test_that("find_tests_without_reqs() returns tests without reqs", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      dd <- create_metworx_docs(product_name = "product",
+                                version = "1.0",
+                                specs = SPECS,
+                                auto_test_dir = getwd(),
+                                write = FALSE),
       "not mentioned in `specs`")
 
     expected <- tibble::tribble(
@@ -95,8 +102,11 @@ test_that("find_reqs_with_missing_tests() returns reqs without tests", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      dd <- create_metworx_docs(product_name = "product",
+                                version = "1.0",
+                                specs = SPECS,
+                                auto_test_dir = getwd(),
+                                write = FALSE),
       "not mentioned in `specs`")
     expect_equal(
       find_reqs_with_missing_tests(dd),

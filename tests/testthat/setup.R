@@ -20,7 +20,7 @@ rename_val_file <- function(out_file, product_name, ext = "docx"){
   paste0(tools::file_path_sans_ext(out_file),"-", product_name, ".", ext)
 }
 
-check_files <- function(product_name){
+check_files <- function(product_name, output_dir){
   expect_true(fs::file_exists(file.path(output_dir, rename_val_file(VAL_PLAN_FILE, product_name))))
   expect_true(fs::file_exists(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name))))
   expect_true(fs::file_exists(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name))))

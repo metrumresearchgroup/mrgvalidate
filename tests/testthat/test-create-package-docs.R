@@ -1,6 +1,7 @@
 library(stringr)
 library(officer)
 
+product_name <- "package_TEST"
 
 test_that("create_package_docs() renders markdown", {
   # set up clean docs output dir
@@ -11,7 +12,6 @@ test_that("create_package_docs() renders markdown", {
 
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
   specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
-  product_name <- "package_TEST"
 
   mrgvalidate::create_package_docs(
     product_name = product_name,
@@ -26,7 +26,7 @@ test_that("create_package_docs() renders markdown", {
   )
 
   # check that files exist
-  check_files(product_name)
+  check_files(product_name, output_dir)
 
   # get TestId's we expect to see
   test_ids <- c(
@@ -80,6 +80,8 @@ test_that("create_package_docs() returns data df", {
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
 
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
+
   res_df <- mrgvalidate::create_package_docs(
     product_name = product_name,
     version = "vFAKE",
@@ -128,7 +130,7 @@ test_that("create_package_docs() drops missing test types", {
       write = FALSE,
       cleanup_rmd = FALSE)
   },
-    "Dropping 2 test(s) referenced in requirements, but not found in test outputs", fixed = TRUE)
+    "2 test(s) referenced in requirements, but not found in test outputs", fixed = TRUE)
 })
 
 test_that("create_package_docs() works with no requirements", {
