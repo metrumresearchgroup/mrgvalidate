@@ -1,57 +1,7 @@
-#' Create validation docs
-#'
-#' This function is the main entry point for creating validation docs.
-#'
-#' @param type character string denoting which type of docs you want to generate. Either "package" or "metworx"
-#'
-#' @details
-#' For packages, release notes will come from the corresponding `NEWS.md` document.
-#' This should be copied into `auto_test_dir` in the build script before creating the docs via `create_validation_docs` or `create_package_docs`:
-#' `fs::file_copy("NEWS.md", file.path(auto_test_dir, "NEWS.md"))`
-#'
-#' For metworx, a formatted markdown file path must be provided via the `release_notes_file` argument.
-#'
-#' Make sure sections are separated by `Heading 2 (##)` in both cases.
-#'
-#' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
-#' @importFrom purrr map_chr
-#' @importFrom stringr str_pad
-#' @importFrom tidyr nest unnest
-#' @importFrom rlang .data
-#'
-#' @export
-create_validation_docs <- function
-(
-  product_name,
-  version,
-  repo_url = NULL,
-  specs,
-  release_notes_file = NULL,
-  auto_test_dir = NULL,
-  roles = NULL,
-  style_dir = NULL,
-  output_dir = getwd(),
-  type = c("package", "metworx"),
-  write = TRUE,
-  cleanup_rmd = TRUE
-) {
-
-  type <- match.arg(type)
-  checkmate::assert_logical(template)
-  checkmate::assert_logical(write)
-
-  switch (type,
-          package = create_package_docs(product_name, version, repo_url, specs, release_notes_file, auto_test_dir,
-                                        style_dir, output_dir, write, cleanup_rmd),
-          metworx = create_metworx_docs(product_name, version, specs, release_notes_file, auto_test_dir, man_test_dir,
-                                        roles, style_dir, output_dir, write, cleanup_rmd)
-  )
-}
-
 
 #' Format stories, tests, and other relevant information into usable objects
 #'
-#' @inheritParams create_validation_docs
+#' @inheritParams create_metworx_docs
 #'
 #' @keywords internal
 create_test_framework <- function(

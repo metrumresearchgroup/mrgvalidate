@@ -48,5 +48,6 @@ Imports:
     tidyr
 Suggests:
     testthat,
+    officer,
     withr (>= 2.3.0)
 Roxygen: list(markdown = TRUE)

@@ -51,7 +51,7 @@ read_csv_test_results <- function(test_output_dir) {
 #'   test ID.
 #' @return Tibble with TestId and content columns. In the content, links to the
 #'   test's assets subdirectory are switched from relative to absolute paths.
-#' @importFrom purrr map_dfr
+#' @importFrom purrr map_dfr map_dfc map_chr
 #' @importFrom readr read_file
 #' @importFrom stringr str_replace str_replace_all fixed
 #' @importFrom tidyr extract
@@ -77,9 +77,33 @@ read_manual_test_results <- function(test_output_dir) {
     list(TestId = .id, content = content)
   })
 
-  results %>%
+
+  results <- results %>%
     extract(.data$content, "date", "\n\\* date: +(.*)",
             remove = FALSE) %>%
     extract(.data$content, "TestName", "## MAN-[A-Z]+-[0-9]+: +(.*)",
+            remove = FALSE) %>%
+    extract(.data$content, "executor", "\n\\* executor: +(.*)",
             remove = FALSE)
+
+  # Check for required arguments
+  missing_info <- map_dfc(names(results), ~ {
+    is.na(results[.x])
+  })
+
+  if(any(missing_info)){
+    missing_tests <- map(1:nrow(missing_info), ~{
+      missing_id <- as.logical(missing_info[.x,])
+      missing_info[.x, ][missing_id]
+    }) %>% setNames(results$TestId)
+    missing_tests <- Filter(length, missing_tests) # remove empty cases
+    missing_tests <- map_chr(missing_tests,~ paste(names(.x), collapse = " & "))
+    test_ids <- paste0(names(missing_tests), collapse = ", ")
+    test_attr <- paste0(paste(missing_tests, collapse = ", "), collapse = ", ")
+    stop(glue("The test ids {test_ids}, are missing the following attributes respectively: {test_attr}"))
+  }
+
+
+  # Return
+  results %>% select(-executor)
 }

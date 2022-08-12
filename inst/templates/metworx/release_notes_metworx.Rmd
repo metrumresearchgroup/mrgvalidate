@@ -8,6 +8,7 @@ number_sections: yes
 params:
   product_name: "{Release Name}"
   version: ""
+  repo: NULL
   release_notes: ""
 ---
 

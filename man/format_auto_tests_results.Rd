@@ -4,10 +4,10 @@
 \alias{format_auto_tests_results}
 \title{Format automatic test plan into flextable in for word doc rendering}
 \usage{
-format_auto_tests_results(test_df, val_info)
+format_auto_tests_results(auto_tests, val_info)
 }
 \arguments{
-\item{test_df}{dataframe of automatic tests}
+\item{auto_tests}{dataframe of automatic tests}
 }
 \description{
 Format automatic test plan into flextable in for word doc rendering

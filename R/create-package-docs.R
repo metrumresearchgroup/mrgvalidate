@@ -1,4 +1,5 @@
-#' @describeIn create_validation_docs Create validation docs for packages
+#' @title Create validation docs
+#' @description Create validation docs for packages
 #'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
@@ -17,6 +18,9 @@
 #'   useful when you're just interested in the return value.
 #' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
 #'  Defaults to `TRUE`.
+#'
+#' @details
+#' For packages, release notes will come from the corresponding `NEWS.md` document.
 #'
 #'
 #' @return In addition to creating the validation docs, a tibble that joins the

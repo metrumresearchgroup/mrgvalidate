@@ -16,6 +16,13 @@ create_validation_templates <- function(type = c("package", "metworx"),
 
   # Template Data -----------------------------------------------------------
 
+  TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate")
+  roles <- if(type == "metworx"){
+    readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc")
+  }else{
+    NULL
+  }
+
   release_notes <- glue("
 ## New Features
  - {New Features} {(PR#)}
@@ -195,7 +202,7 @@ As a [role], I want [functionality] so that [value driver].
   rmarkdown::render(
     out_file,
     params = list(
-      roles = NULL,
+      roles = roles,
       spec_chunks = spec_chunks
     ),
     output_format = rmarkdown::word_document(

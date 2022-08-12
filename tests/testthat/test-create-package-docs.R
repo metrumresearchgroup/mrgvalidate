@@ -35,7 +35,6 @@ test_that("create_package_docs() renders markdown", {
 
 
   # check that the markdown looks right
-
   boiler_text <- get_boiler_text("package")
 
   val_plan_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_PLAN_FILE, product_name, "Rmd")))

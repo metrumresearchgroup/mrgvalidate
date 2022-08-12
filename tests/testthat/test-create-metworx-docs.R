@@ -1,4 +1,6 @@
 library(stringr)
+library(officer)
+
 
 test_that("create_metworx_docs() renders markdown", {
   # set up clean docs output dir
@@ -46,12 +48,21 @@ test_that("create_metworx_docs() renders markdown", {
 
   req_text <- readr::read_file(file.path(output_dir, rename_val_file(REQ_FILE, product_name, "Rmd")))
   expect_true(grepl(boiler_text$REQ_BOILER, req_text, fixed = TRUE))
-  # expect_true(all(str_detect(req_text, specs$RequirementId))) # Cant inspect data in parameterized RMD - thoughts?
+  # Read in docx to search for requirements
+  req_text <- read_docx(file.path(output_dir, rename_val_file(REQ_FILE, product_name)))
+  req_text <- docx_summary(req_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(specs$RequirementId)){
+    expect_true(any(grepl(specs$RequirementId[i], req_text$text)))
+  }
 
   mat_text <- readr::read_file(file.path(output_dir, rename_val_file(MAT_FILE, product_name, "Rmd")))
   expect_true(grepl(boiler_text$MAT_BOILER, mat_text, fixed = TRUE))
-  # expect_true(all(str_detect(mat_text, test_ids))) # Cant inspect data in parameterized RMD - thoughts?
-  # expect_false(str_detect(mat_text, "LINE2!!"))
+  mat_text <- read_docx(file.path(output_dir, rename_val_file(MAT_FILE, product_name)))
+  mat_text <- docx_summary(mat_text) %>% filter(content_type == "table cell")
+  for(i in seq_along(test_ids)){
+    expect_true(any(grepl(test_ids[i], mat_text$text)))
+  }
+  expect_false(any(str_detect(mat_text$text, "LINE2!!")))
 
   val_sum_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_SUM_FILE, product_name, "Rmd")))
   expect_true(grepl(boiler_text$VAL_SUM_BOILER, val_sum_text, fixed = TRUE))
@@ -61,22 +72,23 @@ test_that("create_metworx_docs() renders markdown", {
 })
 
 
-test_that("create_validation_docs() returns data df", {
+test_that("create_metworx_docs() returns data df", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
 
-  res_df <- mrgvalidate::create_validation_docs(
-    product_name = "Metworx TEST",
+  res_df <- mrgvalidate::create_metworx_docs(
+    product_name = product_name,
     version = "vFAKE",
     specs = readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")),
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
     output_dir = output_dir,
-    write = FALSE
+    write = FALSE,
+    cleanup_rmd = FALSE
   )
 
   expect_true(nrow(res_df) > 1)
@@ -92,7 +104,7 @@ test_that("create_validation_docs() returns data df", {
 
 })
 
-test_that("create_validation_docs() drops missing test types", {
+test_that("create_metworx_docs() drops missing test types", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -103,47 +115,54 @@ test_that("create_validation_docs() drops missing test types", {
   outdir_auto <- file.path(output_dir, "auto")
   fs::dir_create(outdir_auto)
 
-  create_validation_docs(
-    product_name = "Metworx TEST",
+  create_metworx_docs(
+    product_name = product_name,
     version = "vFAKE",
-    specs = specs,
+    specs = specs %>% filter(!grepl("MAN", TestIds)),
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
-    output_dir = outdir_auto)
+    output_dir = outdir_auto,
+    cleanup_rmd = FALSE)
 
-  val_text_auto <- readr::read_file(file.path(outdir_auto, VAL_FILE))
-  expect_true(str_detect(val_text_auto, "# Automated Test Results"))
-  expect_false(str_detect(val_text_auto, "# Manual Test Results"))
+  val_text_auto <- read_docx(file.path(outdir_auto, rename_val_file(TEST_RESULTS_FILE, product_name))) %>%
+    docx_summary() %>% filter(content_type == "paragraph")
+  val_text_auto <- paste(val_text_auto$text, collapse = "\n")
+  expect_true(str_detect(val_text_auto, "Automated Test Results"))
+  expect_false(str_detect(val_text_auto, "Manual Test Results"))
 
   outdir_man <- file.path(output_dir, "man")
   fs::dir_create(outdir_man)
 
-  create_validation_docs(
-    product_name = "Metworx TEST",
+  create_metworx_docs(
+    product_name = product_name,
     version = "vFAKE",
-    specs = specs,
+    specs = specs %>% filter(grepl("MAN", TestIds)),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
-    output_dir = outdir_man)
+    output_dir = outdir_man,
+    cleanup_rmd = FALSE)
 
-  val_text_man <- readr::read_file(file.path(outdir_man, VAL_FILE))
-  expect_false(str_detect(val_text_man, "# Automated Test Results"))
-  expect_true(str_detect(val_text_man, "# Manual Test Results"))
+  val_text_man <- read_docx(file.path(outdir_man, rename_val_file(TEST_RESULTS_FILE, product_name))) %>%
+    docx_summary() %>% filter(content_type == "paragraph")
+  val_text_man <- paste(val_text_man$text, collapse = "\n")
+  expect_false(str_detect(val_text_man, "Automated Test Results"))
+  expect_true(str_detect(val_text_man, "Manual Test Results"))
 })
 
-test_that("create_validation_docs() works with no requirements", {
+test_that("create_metworx_docs() works with no requirements", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
   on.exit({ fs::dir_delete(output_dir) })
 
-  res_df <- mrgvalidate::create_validation_docs(
-    product_name = "Metworx TEST",
+  res_df <- mrgvalidate::create_metworx_docs(
+    product_name = product_name,
     version = "vFAKE",
     specs = readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% select(-RequirementId, -RequirementDescription),
     auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
     man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
     roles = readr::read_csv(file.path(TEST_INPUTS_DIR, "roles.csv"), col_types = "cc"),
     output_dir = output_dir,
+    cleanup_rmd = FALSE
   )
 
   expect_true(nrow(res_df) > 1)
@@ -160,12 +179,16 @@ test_that("create_validation_docs() works with no requirements", {
   expect_true(inherits(res_df$tests, "list"))
   expect_true(all(purrr::map_lgl(res_df$tests, ~inherits(.x, "tbl_df"))))
 
-  req_text <- readr::read_file(file.path(output_dir, REQ_FILE))
   # Summary of requirements is dropped if there are no requirements.
-  expect_false(str_detect(req_text, "Summary"))
+  req_text <- read_docx(file.path(output_dir, rename_val_file(REQ_FILE, product_name)))
+  req_text <- docx_summary(req_text) %>% filter(content_type == "paragraph")
+  # 'Requirements Specification' is the title, so skip to the first occurrence of Product Risk
+  req_text <- req_text$text[grep("Product risk", req_text$text)[1]:length(req_text$text)]
+  expect_false(any(str_detect(req_text, "Requirements")))
+
 })
 
-test_that("create_validation_docs() can auto-assign test IDs", {
+test_that("create_metworx_docs() can auto-assign test IDs", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -192,12 +215,13 @@ test_that("create_validation_docs() can auto-assign test IDs", {
     file.path(auto_test_dir, "justname.json"))
 
   expect_warning(
-    res_df <- create_validation_docs(
-      product_name = "Metworx TEST",
+    res_df <- create_metworx_docs(
+      product_name = product_name,
       version = "vFAKE",
       specs = specs,
       auto_test_dir = auto_test_dir,
-      output_dir = output_dir),
+      output_dir = output_dir,
+      cleanup_rmd = FALSE),
     "temporary kludge")
 
   expected_ids <- c("METW-1", "METW-2", "METW-3")
@@ -205,14 +229,16 @@ test_that("create_validation_docs() can auto-assign test IDs", {
     res_df %>% unnest(tests) %>% pull(TestId) %>% unique(),
     expected_ids)
 
-  for (.f in c(REQ_FILE, VAL_FILE, MAT_FILE)) {
-    text <- readr::read_file(file.path(output_dir, REQ_FILE))
+  # Make sure IDs are in relevant docs
+  for (.f in c(REQ_FILE, TEST_PLAN_FILE, TEST_RESULTS_FILE, MAT_FILE)) {
+    text <- read_docx(file.path(output_dir, rename_val_file(.f, product_name))) %>% docx_summary()
+    text <- paste(text$text, collapse = "\n")
     expect_true(all(str_detect(text, expected_ids)),
                 label = paste0("IDs in ", .f))
   }
 })
 
-test_that("create_validation_docs() drops orphan test IDs from testing docs", {
+test_that("create_metworx_docs() drops orphan test IDs from testing docs", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -237,20 +263,22 @@ test_that("create_validation_docs() drops orphan test IDs from testing docs", {
     file.path(auto_test_dir, "t.json"))
 
   expect_warning(
-    res_df <- create_validation_docs(
-      product_name = "Metworx TEST",
+    res_df <- create_metworx_docs(
+      product_name = product_name,
       version = "vFAKE",
       specs = specs,
       auto_test_dir = auto_test_dir,
-      output_dir = output_dir),
+      output_dir = output_dir,
+      cleanup_rmd = FALSE),
     "not mentioned in `specs`")
 
-  text <- readr::read_file(file.path(output_dir, VAL_FILE))
-  expect_true(str_detect(text, "t001"))
-  expect_false(str_detect(text, "t002"))
+  test_text <- read_docx(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name))) %>% docx_summary() %>%
+    filter(content_type == "table cell") %>% pull(text) %>% paste(collapse = " ")
+  expect_true(str_detect(test_text, "t001"))
+  expect_false(str_detect(test_text, "t002"))
 })
 
-test_that("create_validation_docs() works if passed style_dir and output_dir", {
+test_that("create_metworx_docs() works if passed style_dir and output_dir", {
   withr::with_tempdir({
     # Set up a directory of reference .docx files.
     fs::dir_create("style-refs")
@@ -258,8 +286,8 @@ test_that("create_validation_docs() works if passed style_dir and output_dir", {
             c("-o", file.path("style-refs", "ref.docx"),
               "--print-default-data-file=reference.docx"))
 
-    base_names <- tools::file_path_sans_ext(c(REQ_FILE, VAL_FILE, MAT_FILE))
-    docxs <- paste0(base_names, ".docx")
+    base_names <- c(VAL_PLAN_FILE, TEST_PLAN_FILE, TEST_RESULTS_FILE, MAT_FILE, REQ_FILE, VAL_SUM_FILE, RLS_NOTES_FILE)
+    docxs <- rename_val_file(base_names, product_name)
     for (.f in docxs) {
       fs::file_copy(file.path("style-refs", "ref.docx"),
                     file.path("style-refs", .f))
@@ -269,13 +297,14 @@ test_that("create_validation_docs() works if passed style_dir and output_dir", {
 
     # Regression case: if the path handling of style_dir isn't handled
     # correctly, the underlying pandoc call will error here.
-    mrgvalidate::create_validation_docs(
-      product_name = "Metworx TEST",
+    mrgvalidate::create_metworx_docs(
+      product_name = product_name,
       version = "vFAKE",
       specs = specs,
       auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
       man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
       output_dir = "output",
+      cleanup_rmd = FALSE,
       style_dir = "style-refs"
     )
     for (.f in docxs) {

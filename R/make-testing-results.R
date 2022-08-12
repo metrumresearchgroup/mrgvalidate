@@ -65,6 +65,8 @@ make_testing_results <- function(
     # was:  walk(~ cat(file = out_file,  glue("\n{.x}\n\n"), append = TRUE))
     man_tests <- pull(man_tests, .data$man_test_content) %>%
       map(~ glue("\n{.x}\n\n"))
+  }else{
+    man_tests <- NULL
   }
 
   if (isTRUE(word_document)) {
@@ -116,20 +118,31 @@ format_man_test_results <- function(man_tests){
 
 #' Format automatic test plan into flextable in for word doc rendering
 #'
-#' @param test_df dataframe of automatic tests
+#' @param auto_tests dataframe of automatic tests
 #'
 #' @importFrom flextable flextable autofit theme_vanilla
 #' @importFrom knitr knit_print
 #'
 #' @keywords internal
-format_auto_tests_results <- function(test_df, val_info){
-
-  for(i in seq_along(test_df)){
-    tab <- test_df[[i]] %>%
-      flextable_word(column_shrink = "Test name")
-    cat(val_info[[i]])
-    cat("\n")
-    cat(knit_print(tab))
+format_auto_tests_results <- function(auto_tests, val_info){
+  if(is.null(auto_tests)){
+    cat(NULL)
+  }else{
+    if(length(auto_tests) > 0){
+      auto_test_str <-
+        "\n
+## Automated Test Results
+\n
+"
+      cat(auto_test_str)
+      for(i in seq_along(auto_tests)){
+        tab <- auto_tests[[i]] %>%
+          flextable_word(column_shrink = "Test name")
+        cat(val_info[[i]])
+        cat("\n")
+        cat(knit_print(tab))
+      }
+    }
   }
 }
 
@@ -141,6 +154,10 @@ format_auto_tests_results <- function(test_df, val_info){
 format_val_info <- function(auto_info){
   val_info <- map(names(auto_info), ~ {
     .suite <- auto_info[[.x]]
+    executor <- .suite$executor
+    if(is.null(executor)){
+      stop(glue("No test executor was found for {.x}. This is required."))
+    }
     glue('
 
 ### {.x}
