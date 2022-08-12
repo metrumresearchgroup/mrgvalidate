@@ -10,7 +10,7 @@
 #' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
-#'   OF `generate-docs.R` in [create_validation_docs()].
+#'   OF `generate-docs.R` in [create_package_docs()] or [create_metworx_docs()].
 #' @param auto_info A named list containing the test suite information pulled
 #'   from the `.json` files found in `auto_test_dir`, one element per `.json`
 #'   (named with the filename _without_ extension). **Same note as `tests` about

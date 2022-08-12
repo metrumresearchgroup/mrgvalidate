@@ -7,7 +7,7 @@
 format_spec(x)
 }
 \arguments{
-\item{x}{A single row from the stories df in \code{\link[=write_requirements]{write_requirements()}}}
+\item{x}{A single row from the stories df in \code{\link[=make_requirements]{make_requirements()}}}
 }
 \description{
 format a story for inclusion in output documents

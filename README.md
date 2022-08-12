@@ -17,7 +17,7 @@ devtools::install_github("metrumresearchgroup/mrgvalidate")
 
 If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html) you should only have to run this single line:
 ```
-create_validation_docs(
+create_package_docs(
   product_name = "Fake Product", 
   version = "vFake", 
   specs = spec_df,           # a tibble containing stories and requirements to validate
@@ -25,7 +25,7 @@ create_validation_docs(
 )
 ```
 
-By default, this call will write `.md` and `.docx` files for all three documents into your working directory. See [`?create_validation_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html) for other arguments to tweak how and where the documents are rendered.
+By default, this call will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html) for other arguments to tweak how and where the documents are rendered.
 
 ### Preprocessing and formatting input data
 

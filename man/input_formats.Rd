@@ -17,7 +17,7 @@ into the format required by \code{mrgvalidate}.
 
 A tibble or data.frame containing the stories, and optionally requirements,
 for the software being validated. Will be passed to \code{specs} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}. Must have the following columns:
+\code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}. Must have the following columns:
 \itemize{
 \item StoryId: unique identifier for the story
 \item StoryName: short name of story (ideally 5-8 words max, but no hard limit)
@@ -45,7 +45,7 @@ format. See \code{mrgvalprep::read_spec_gsheets()} and
 
 For automated tests, a directory containing any number of CSVs with the test
 results. The path will be passed to \code{auto_test_dir} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}. A CSV file must have the following columns:
+\code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}. A CSV file must have the following columns:
 \itemize{
 \item TestName: a description of the test
 \item passed, failed: a count of passed and failed assertions for the test
@@ -57,7 +57,7 @@ For \code{testthat} tests, the \code{mrgvalprep::parse_testthat_list_reporter()}
 to convert \link[testthat:ListReporter]{testthat::ListReporter} results into the above format.
 
 Note that if TestName and TestId columns are identical,
-\code{\link[=create_validation_docs]{create_validation_docs()}} will auto-generate IDs. This is a temporary kludge
+\code{\link[=create_package_docs]{create_package_docs()}} / \code{\link[=create_metworx_docs]{create_metworx_docs()}} will auto-generate IDs. This is a temporary kludge
 to support legacy tests and GitHub issues that don't use test IDs.
 
 Alongside each CSV, there must be a JSON file with the same base name. This
@@ -113,7 +113,7 @@ test description, run details, test results, links to images, etc.
 }
 
 The path will be passed to \code{man_test_dir} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}.
+\code{\link[=create_metworx_docs]{create_metworx_docs()}}.
 }
 }
 \seealso{

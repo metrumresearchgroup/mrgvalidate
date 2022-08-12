@@ -19,5 +19,5 @@ Tibble with NA tests IDs removed.
 }
 }
 \seealso{
-\code{\link[=create_validation_docs]{create_validation_docs()}}, \link{input_formats}
+\code{\link[=create_package_docs]{create_package_docs()}}, \code{\link[=create_metworx_docs]{create_metworx_docs()}}, \link{input_formats}
 }

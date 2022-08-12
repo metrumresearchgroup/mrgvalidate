@@ -8,7 +8,7 @@ get_reference_docx(out_file, style_dir)
 }
 \arguments{
 \item{out_file, style_dir}{The output file and reference directory passed to a
-\verb{write_*} function (e.g., \code{\link[=write_requirements]{write_requirements()}}).}
+\verb{write_*} function (e.g., \code{\link[=make_requirements]{make_requirements()}}).}
 }
 \value{
 The full path of the reference docx within \code{style_dir} with the same

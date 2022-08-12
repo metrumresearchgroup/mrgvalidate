@@ -8,7 +8,7 @@
 #' @importFrom knitr kable
 #' @importFrom rlang .data
 #' @importFrom stringr str_squish
-#' @param x A single row from the stories df in [write_requirements()]
+#' @param x A single row from the stories df in [make_requirements()]
 #' @keywords internal
 format_spec <- function(x) {
   header <- paste0("## User Story: ", x$StoryId[[1]], " ", x$StoryName[[1]], "\n")
@@ -38,7 +38,7 @@ format_spec <- function(x) {
 #' Return reference docx file whose name matches current output file.
 #'
 #' @param out_file,style_dir The output file and reference directory passed to a
-#'   `write_*` function (e.g., [write_requirements()]).
+#'   `write_*` function (e.g., [make_requirements()]).
 #' @return The full path of the reference docx within `style_dir` with the same
 #'   name as `out_file`; if such a file doesn't exist, return the default value
 #'   `reference_docx` value of [rmarkdown::word_document()].

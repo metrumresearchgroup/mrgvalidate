@@ -6,7 +6,7 @@
 #'
 #' @param tests Tibble with TestId column
 #' @return Tibble with NA tests IDs removed.
-#' @seealso [create_validation_docs()], [input_formats]
+#' @seealso [create_package_docs()], [create_metworx_docs()], [input_formats]
 #' @importFrom dplyr filter
 #' @importFrom rlang .data
 check_test_input <- function(tests) {
@@ -48,10 +48,10 @@ check_test_input <- function(tests) {
 #' aren't present because it can't do anything sensible without them.
 #'
 #' @param merged_inputs Tibble with stories, requirements and tests, as returned
-#'   by [create_validation_docs()].
+#'   by [create_package_docs()] or [create_metworx_docs()].
 #' @return Tibble with the missing items, or, in the case of `find_missing()`, a
 #'   list of tibbles.
-#' @seealso [create_validation_docs()], [input_formats]
+#' @seealso [create_package_docs()], [create_metworx_docs()], [input_formats]
 #' @importFrom purrr map_int
 #' @importFrom tibble tibble
 #' @export
