@@ -51,6 +51,16 @@ create_package_docs <- function
                                      man_test_dir = NULL,
                                      type = "package")
 
+  # Error out here and call find_missing
+  input <- check_input(test_data$dd, test_data$tests)
+
+  if(input$missing){
+    write <- FALSE
+    dd <- input$missing_data
+  }else{
+    dd <- test_data$dd
+  }
+
   # Read in NEWS.md for release notes - change this
   if(!is.null(release_notes_file)){
     assert_true(fs::file_exists(release_notes_file))
@@ -159,7 +169,7 @@ create_package_docs <- function
     cleanup_rmds(output_dir = output_dir, append = product_name)
   }
 
-  dd <- test_data$dd
+
 
   return(invisible(dd))
 }

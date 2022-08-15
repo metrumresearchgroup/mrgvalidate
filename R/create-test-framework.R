@@ -70,34 +70,12 @@ issues/tests. For new tests, please assign test IDs. ")
   }
   # End of kludge.
 
-  # make_testing_results() takes the `tests` tibble directly. Drop the test
-  # IDs that aren't linked to `specs` because those IDs won't make it into the
-  # other docs.
-  testids_linked <- dd %>%
-    filter(!is.na(.data$StoryId), !is.na(.data$TestId)) %>%
-    pull(.data$TestId) %>%
-    unique()
-  tests_is_linked <- tests$TestId %in% testids_linked
-  n_unlinked <- sum(!tests_is_linked)
-
-  if (n_unlinked > 0) {
-    warning(glue("Dropping {n_unlinked} test(s) not mentioned in `specs`.
-Call find_tests_without_reqs() with the returned data frame to see them."))
-    tests <- tests[tests_is_linked, ]
-  }
-
-  if(any(is.na(dd$TestName)) | any(is.na(dd$passed))){
-    missing_tests <- dd %>% filter(is.na(dd$TestName) | is.na(dd$passed))
-    warning(glue("{nrow(missing_tests)} test(s) referenced in requirements, but not found in test outputs: {paste(missing_tests$TestId, collapse = ', ')}"))
-    # dd <- dd %>% filter(!is.na(.data$passed))
-  }
-
-
   dd <- nest(dd,
              tests = c(.data$TestId, .data$TestName,
                        .data$passed, .data$failed, .data$man_test_content,
                        .data$result_file))
 
+  tests <- filter_unlinked_tests(dd, tests)
 
   return(
     list(
@@ -106,4 +84,66 @@ Call find_tests_without_reqs() with the returned data frame to see them."))
       auto_info = auto_info
     )
   )
+}
+
+
+
+#' Check input for missing links between tests, requirements, and stories
+#'
+#' @param dd Tibble containing stories, requirements, and tests. Created in
+#'   [create_test_framework()].
+#' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
+#'   OF `generate-docs.R` in [create_package_docs()] or [create_metworx_docs()].
+#'
+#' @keywords internal
+check_input <- function(dd, tests){
+
+  missing_data <- find_missing(dd)
+  missing <- purrr::map_lgl(missing_data, ~ !rlang::is_empty(.x))
+  if(any(missing)){
+    warning("Required links between tests and/or requirements are missing. Returning missing information. Docs will not be generated")
+    return(
+      list(
+        missing_data = missing_data[missing],
+        missing = TRUE
+      )
+    )
+  }else{
+    return(
+      list(
+        missing_data = tibble(),
+        missing = FALSE
+      )
+    )
+  }
+
+
+}
+
+
+#' Remove unliked tests
+#'
+#' @details
+#' [make_testing_results()] takes the `tests` tibble directly. Drop the test
+#' IDs that aren't linked to `specs` because those IDs won't make it into the
+#' other docs.
+#'
+#' @inheritParams check_input
+#'
+#' @keywords internal
+filter_unlinked_tests <- function(dd, tests){
+
+  testids_linked <- dd %>% unnest(tests) %>%
+    filter(!is.na(.data$StoryId), !is.na(.data$TestId)) %>%
+    pull(.data$TestId) %>%
+    unique()
+  tests_is_linked <- tests$TestId %in% testids_linked
+  n_unlinked <- sum(!tests_is_linked)
+
+  if (n_unlinked > 0) {
+    warning(glue("Dropping {n_unlinked} test(s) not mentioned in `specs`.
+If the docs are generated, call find_missing() with the returned data frame to see them. Otherwise see the returned object."))
+    tests <- tests[tests_is_linked, ]
+  }
+  return(tests)
 }
