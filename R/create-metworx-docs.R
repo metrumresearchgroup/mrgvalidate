@@ -47,6 +47,15 @@ create_metworx_docs <- function
                                      man_test_dir = man_test_dir,
                                      type = "metworx")
 
+
+  # Error out here and call find_missing
+  input <- check_input(test_data$dd, test_data$tests)
+
+  if(input$missing){
+    write <- FALSE
+    print(input$missing_data)
+  }
+
   # Need some handling for release notes
   # possibly a dataframe or list object
   if(!is.null(release_notes_file)){

@@ -98,9 +98,9 @@ issues/tests. For new tests, please assign test IDs. ")
 #' @keywords internal
 check_input <- function(dd, tests){
 
-  missing_data <- find_missing(dd)
-  missing <- purrr::map_lgl(missing_data, ~ !rlang::is_empty(.x))
-  if(any(missing)){
+  missing_data <- find_missing(dd) %>% suppressMessages()
+  missing <- purrr::map_lgl(missing_data, ~ nrow(.x) > 0)
+  if(any(missing[-1])){
     warning("Required links between tests and/or requirements are missing. Returning missing information. Docs will not be generated")
     return(
       list(
@@ -142,7 +142,7 @@ filter_unlinked_tests <- function(dd, tests){
 
   if (n_unlinked > 0) {
     warning(glue("Dropping {n_unlinked} test(s) not mentioned in `specs`.
-If the docs are generated, call find_missing() with the returned data frame to see them. Otherwise see the returned object."))
+     Call find_tests_without_reqs() with the returned data frame to see them."))
     tests <- tests[tests_is_linked, ]
   }
   return(tests)

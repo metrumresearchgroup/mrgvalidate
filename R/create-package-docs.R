@@ -56,9 +56,7 @@ create_package_docs <- function
 
   if(input$missing){
     write <- FALSE
-    dd <- input$missing_data
-  }else{
-    dd <- test_data$dd
+    print(input$missing_data)
   }
 
   # Read in NEWS.md for release notes - change this
@@ -169,7 +167,7 @@ create_package_docs <- function
     cleanup_rmds(output_dir = output_dir, append = product_name)
   }
 
-
+  dd <- test_data$dd
 
   return(invisible(dd))
 }
