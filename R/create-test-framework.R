@@ -92,11 +92,9 @@ issues/tests. For new tests, please assign test IDs. ")
 #'
 #' @param dd Tibble containing stories, requirements, and tests. Created in
 #'   [create_test_framework()].
-#' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
-#'   OF `generate-docs.R` in [create_package_docs()] or [create_metworx_docs()].
 #'
-#' @keywords internal
-check_input <- function(dd, tests){
+#' @export
+check_input <- function(dd){
 
   missing_data <- find_missing(dd) %>% suppressMessages()
   missing <- purrr::map_lgl(missing_data, ~ nrow(.x) > 0)
@@ -116,8 +114,6 @@ check_input <- function(dd, tests){
       )
     )
   }
-
-
 }
 
 
@@ -129,6 +125,8 @@ check_input <- function(dd, tests){
 #' other docs.
 #'
 #' @inheritParams check_input
+#' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
+#'   OF `generate-docs.R` in [create_package_docs()] or [create_metworx_docs()].
 #'
 #' @keywords internal
 filter_unlinked_tests <- function(dd, tests){

@@ -128,9 +128,9 @@ test_that("create_package_docs() drops missing test types", {
       auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
       output_dir = outdir_auto,
       write = FALSE,
-      cleanup_rmd = FALSE)
+      cleanup_rmd = FALSE) %>% capture.output() # suppress print()
   },
-    "2 test(s) referenced in requirements, but not found in test outputs", fixed = TRUE)
+    "Required links between tests and/or requirements are missing. Returning missing information", fixed = TRUE)
 })
 
 test_that("create_package_docs() works with no requirements", {

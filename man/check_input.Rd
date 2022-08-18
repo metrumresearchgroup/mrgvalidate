@@ -4,16 +4,12 @@
 \alias{check_input}
 \title{Check input for missing links between tests, requirements, and stories}
 \usage{
-check_input(dd, tests)
+check_input(dd)
 }
 \arguments{
 \item{dd}{Tibble containing stories, requirements, and tests. Created in
 \code{\link[=create_test_framework]{create_test_framework()}}.}
-
-\item{tests}{Tibble containing all test results, FORMAT: CREATED ON LINE 59
-OF \code{generate-docs.R} in \code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}.}
 }
 \description{
 Check input for missing links between tests, requirements, and stories
 }
-\keyword{internal}

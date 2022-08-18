@@ -49,7 +49,7 @@ create_metworx_docs <- function
 
 
   # Error out here and call find_missing
-  input <- check_input(test_data$dd, test_data$tests)
+  input <- check_input(test_data$dd)
 
   if(input$missing){
     write <- FALSE
