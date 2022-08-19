@@ -24,7 +24,7 @@ This Traceability Matrix links test results to specific user stories for the pro
 
 ## Traceability Matrix
 ```{r}
-params$matrix %>% flextable_word()
+params$matrix %>% flextable_word(column_shrink = c("User Story", "Test ID"))
 ```
 
 \newpage

@@ -119,7 +119,7 @@ flextable_word <- function(tab, pg_width = 7, column_shrink = NULL){
 
   if(!is.null(column_shrink)){
     assert_character(column_shrink)
-    assert_true(column_shrink %in% names(tab))
+    assert_true(all(column_shrink %in% names(tab)))
     tab_out <- width(tab_out, glue("{column_shrink}"), width = 2.5)
   }
 
