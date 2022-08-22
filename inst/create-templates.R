@@ -76,7 +76,7 @@ create_validation_templates <- function(type = c("package", "metworx"),
   }
 
 
-  mat_out <- tibble::tibble(`User Story` = "As a [role], I want [functionality] so [value driver] (User Story ID)",
+  mat_out <- tibble::tibble(`User Story ID` = "[STORY-ID]", `User Story` = "As a [role], I want [functionality] so [value driver]",
                     `Test ID` = paste(rep("[Test Identifier]", 4), collapse = ", "))
 
   spec_chunks <- list(
