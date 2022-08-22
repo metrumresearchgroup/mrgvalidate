@@ -13,6 +13,12 @@ test_that("create_package_docs() renders markdown", {
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
   specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
 
+  # Test that repeating TestIDs in traceability matrix are removed
+  specs$TestIds <- purrr::modify_if(
+    specs$TestIds,
+    specs$RequirementId == "VSC-R002",
+    ~ c(.x, "MXI-VSC-001"))
+
   mrgvalidate::create_package_docs(
     product_name = product_name,
     version = "vFAKE",
@@ -63,6 +69,7 @@ test_that("create_package_docs() renders markdown", {
     expect_true(any(grepl(test_ids[i], mat_text$text)))
   }
   expect_false(any(str_detect(mat_text$text, "LINE2!!")))
+  expect_equal(sum(str_count(mat_text$text, "MXI-VSC-001")), 1)
 
   val_sum_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_SUM_FILE, product_name, "Rmd")))
   expect_true(grepl(boiler_text$VAL_SUM_BOILER, val_sum_text, fixed = TRUE))
