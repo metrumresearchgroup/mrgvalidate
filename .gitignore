@@ -11,6 +11,7 @@ check_dir
 inst/doc
 all_tests.csv
 *.md
+!inst/test-inputs/release_notes_sample.md
 *.docx
 !NEWS.md
 docs/

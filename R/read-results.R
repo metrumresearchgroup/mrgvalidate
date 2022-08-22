@@ -91,7 +91,7 @@ read_manual_test_results <- function(test_output_dir) {
     is.na(results[.x])
   })
 
-  if(any(missing_info)){
+  if(any(unlist(missing_info))){
     missing_tests <- map(1:nrow(missing_info), ~{
       missing_id <- as.logical(missing_info[.x,])
       missing_info[.x, ][missing_id]
