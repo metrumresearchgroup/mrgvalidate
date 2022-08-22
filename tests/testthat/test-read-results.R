@@ -53,3 +53,25 @@ test_that("read_manual_test_results() gives helpful error on empty input", {
                  class = "mrgvalidate_input_error")
   })
 })
+
+test_that("read_manual_test_results() errors out if missing required attributes", {
+  output_dir <- file.path(TEST_INPUTS_DIR, "manual-tests-sample")
+  test_dir <- file.path(tempdir(), "mrgvalidate-read-results")
+  on.exit(fs::dir_delete(test_dir))
+  fs::dir_copy(output_dir, test_dir)
+
+  # Remove executor from a test
+  test1_dir <- list.files(test_dir)[1]
+  test1_files <- list.files(file.path(test_dir, test1_dir))
+  test1_md_file <- test1_files[grep(".md", test1_files)]
+  test1_path <- file.path(test_dir, test1_dir, test1_md_file)
+  test1 <- readLines(test1_path) %>%
+    stringr::str_replace("\\* executor: Seth Green", "")
+  writeLines(test1, test1_path)
+
+  expect_error(
+    res_df <- read_manual_test_results(test_dir),
+    "The test ids MAN-FAKE-001, are missing the following attributes respectively: executor"
+  )
+
+})
