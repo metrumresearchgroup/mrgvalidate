@@ -186,6 +186,7 @@ extract_bug_section <- function(notes_lines) {
   # find beginning of bugs section
   bug_line <- which(stringr::str_detect(notes_lines, stringr::regex("^#+.+[Bb]ug.+", multiline = TRUE)))
   if (length(bug_line) == 0) {
+    warning("No bug section found. Assuming this was intentional, `No bugs addressed in this release.` will be returned.")
     return("No bugs addressed in this release.")
   } else if (length(bug_line) > 1) {
     warning(paste(
