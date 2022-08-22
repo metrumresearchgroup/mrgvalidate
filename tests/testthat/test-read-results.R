@@ -71,7 +71,7 @@ test_that("read_manual_test_results() errors out if missing required attributes"
 
   expect_error(
     res_df <- read_manual_test_results(test_dir),
-    "The test ids MAN-FAKE-001, are missing the following attributes respectively: executor"
+    "The test ids MAN-FAKE-001, are missing the following attributes respectively"
   )
 
 })
