@@ -1,23 +1,15 @@
-#' @param product_name The product being validated.
-#' @param version The version number of the product.
-#' @param specs tibble of stories and requirements. See [input_formats].
-#' @param release_notes_file file path to a formatted markdown doc of release notes.
-#' @param auto_test_dir,man_test_dir path to directories containing automatic
-#'   and manual test output files. See [input_formats].
-#' @param roles A data frame of user roles that, if specified, is inserted into
-#'   the requirements document.
-#' @param style_dir Directory that has style references for the generated docx
-#'   files. When generating each output file, Pandoc will be instructed to use
-#'   the reference file from this directory that has the same base name (if it
-#'   exists).
-#' @param output_dir Directory to write the output documents to. Defaults to
-#'   working directory.
-#' @param write Whether to create the output docs. Setting this to `FALSE` is
-#'   useful when you're just interested in the return value.
-#' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
-#'  Defaults to `TRUE`.
+#' Create validation docs for Metworx platform
 #'
-#' @describeIn create_package_docs Create validation docs for metworx
+#' `r lifecycle::badge('experimental')`
+#' As of `mrgvalidate 2.0.0`, this function is a prototype for
+#' creating Metworx platform docs with the new 7-document format. However, it has
+#' been labeled "experimental" because it has not yet been fully vetted in
+#' a real Metworx validation.
+#'
+#' @inheritParams create_package_docs
+#' @param release_notes_file file path to a formatted markdown doc of release notes.
+#'   This should contain two top-level headers for "Changes and New Features" and
+#'   "Bug Fixes".
 #'
 #' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
 #' @importFrom purrr map_chr
@@ -25,6 +17,7 @@
 #' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
 #'
+#' @seealso [create_package_docs()]
 #' @export
 create_metworx_docs <- function
 (

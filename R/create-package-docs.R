@@ -1,10 +1,16 @@
-#' @title Create validation docs
+#' Create package validation docs
+#'
+#' This function is the entry point for creating validation docs in the new
+#' 7-document for packages.
 #'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
 #' @param repo_url Character string denoting the url of repository.
 #' @param specs tibble of stories and requirements. See [input_formats].
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
+#'   This should contain two top-level headers for "Changes and New Features" and
+#'   "Bug Fixes". For packages, this can typically be extracted from the relevant
+#'   entry in the `NEWS.md` file.
 #' @param style_dir Directory that has style references for the generated docx
 #'   files. When generating each output file, Pandoc will be instructed to use
 #'   the reference file from this directory that has the same base name (if it
@@ -16,11 +22,6 @@
 #' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
 #'  Defaults to `TRUE`.
 #'
-#' @details
-#' For packages, release notes will come from the corresponding `NEWS.md` document.
-#'
-#' @describeIn create_package_docs Create validation docs for packages
-#'
 #' @return In addition to creating the validation docs, a tibble that joins the
 #'   tests with `specs` is returned invisibly.
 #' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
@@ -29,6 +30,7 @@
 #' @importFrom tidyr nest unnest
 #' @importFrom rlang .data
 #'
+#' @seealso [create_metworx_docs()]
 #' @export
 create_package_docs <- function
 (
