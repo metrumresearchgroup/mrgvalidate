@@ -3,6 +3,10 @@ library(officer)
 
 product_name <- "metworx_TEST"
 
+# silence experimental warning
+options("mrgvalidate.metworx_test_suite" = TRUE)
+withr::defer(options("mrgvalidate.metworx_test_suite" = NULL))
+
 test_that("create_metworx_docs() renders markdown", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")

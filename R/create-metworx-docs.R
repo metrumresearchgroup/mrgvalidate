@@ -7,9 +7,13 @@
 #' a real Metworx validation.
 #'
 #' @inheritParams create_package_docs
+#' @param man_test_dir Path to directory containing `.md` files and screenshots for
+#'   results from manual tests. See [input_formats].
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
 #'   This should contain two top-level headers for "Changes and New Features" and
 #'   "Bug Fixes".
+#' @param roles A data frame of user roles that, if specified, is inserted into
+#'   the requirements document.
 #'
 #' @importFrom dplyr bind_rows filter full_join mutate pull recode rename select
 #' @importFrom purrr map_chr
@@ -33,6 +37,10 @@ create_metworx_docs <- function
   write = TRUE,
   cleanup_rmd = TRUE
 ) {
+
+  if (!isTRUE(getOption("mrgvalidate.metworx_test_suite"))) {
+    warn("create_metworx_docs() is experimental and should NOT yet be used to create real validation documentation.")
+  }
 
   test_data <- create_test_framework(product_name = product_name,
                                      specs = specs,

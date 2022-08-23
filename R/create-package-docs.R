@@ -11,6 +11,8 @@
 #'   This should contain two top-level headers for "Changes and New Features" and
 #'   "Bug Fixes". For packages, this can typically be extracted from the relevant
 #'   entry in the `NEWS.md` file.
+#' @param auto_test_dir Path to directory containing `.csv` and `.json` files with
+#'   results from automated tests. See [input_formats].
 #' @param style_dir Directory that has style references for the generated docx
 #'   files. When generating each output file, Pandoc will be instructed to use
 #'   the reference file from this directory that has the same base name (if it

@@ -29,6 +29,15 @@ create_metworx_docs(
 This should contain two top-level headers for "Changes and New Features" and
 "Bug Fixes".}
 
+\item{auto_test_dir}{Path to directory containing \code{.csv} and \code{.json} files with
+results from automated tests. See \link{input_formats}.}
+
+\item{man_test_dir}{Path to directory containing \code{.md} files and screenshots for
+results from manual tests. See \link{input_formats}.}
+
+\item{roles}{A data frame of user roles that, if specified, is inserted into
+the requirements document.}
+
 \item{style_dir}{Directory that has style references for the generated docx
 files. When generating each output file, Pandoc will be instructed to use
 the reference file from this directory that has the same base name (if it
