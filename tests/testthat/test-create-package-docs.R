@@ -311,3 +311,57 @@ test_that("create_package_docs() works if passed style_dir and output_dir", {
     }
   })
 })
+
+
+test_that("create_package_docs() changes test plan automated test section based on language", {
+  # set up clean docs output dir
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit({ fs::dir_delete(output_dir) })
+
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
+
+  res_df <- mrgvalidate::create_package_docs(
+    product_name = product_name,
+    version = "vFAKE",
+    language = "Go",
+    repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
+    release_notes_file = file.path(TEST_INPUTS_DIR, "release_notes_sample.md"),
+    specs = specs %>% select(-RequirementId, -RequirementDescription),
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    output_dir = output_dir,
+    cleanup_rmd = TRUE
+  )
+
+  test_plan_boiler_plate <- auto_testing_text("Go") %>% capture.output() %>%
+    paste(collapse = " ") %>% str_trim() %>% str_replace_all("`", "")
+
+  test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
+  test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
+  test_plan_text <- test_plan_text$text
+
+  expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
+
+
+  res_df <- mrgvalidate::create_package_docs(
+    product_name = product_name,
+    version = "vFAKE",
+    language = "R",
+    repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
+    release_notes_file = file.path(TEST_INPUTS_DIR, "release_notes_sample.md"),
+    specs = specs %>% select(-RequirementId, -RequirementDescription),
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    output_dir = output_dir,
+    cleanup_rmd = TRUE
+  )
+
+  test_plan_boiler_plate <- auto_testing_text("R") %>% capture.output() %>%
+    paste(collapse = " ") %>% str_trim() %>% str_replace_all("`", "")
+
+  test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
+  test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
+  test_plan_text <- test_plan_text$text
+
+  expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
+})

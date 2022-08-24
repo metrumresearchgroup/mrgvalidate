@@ -177,7 +177,7 @@ auto_testing_text <- function(language = c("R", "Go")){
 automated unit testing framework via the testthat R package. Tests were written in testthat format
 and saved to R source files located within the package repository. Testing was executed using the
 `testthat::test_check` function which ran all tests in every test file in the test directory. Each
-test was run in a clean R environment.  The test_check function returns a matrix of result data,
+test was run in a clean R environment. The test_check function returns a matrix of result data,
 with one line for each test and the corresponding result. The test matrix was retained and saved as
 an artifact from the validation testing. Tests relevant to the user stories covered by this change
 request were extracted from the larger test matrix to create the traceability matrix connecting the
