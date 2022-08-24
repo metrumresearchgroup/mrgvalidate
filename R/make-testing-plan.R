@@ -184,7 +184,7 @@ request were extracted from the larger test matrix to create the traceability ma
 user story with the test result.")
   }else{
     glue("Testing in both development and validation phases proceeded using a standardized, automated
-unit testing framework via Go’s standard testing framework. Tests were written in Go and saved to `.go`
+unit testing framework via Go's standard testing framework. Tests were written in Go and saved to `.go`
 source files with the suffix `_test` located within the repository. Testing was executed using the
 `go test ./...` command which ran all tests in every test file in the repository. The test results are
 captured as a `.json` file and saved as an artifact from the validation testing. Tests relevant to the
