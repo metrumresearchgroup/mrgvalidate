@@ -167,8 +167,9 @@ The following manual tests will be conducted:
 #'
 #' @param language Denotes the language the package was coded in. Either 'R' or 'Go'.
 #'        Dictates boiler plate text in the generated validation docs.
+#' @param return_text logical. If `TRUE` return the text instead of printing it
 #' @keywords internal
-auto_testing_text <- function(language = c("R", "Go")){
+auto_testing_text <- function(language = c("R", "Go"), return_text = FALSE){
 
   language <- match.arg(language)
 
@@ -192,7 +193,13 @@ user stories covered by this change request were extracted from the larger test 
 traceability matrix connecting the user story with the test result.")
   }
 
-  text <- glue("{gsub('\n',' ', text)}")
-  cat("\n")
-  cat(text)
+  text <- gsub('\n',' ', text)
+
+  if(return_text){
+    return(text)
+  }else{
+    text <- glue(text)
+    cat("\n")
+    cat(text)
+  }
 }

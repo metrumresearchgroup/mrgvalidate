@@ -4,11 +4,13 @@
 \alias{auto_testing_text}
 \title{Generate automated testing boiler plate text for the testing plan}
 \usage{
-auto_testing_text(language = c("R", "Go"))
+auto_testing_text(language = c("R", "Go"), return_text = FALSE)
 }
 \arguments{
 \item{language}{Denotes the language the package was coded in. Either 'R' or 'Go'.
 Dictates boiler plate text in the generated validation docs.}
+
+\item{return_text}{logical. If \code{TRUE} return the text instead of printing it}
 }
 \description{
 Generate automated testing boiler plate text for the testing plan

@@ -334,8 +334,8 @@ test_that("create_package_docs() changes test plan automated test section based 
     cleanup_rmd = TRUE
   )
 
-  test_plan_boiler_plate <- auto_testing_text("Go") %>% capture.output() %>%
-    paste(collapse = " ") %>% str_trim() %>% str_replace_all("`", "")
+  test_plan_boiler_plate <- auto_testing_text("Go", return_text = TRUE) %>% str_trim() %>%
+    str_replace_all("`", "")
 
   test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
@@ -358,8 +358,8 @@ test_that("create_package_docs() changes test plan automated test section based 
     cleanup_rmd = TRUE
   )
 
-  test_plan_boiler_plate <- auto_testing_text("R") %>% capture.output() %>%
-    paste(collapse = " ") %>% str_trim() %>% str_replace_all("`", "")
+  test_plan_boiler_plate <- auto_testing_text("R", return_text = TRUE) %>% str_trim() %>%
+    str_replace_all("`", "")
 
   test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
