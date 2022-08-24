@@ -339,7 +339,7 @@ test_that("create_package_docs() changes test plan automated test section based 
 
   test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
-  test_plan_text <- test_plan_text$text
+  test_plan_text <- test_plan_text$text %>% str_replace_all("’","'")
 
   expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
 
@@ -361,7 +361,7 @@ test_that("create_package_docs() changes test plan automated test section based 
 
   test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
-  test_plan_text <- test_plan_text$text
+  test_plan_text <- test_plan_text$text %>% str_replace_all("’","'")
 
   expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
 })
