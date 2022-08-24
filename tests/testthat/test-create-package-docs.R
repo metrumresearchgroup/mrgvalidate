@@ -341,8 +341,6 @@ test_that("create_package_docs() changes test plan automated test section based 
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
   test_plan_text <- test_plan_text$text %>% str_replace_all("’","'")
 
-  print(test_plan_boiler_plate)
-  print(test_plan_text[7])
   expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
 
 
@@ -365,7 +363,5 @@ test_that("create_package_docs() changes test plan automated test section based 
   test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
   test_plan_text <- test_plan_text$text %>% str_replace_all("’","'")
 
-  print(test_plan_boiler_plate)
-  print(test_plan_text[7])
   expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
 })
