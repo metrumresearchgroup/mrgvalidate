@@ -173,7 +173,7 @@ auto_testing_text <- function(language = c("R", "Go")){
   language <- match.arg(language)
 
   text <- if(language == "R"){
-    glue("Testing in both development and validation phases proceeded using a standardized,
+    paste("Testing in both development and validation phases proceeded using a standardized,
 automated unit testing framework via the testthat R package. Tests were written in testthat format
 and saved to R source files located within the package repository. Testing was executed using the
 `testthat::test_check` function which ran all tests in every test file in the test directory. Each
@@ -183,7 +183,7 @@ an artifact from the validation testing. Tests relevant to the user stories cove
 request were extracted from the larger test matrix to create the traceability matrix connecting the
 user story with the test result.")
   }else{
-    glue("Testing in both development and validation phases proceeded using a standardized, automated
+    paste("Testing in both development and validation phases proceeded using a standardized, automated
 unit testing framework via Go's standard testing framework. Tests were written in Go and saved to `.go`
 source files with the suffix `_test` located within the repository. Testing was executed using the
 `go test ./...` command which ran all tests in every test file in the repository. The test results are
@@ -192,6 +192,7 @@ user stories covered by this change request were extracted from the larger test 
 traceability matrix connecting the user story with the test result.")
   }
 
+  text <- glue("{gsub('\n',' ', text)}")
   cat("\n")
   cat(text)
 }
