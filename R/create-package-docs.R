@@ -2,6 +2,8 @@
 #'
 #' @param product_name The product being validated.
 #' @param version The version number of the product.
+#' @param language Denotes the language the package was coded in. Either 'R' or 'Go'.
+#'        Dictates boiler plate text in the generated validation docs.
 #' @param repo_url Character string denoting the url of repository.
 #' @param specs tibble of stories and requirements. See [input_formats].
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
@@ -34,6 +36,7 @@ create_package_docs <- function
 (
   product_name,
   version,
+  language = c("R", "Go"),
   repo_url,
   specs,
   release_notes_file,
@@ -44,6 +47,7 @@ create_package_docs <- function
   cleanup_rmd = TRUE
 ) {
 
+  language <- match.arg(language)
 
   test_data <- create_test_framework(product_name = product_name,
                                      specs = specs,
@@ -90,6 +94,7 @@ create_package_docs <- function
     make_testing_plan(
       product_name = product_name,
       version = version,
+      language = language,
       test_data$tests,
       test_data$auto_info,
       style_dir = style_dir,
@@ -171,3 +176,4 @@ create_package_docs <- function
 
   return(invisible(dd))
 }
+

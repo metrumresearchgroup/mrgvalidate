@@ -86,6 +86,7 @@ create_metworx_docs <- function
     make_testing_plan(
       product_name = product_name,
       version = version,
+      language = NULL,
       test_data$tests,
       test_data$auto_info,
       style_dir = style_dir,

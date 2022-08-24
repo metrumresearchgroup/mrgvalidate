@@ -7,6 +7,7 @@
 make_testing_plan(
   product_name,
   version,
+  language,
   tests,
   auto_info,
   style_dir = NULL,
@@ -20,6 +21,9 @@ make_testing_plan(
 \item{product_name}{The name of the product you are validating, to be included in the output document.}
 
 \item{version}{The version number of the product you are validating, to be included in the output document.}
+
+\item{language}{Denotes the language the package was coded in. Either 'R' or 'Go'.
+Dictates boiler plate text in the generated validation docs.}
 
 \item{tests}{Tibble containing all test results, FORMAT: CREATED ON LINE 59
 OF \code{generate-docs.R} in \code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}.}
