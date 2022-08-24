@@ -44,8 +44,7 @@ create_metworx_docs <- function
   test_data <- create_test_framework(product_name = product_name,
                                      specs = specs,
                                      auto_test_dir = auto_test_dir,
-                                     man_test_dir = man_test_dir,
-                                     type = "metworx")
+                                     man_test_dir = man_test_dir)
 
 
   # Error out here and call find_missing

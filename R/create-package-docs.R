@@ -52,8 +52,7 @@ create_package_docs <- function
   test_data <- create_test_framework(product_name = product_name,
                                      specs = specs,
                                      auto_test_dir = auto_test_dir,
-                                     man_test_dir = NULL,
-                                     type = "package")
+                                     man_test_dir = NULL)
 
   # Error out here and call find_missing
   input <- check_input(test_data$dd)
