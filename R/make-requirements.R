@@ -49,6 +49,7 @@ make_requirements <- function(
 
   # Format stories
   spec_chunks <- map(tests_by_story, format_spec)
+  test_chunks <- map(tests_by_story, format_req_tests)
 
   # collapse stories
   spec_chunks <- map(spec_chunks, function(x) {
@@ -63,7 +64,8 @@ make_requirements <- function(
         product_name = product_name,
         version = version,
         roles = roles,
-        spec_chunks = spec_chunks
+        spec_chunks = spec_chunks,
+        test_chunks = test_chunks
       ),
       output_format = rmarkdown::word_document(
         reference_docx = reference_docx),
@@ -93,13 +95,20 @@ format_roles <- function(roles){
 #' separate stories by divider (hr)
 #'
 #' @param spec_chunks list of requirements, organized by story
+#' @param test_chunks list of tests, formatted as flextables, organized by story
 #' @param word_doc logical. Sets horizontal separator format
 #'
+#' @importFrom flextable fontsize
 #' @keywords internal
-format_requirements <- function(spec_chunks, word_doc = TRUE){
+format_requirements <- function(spec_chunks, test_chunks, word_doc = TRUE){
   sep <- ifelse(word_doc, "\n***\n", "\n<hr>\n")
   cat(sep)
   for(i in seq_along(spec_chunks)){
-    cat(spec_chunks[[i]], sep)
+    tab <- test_chunks[[i]] %>%
+      flextable_word(pg_width = 6, column_width = c("Test ID" = 1.5)) %>%
+      fontsize(size = 9, part = "body")
+    cat(spec_chunks[[i]])
+    cat(knit_print(tab))
+    cat(sep)
   }
 }

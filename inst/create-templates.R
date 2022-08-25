@@ -75,7 +75,6 @@ create_validation_templates <- function(type = c("package", "metworx"),
     NULL
   }
 
-
   mat_out <- tibble::tibble(`User Story ID` = "[STORY-ID]", `User Story` = "As a [role], I want [functionality] so [value driver]",
                     `Test ID` = paste(rep("[Test Identifier]", 4), collapse = ", "))
 
@@ -97,15 +96,12 @@ As a [role], I want [functionality] so that [value driver].
 
 **Tests**
 
-| Test ID | Test name |
-|----|----|
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-                      "))
+"))
 
+  test_chunks <- list(
+    tibble::tibble("Test ID" = rep("[Test Identifier]", 5), "Test Name" = rep("[Test Name]", 5)) %>%
+      as.data.frame()
+  )
 
   # Validation Plan ---------------------------------------------------------
 
@@ -203,7 +199,8 @@ As a [role], I want [functionality] so that [value driver].
     out_file,
     params = list(
       roles = roles,
-      spec_chunks = spec_chunks
+      spec_chunks = spec_chunks,
+      test_chunks = test_chunks
     ),
     output_format = rmarkdown::word_document(
       reference_docx = reference_docx),

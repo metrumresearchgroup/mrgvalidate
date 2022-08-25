@@ -12,7 +12,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(results = "asis", echo=FALSE)
+knitr::opts_chunk$set(results = "asis", echo=FALSE, ft.keepnext = FALSE)
 library(knitr)
 library(flextable)
 ```
@@ -24,7 +24,7 @@ This Traceability Matrix links test results to specific user stories for the pro
 
 ## Traceability Matrix
 ```{r}
-params$matrix %>% flextable_word(column_shrink = c("User Story", "Test ID"))
+params$matrix %>% flextable_word(column_width = c("User Story ID" = 1, "User Story" = 3, "Test ID" = 1))
 ```
 
 \newpage

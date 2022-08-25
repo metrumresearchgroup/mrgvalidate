@@ -4,10 +4,12 @@
 \alias{format_requirements}
 \title{Format requirements in rmarkdown}
 \usage{
-format_requirements(spec_chunks, word_doc = TRUE)
+format_requirements(spec_chunks, test_chunks, word_doc = TRUE)
 }
 \arguments{
 \item{spec_chunks}{list of requirements, organized by story}
+
+\item{test_chunks}{list of tests, formatted as flextables, organized by story}
 
 \item{word_doc}{logical. Sets horizontal separator format}
 }

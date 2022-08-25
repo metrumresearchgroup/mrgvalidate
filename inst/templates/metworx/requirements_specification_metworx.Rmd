@@ -10,10 +10,11 @@ params:
   version: ""
   roles: ""
   spec_chunks: ""
+  test_chunks: ""
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(results = "asis", echo=FALSE)
+knitr::opts_chunk$set(results = "asis", echo=FALSE, ft.keepnext = FALSE)
 library(knitr)
 library(flextable)
 ```
@@ -29,7 +30,7 @@ format_roles(params$roles)
 
 
 ```{r}
-format_requirements(params$spec_chunks)
+format_requirements(params$spec_chunks, params$test_chunks)
 ```
 
 \newpage

@@ -137,7 +137,7 @@ format_auto_tests_results <- function(auto_tests, val_info){
       cat(auto_test_str)
       for(i in seq_along(auto_tests)){
         tab <- auto_tests[[i]] %>%
-          flextable_word(column_shrink = "Test name")
+          flextable_word(column_width = c("Test name" = 2.5))
         cat(val_info[[i]])
         cat("\n")
         cat(knit_print(tab))
