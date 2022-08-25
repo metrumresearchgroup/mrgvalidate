@@ -3,7 +3,7 @@
 #'
 #' @inheritParams create_metworx_docs
 #'
-#' @keywords internal
+#' @export
 create_test_framework <- function(
   product_name,
   specs,
@@ -143,4 +143,27 @@ filter_unlinked_tests <- function(dd, tests){
     tests <- tests[tests_is_linked, ]
   }
   return(tests)
+}
+
+
+#' Format stories, tests, and requirements into dataframe
+#'
+#' Wrapper for `create_test_framework()`
+#'
+#' @inheritParams create_metworx_docs
+#'
+#'
+#' @export
+join_specs_to_tests <- function(
+  specs,
+  auto_test_dir = NULL,
+  man_test_dir = NULL
+) {
+  res <- create_test_framework(
+    product_name = "nothing",
+    specs = specs,
+    auto_test_dir = auto_test_dir,
+    man_test_dir = man_test_dir
+  )
+  return(res$dd)
 }

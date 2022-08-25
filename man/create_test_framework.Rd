@@ -16,10 +16,9 @@ create_test_framework(
 
 \item{specs}{tibble of stories and requirements. See \link{input_formats}.}
 
-\item{auto_test_dir, man_test_dir}{path to directories containing automatic
-and manual test output files. See \link{input_formats}.}
+\item{man_test_dir}{Path to directory containing \code{.md} files and screenshots for
+results from manual tests. See \link{input_formats}.}
 }
 \description{
 Format stories, tests, and other relevant information into usable objects
 }
-\keyword{internal}

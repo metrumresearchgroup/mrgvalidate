@@ -8,5 +8,6 @@
 #' [input_formats] help page. The companion `mrgvalprep` package contains
 #' helpers for formatting input data to the specification in [input_formats].
 #' @importFrom rlang abort warn inform %||%
+#' @importFrom lifecycle badge
 #' @name mrgvalidate
 NULL
