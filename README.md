@@ -1,9 +1,13 @@
 # mrgvalidate
-The purpose of the `mrgvalidate` package is to generate three specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:
+The purpose of the `mrgvalidate` package is to generate 7 specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:
 
-* requirements-specification.docx
+* release-notes.docx
+* validation-plan.docx
 * validation-testing.docx
+* requirements-specification.docx
 * traceability-matrix.docx
+* testing-results.docx
+* validation-summary.docx
 
 ## Installation
 
@@ -13,19 +17,42 @@ Install from source by [pulling the tarball](https://github.com/metrumresearchgr
 devtools::install_github("metrumresearchgroup/mrgvalidate")
 ```
 
-## Usage
+# Generating the docs
 
-If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html) you should only have to run this single line:
+By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+
+## Usage: Packages
+
 ```
 create_package_docs(
   product_name = "Fake Product", 
   version = "vFake", 
-  specs = spec_df,           # a tibble containing stories and requirements to validate
-  auto_test_dir = "some_dir" # directory containing automated test results
+  repo_url = "git@github.com:org/package.git",
+  specs = spec_df,                # a tibble containing stories and requirements to validate
+  release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
+  auto_test_dir = "some_dir",     # directory containing automated test results
+  style_dir = "style_ref_dir"     # Directory that has style references for the generated docx files
 )
 ```
 
-By default, this call will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html) for other arguments to tweak how and where the documents are rendered.
+ See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered.
+
+## Usage: Metworx Platform (experimental)
+
+```
+create_metworx_docs(
+  product_name = "Fake Product", 
+  version = "vFake", 
+  specs = spec_df,                # a tibble containing stories and requirements to validate
+  release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
+  auto_test_dir = "some_dir",     # directory containing automated test results
+  man_test_dir = "some_dir",      # directory containing automated test results
+  style_dir = "style_ref_dir"     # Directory that has style references for the generated docx files
+)
+```
+
+ See [`?create_metworx_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_metworx_docs.html) for other arguments to tweak how and where the documents are rendered.
+
 
 ### Preprocessing and formatting input data
 

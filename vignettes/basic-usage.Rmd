@@ -1,0 +1,153 @@
+---
+title: "Basic Usage of mrgvalidate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic_usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r options, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE,
+  message = FALSE
+)
+library(knitr)
+library(kableExtra)
+```
+
+# Introduction
+
+The purpose of the `mrgvalidate` package is to generate 7 specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:
+
+* release-notes.docx
+* validation-plan.docx
+* validation-testing.docx
+* requirements-specification.docx
+* traceability-matrix.docx
+* testing-results.docx
+* validation-summary.docx
+
+This vignette demonstrates how to generate these with a few simple library calls.
+
+```{r load}
+library(mrgvalidate)
+# devtools::load_all()
+```
+
+# Generating the docs
+
+By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+
+## Usage: Packages
+
+```{r create_package_docs, eval = FALSE}
+create_package_docs(
+  product_name = "Fake Product", 
+  version = "vFake", 
+  specs = spec_df,                # a tibble containing stories and requirements to validate
+  release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
+  auto_test_dir = "some_dir",     # directory containing automated test results
+  style_dir = "style_ref_dir"     # Directory that has style references for the generated docx files
+)
+```
+
+See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered.
+
+## Usage: Metworx Platform (experimental)
+
+```{r create_metworx_docs, eval = FALSE}
+create_metworx_docs(
+  product_name = "Fake Product", 
+  version = "vFake", 
+  specs = spec_df,                # a tibble containing stories and requirements to validate
+  release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
+  auto_test_dir = "some_dir",     # directory containing automated test results
+  man_test_dir = "some_dir",      # directory containing automated test results
+  style_dir = "style_ref_dir"     # Directory that has style references for the generated docx files
+)
+```
+
+See [`?create_metworx_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_metworx_docs.html) for other arguments to tweak how and where the documents are rendered.
+
+# Example
+
+If the documents produced by `create_package_docs()` or `create_metworx_docs()` don't look right, or you need to debug for any reason, you can run the pieces separately. For the demonstration below, we will use the following constants:
+
+```{r vars}
+TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate")
+output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+product_name <- "example"
+
+# Filter to automatic tests only
+specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
+```
+
+```{r setup dir, include=FALSE, echo=FALSE}
+if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+fs::dir_create(output_dir)
+```
+
+```{r example1, echo=TRUE}
+res_df <- 
+  mrgvalidate::create_package_docs(
+  product_name = product_name,
+  version = "vFAKE",
+  repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
+  specs = specs,
+  release_notes_file = file.path(TEST_INPUTS_DIR, "release_notes_sample.md"),
+  auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+  output_dir = output_dir
+)
+```
+
+```{r list_files, echo=TRUE}
+list.files(output_dir)
+```
+
+
+## Debugging
+Packages do not have manual tests, but for demonstration purposes lets include the previously filtered out. By default any missing *required* links will cause the docs to not be rendered. Additionally, a message displaying the missing links will be returned.
+```{r vars2}
+specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
+```
+
+```{r example2, echo=TRUE}
+res_df <- 
+  mrgvalidate::create_package_docs(
+  product_name = product_name,
+  version = "vFAKE",
+  repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
+  specs = specs,
+  release_notes_file = file.path(TEST_INPUTS_DIR, "release_notes_sample.md"),
+  auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+  output_dir = output_dir
+)
+```
+
+
+You can also call `find_missing()` to return **all** missing links, though unlinked tests are entirely acceptable.
+```{r find_missing}
+find_missing(res_df)
+```
+
+You can easily return the combined dataframe, without generating any of the validation docs, with `join_specs_to_tests()`, which can be useful for quick debugging:
+
+```{r join_specs_to_tests}
+res_df <- join_specs_to_tests(
+  specs = specs,
+  auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample")
+)
+```
+
+```{r res_df, echo=FALSE}
+res_df %>% knitr::kable() %>% kable_styling("striped") %>% scroll_box(width = "100%")
+```
+
+
+
+```{r cleanup, include = FALSE}
+fs::dir_delete(output_dir) 
+```

@@ -54,5 +54,6 @@ Imports:
 Suggests:
     testthat,
     officer,
+    kableExtra,
     withr (>= 2.3.0)
 Roxygen: list(markdown = TRUE)
