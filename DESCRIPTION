@@ -34,19 +34,20 @@ LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
 Imports: 
+    checkmate,
     dplyr,
+    flextable,
     fs,
     glue,
     jsonlite,
     knitr,
-    flextable,
+    lifecycle,
     magrittr,
+    markdown,
     purrr,
     readr,
     rlang,
     rmarkdown,
-    markdown,
-    checkmate,
     stringr,
     tibble,
     tidyr
