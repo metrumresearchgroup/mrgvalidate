@@ -22,6 +22,7 @@ create_metworx_docs(
 create_package_docs(
   product_name,
   version,
+  language = c("R", "Go"),
   repo_url,
   specs,
   release_notes_file,
@@ -60,6 +61,9 @@ useful when you're just interested in the return value.}
 
 \item{cleanup_rmd}{Whether to delete the copied RMD's after the word documents are generated.
 Defaults to \code{TRUE}.}
+
+\item{language}{Denotes the language the package was coded in. Either 'R' or 'Go'.
+Dictates boiler plate text in the generated validation docs.}
 
 \item{repo_url}{Character string denoting the url of repository.}
 }

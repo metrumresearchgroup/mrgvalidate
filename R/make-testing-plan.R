@@ -10,6 +10,8 @@
 #' @importFrom stats setNames
 #' @param product_name The name of the product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
+#' @param language Denotes the language the package was coded in. Either 'R' or 'Go'.
+#'        Dictates boiler plate text in the generated validation docs.
 #' @param tests Tibble containing all test results, FORMAT: CREATED ON LINE 59
 #'   OF `generate-docs.R` in [create_package_docs()] or [create_metworx_docs()].
 #' @param auto_info A named list containing the test suite information pulled
@@ -26,6 +28,7 @@
 make_testing_plan <- function(
   product_name,
   version,
+  language,
   tests,
   auto_info,
   style_dir = NULL,
@@ -75,6 +78,7 @@ make_testing_plan <- function(
       params = list(
         product_name = product_name,
         version = version,
+        language = language,
         auto_tests = auto_tests,
         man_tests = man_tests
       ),
@@ -154,5 +158,48 @@ The following manual tests will be conducted:
         cat(man_tests[[i]])
       }
     }
+  }
+}
+
+
+#' Generate automated testing boiler plate text for the testing plan
+#'
+#'
+#' @param language Denotes the language the package was coded in. Either 'R' or 'Go'.
+#'        Dictates boiler plate text in the generated validation docs.
+#' @param return_text logical. If `TRUE` return the text instead of printing it
+#' @keywords internal
+auto_testing_text <- function(language = c("R", "Go"), return_text = FALSE){
+
+  language <- match.arg(language)
+
+  text <- if(language == "R"){
+    paste("Testing in both development and validation phases proceeded using a standardized,
+automated unit testing framework via the testthat R package. Tests were written in testthat format
+and saved to R source files located within the package repository. Testing was executed using the
+`testthat::test_check` function which ran all tests in every test file in the test directory. Each
+test was run in a clean R environment. The test_check function returns a matrix of result data,
+with one line for each test and the corresponding result. The test matrix was retained and saved as
+an artifact from the validation testing. Tests relevant to the user stories covered by this change
+request were extracted from the larger test matrix to create the traceability matrix connecting the
+user story with the test result.")
+  }else{
+    paste("Testing in both development and validation phases proceeded using a standardized, automated
+unit testing framework via Go's standard testing framework. Tests were written in Go and saved to `.go`
+source files with the suffix `_test` located within the repository. Testing was executed using the
+`go test ./...` command which ran all tests in every test file in the repository. The test results are
+captured as a `.json` file and saved as an artifact from the validation testing. Tests relevant to the
+user stories covered by this change request were extracted from the larger test matrix to create the
+traceability matrix connecting the user story with the test result.")
+  }
+
+  text <- gsub('\n',' ', text)
+
+  if(return_text){
+    return(text)
+  }else{
+    text <- glue(text)
+    cat("\n")
+    cat(text)
   }
 }

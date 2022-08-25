@@ -8,8 +8,7 @@ create_test_framework <- function(
   product_name,
   specs,
   auto_test_dir = NULL,
-  man_test_dir = NULL,
-  type = "package"
+  man_test_dir = NULL
 ){
 
   if (is.null(auto_test_dir) && is.null(man_test_dir)) {
