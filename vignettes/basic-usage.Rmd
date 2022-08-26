@@ -78,7 +78,7 @@ If the documents produced by `create_package_docs()` or `create_metworx_docs()` 
 
 ```{r vars}
 TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate"); print(TEST_INPUTS_DIR)
-output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs"): print(output_dir)
+output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs"); print(output_dir)
 product_name <- "example"
 
 # Filter to automatic tests only
