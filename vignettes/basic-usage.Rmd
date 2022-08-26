@@ -78,7 +78,7 @@ If the documents produced by `create_package_docs()` or `create_metworx_docs()` 
 
 ```{r vars}
 TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate")
-output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+output_dir <- file.path("mrgvalidate-create-validation-docs")
 product_name <- "example"
 
 # Filter to automatic tests only
@@ -131,13 +131,13 @@ res_df <-
 
 You can also call `find_missing()` to return **all** missing links, though unlinked tests are entirely acceptable.
 ```{r find_missing}
-find_missing(res_df)
+mrgvalidate::find_missing(res_df)
 ```
 
 You can easily return the combined dataframe, without generating any of the validation docs, with `join_specs_to_tests()`, which can be useful for quick debugging:
 
 ```{r join_specs_to_tests}
-res_df <- join_specs_to_tests(
+res_df <- mrgvalidate::join_specs_to_tests(
   specs = specs,
   auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample")
 )
