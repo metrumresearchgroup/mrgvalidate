@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 library(knitr)
 library(kableExtra)
+# devtools::load_all()
 ```
 
 # Introduction
@@ -33,8 +34,7 @@ The purpose of the `mrgvalidate` package is to generate 7 specific documents tha
 This vignette demonstrates how to generate these with a few simple library calls.
 
 ```{r load}
-# library(mrgvalidate)
-devtools::load_all()
+library(mrgvalidate)
 ```
 
 # Generating the docs
@@ -77,8 +77,8 @@ See [`?create_metworx_docs`](https://metrumresearchgroup.github.io/mrgvalidate/r
 If the documents produced by `create_package_docs()` or `create_metworx_docs()` don't look right, or you need to debug for any reason, you can run the pieces separately. For the demonstration below, we will use the following constants:
 
 ```{r vars}
-TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate"); print(TEST_INPUTS_DIR)
-output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs"); print(output_dir)
+TEST_INPUTS_DIR <- system.file("test-inputs", package = "mrgvalidate")
+output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
 product_name <- "example"
 
 # Filter to automatic tests only
@@ -86,7 +86,7 @@ specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN
 head(specs)
 ```
 
-```{r setup dir, include=FALSE, echo=FALSE}
+```{r setup dir, echo=FALSE}
 if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
 fs::dir_create(output_dir)
 ```
