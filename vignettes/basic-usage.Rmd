@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r options, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -16,7 +17,7 @@ knitr::opts_chunk$set(
 )
 library(knitr)
 library(kableExtra)
-# devtools::load_all()
+devtools::load_all()
 ```
 
 # Introduction
@@ -34,7 +35,7 @@ The purpose of the `mrgvalidate` package is to generate 7 specific documents tha
 This vignette demonstrates how to generate these with a few simple library calls.
 
 ```{r load}
-library(mrgvalidate)
+# library(mrgvalidate)
 ```
 
 # Generating the docs
@@ -82,8 +83,7 @@ output_dir <- file.path("mrgvalidate-create-validation-docs")
 product_name <- "example"
 
 # Filter to automatic tests only
-specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% filter(!grepl("MAN", TestIds))
-head(specs)
+specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS")) %>% dplyr::filter(!grepl("MAN", TestIds))
 ```
 
 ```{r setup dir, echo=FALSE}
@@ -144,11 +144,11 @@ res_df <- mrgvalidate::join_specs_to_tests(
 ```
 
 ```{r res_df_display, eval=FALSE}
-res_df %>% unnest(tests)
+res_df %>% tidyr::unnest(tests)
 ```
 
 ```{r res_df, echo=FALSE}
-res_df %>% unnest(tests) %>% knitr::kable() %>% kable_styling("striped") %>% scroll_box(width = "100%")
+res_df %>% tidyr::unnest(tests) %>% knitr::kable() %>% kable_styling("striped") %>% scroll_box(width = "100%")
 ```
 
 
