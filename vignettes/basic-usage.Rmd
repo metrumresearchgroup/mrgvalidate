@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 )
 library(knitr)
 library(kableExtra)
-devtools::load_all()
+if (interactive()) {
+  devtools::load_all()
+}
 ```
 
 # Introduction
@@ -35,7 +37,7 @@ The purpose of the `mrgvalidate` package is to generate 7 specific documents tha
 This vignette demonstrates how to generate these with a few simple library calls.
 
 ```{r load}
-# library(mrgvalidate)
+library(mrgvalidate)
 ```
 
 # Generating the docs
