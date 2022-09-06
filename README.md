@@ -19,7 +19,9 @@ devtools::install_github("metrumresearchgroup/mrgvalidate")
 
 # Generating the docs
 
-By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all seven documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+
+The `spec_df` object and test directories below are created by helper functions in the [`mrgvalprep`](https://github.com/metrumresearchgroup/mrgvalprep) package. See the [function documentation](https://metrumresearchgroup.github.io/mrgvalprep/reference/index.html) and ["Basic Usage" vignette](https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html) for more details.
 
 ## Usage: Packages
 
@@ -35,7 +37,7 @@ create_package_docs(
 )
 ```
 
- See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered.
+ See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered. The contents of the `release_notes_file` file should be filtered to *just* the current version via [`mrgvalprep`](https://github.com/metrumresearchgroup/mrgvalprep).
 
 ## Usage: Metworx Platform (experimental)
 

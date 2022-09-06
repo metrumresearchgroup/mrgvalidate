@@ -8,7 +8,7 @@
 #' @importFrom purrr map reduce
 #' @importFrom readr read_csv cols
 #' @importFrom stringr str_replace fixed
-#' @importFrom tibble add_column
+#' @importFrom tibble add_column as_tibble
 #' @importFrom jsonlite read_json
 #' @keywords internal
 read_csv_test_results <- function(test_output_dir) {
@@ -32,14 +32,14 @@ read_csv_test_results <- function(test_output_dir) {
   results <- map(
     csv_files,
     ~{
-      read_csv(.x,
-               col_types = cols(TestName = "c", TestId = "c",
-                                passed = "i", failed = "i")) %>%
+      read.csv(.x, row.names = 1,
+               colClasses = c(TestName = "character", TestId = "character",
+                                passed = "integer", failed = "integer")) %>%
         add_column(
           result_file = str_replace(basename(.x), fixed(".csv"), ""),
           .before = TRUE)
     }) %>%
-    reduce(rbind)
+    reduce(rbind) %>% as_tibble()
 
   info <- map(json_files, jsonlite::read_json)
   names(info) <- str_replace(basename(csv_files), fixed(".csv"), "")

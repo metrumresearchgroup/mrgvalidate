@@ -42,7 +42,9 @@ library(mrgvalidate)
 
 # Generating the docs
 
-By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all six documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+By default, these calls (`create_package_docs()` and `create_metworx_docs()`) will write `.docx` files for all seven documents into your working directory. Parameterized `.Rmd` files are first copied over, but are removed at the end (you can override this with the argument `cleanup_rmd = FALSE`). If all input data conforms to what is described in [`?mrgvalidate::input_formats`](https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html), you should only have to write a single a line.
+
+The `spec_df` object and test directories below are created by helper functions in the [`mrgvalprep`](https://github.com/metrumresearchgroup/mrgvalprep) package. See the [function documentation](https://metrumresearchgroup.github.io/mrgvalprep/reference/index.html) for more details.
 
 ## Usage: Packages
 
@@ -50,6 +52,7 @@ By default, these calls (`create_package_docs()` and `create_metworx_docs()`) wi
 create_package_docs(
   product_name = "Fake Product", 
   version = "vFake", 
+  repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
   specs = spec_df,                # a tibble containing stories and requirements to validate
   release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
   auto_test_dir = "some_dir",     # directory containing automated test results
@@ -57,7 +60,7 @@ create_package_docs(
 )
 ```
 
-See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered.
+See [`?create_package_docs`](https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html) for other arguments to tweak how and where the documents are rendered. The contents of the `release_notes_file` file should be filtered to *just* the current version via [`mrgvalprep`](https://github.com/metrumresearchgroup/mrgvalprep).
 
 ## Usage: Metworx Platform (experimental)
 
@@ -69,7 +72,8 @@ create_metworx_docs(
   release_notes_file = "NEWS.md", # file path to a formatted markdown doc of release notes.
   auto_test_dir = "some_dir",     # directory containing automated test results
   man_test_dir = "some_dir",      # directory containing automated test results
-  style_dir = "style_ref_dir"     # Directory that has style references for the generated docx files
+  style_dir = "style_ref_dir",    # Directory that has style references for the generated docx files
+  output_dir = "output_dir"
 )
 ```
 
@@ -112,7 +116,8 @@ list.files(output_dir)
 
 
 ## Debugging
-Packages do not have manual tests, but for demonstration purposes lets include the previously filtered out. By default any missing *required* links will cause the docs to not be rendered. Additionally, a message displaying the missing links will be returned.
+
+Packages do not have manual tests, but for demonstration purposes lets include the previously filtered out manual tests. By default, any missing *required* links will cause the docs to not be rendered. Additionally, a message displaying the missing links will be returned.
 ```{r vars2}
 specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
 ```
