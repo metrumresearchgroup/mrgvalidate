@@ -5,6 +5,7 @@ Descriptions:
 Packages:
   - devtools
   - pkgdown
+  - officer
 
 Repos:
   - CRAN: https://cran.rstudio.com

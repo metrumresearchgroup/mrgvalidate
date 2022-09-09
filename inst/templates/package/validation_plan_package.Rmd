@@ -1,0 +1,80 @@
+---
+title: "Validation Plan"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "{Release Name}"
+  version: ""
+  repo: "[Repo URL]"
+  release_notes: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Validation Plan: `r params$product_name` `r params$version`
+
+## Product Release Name or Number: `r params$product_name` `r params$version`
+
+## Scope
+This document outlines the Validation Plan for the release of `r params$product_name` `r params$version` to support deployment into production environments.  This document outlines the activities that will be performed to Validate this release.
+
+
+## Requirements Specification
+Feature Requirements will be documented as User Stories from the perspective of product user Personas. Each User Story will include documented Functional and Non-Functional Requirements. All Users Stories and associated requirements will be summarized in the Requirements Specification document. Each User Story, and Requirement will be provided a unique identifier. 
+
+
+## Personas
+Personas represented in this release are Users. Users will refer to internal end users of the package. In general, these will be scientists and statisticians. 
+
+## Development Plan
+New features or bug fixes were initiated by opening a GitHub issue stating the requirements for the new feature or the bug to be fixed.  A label was attached to the issue indicating the estimated risk level for the new feature or bug fix. Code was developed to address the feature or fix the bug.  As new code matured, unit tests were written to test requirements associated with the new feature or confirm that the bug was fixed.  Unit tests were run throughout development both locally and on the continuous integration platform to understand the current state of development and also form the basis for testing in the validation phase. 
+
+
+## Testing Plan
+A Testing Plan document will be used to outline how tests will be developed, executed and recorded to ensure that the Requirements outlined in the Requirements Specification document are met. Testing in both development and Validation phases will be conducted using automated tests as described in the Testing Plan document. Each test will have a unique identifier. Test results will be formally documented in a Testing Results document. Testing will occur throughout development and again during Validation at which point results will be formally documented and submitted for Validation with the date and time each test was run along with the attestation of the tester.
+
+
+## Traceability Matrix
+A Traceability Matrix will be used to match all tests stated in the Testing Results document to the Requirements outlined in the Requirement Specification document.
+
+
+## Validation Summary
+A Validation Summary document will be developed after Validation is completed to outline the results of the Validation process. All documents involved in the Validation process will be certified by the respective parties involved in their development. Validation certification will be provided by the following roles:
+
+* Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
+* Author: Person who creates the Validation documentation.
+* Reviewer: Person who reviews all Validation documentation for accuracy and completeness. 
+* Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated. 
+
+\newpage
+
+## Release Notes
+Release Notes identifying all functionality changes and bugs addressed in this release will be provided along with the Release. Each item is accompanied by the number of the associated Pull Request in the package's GitHub repository.
+
+**GitHub Repository:** `r params$repo`
+
+```{r}
+# format_release_changes(params$release_notes)
+cat(params$release_notes, sep = "\n")
+```
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+
+
+<!-- ## To add:  -->
+<!-- User Stories -->
+<!-- {Story Category/Epic} -->
+<!-- As a {Role}, I want {Functionality} -->
+
+<!-- Bug Addressed -->
+<!-- {Insert Bug description} -->
+

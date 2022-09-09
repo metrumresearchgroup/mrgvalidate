@@ -17,7 +17,7 @@ into the format required by \code{mrgvalidate}.
 
 A tibble or data.frame containing the stories, and optionally requirements,
 for the software being validated. Will be passed to \code{specs} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}. Must have the following columns:
+\code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}. Must have the following columns:
 \itemize{
 \item StoryId: unique identifier for the story
 \item StoryName: short name of story (ideally 5-8 words max, but no hard limit)
@@ -45,7 +45,7 @@ format. See \code{mrgvalprep::read_spec_gsheets()} and
 
 For automated tests, a directory containing any number of CSVs with the test
 results. The path will be passed to \code{auto_test_dir} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}. A CSV file must have the following columns:
+\code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}. A CSV file must have the following columns:
 \itemize{
 \item TestName: a description of the test
 \item passed, failed: a count of passed and failed assertions for the test
@@ -57,21 +57,23 @@ For \code{testthat} tests, the \code{mrgvalprep::parse_testthat_list_reporter()}
 to convert \link[testthat:ListReporter]{testthat::ListReporter} results into the above format.
 
 Note that if TestName and TestId columns are identical,
-\code{\link[=create_validation_docs]{create_validation_docs()}} will auto-generate IDs. This is a temporary kludge
+\code{\link[=create_package_docs]{create_package_docs()}} / \code{\link[=create_metworx_docs]{create_metworx_docs()}} will auto-generate IDs. This is a temporary kludge
 to support legacy tests and GitHub issues that don't use test IDs.
 
 Alongside each CSV, there must be a JSON file with the same base name. This
 file includes information about the run itself (e.g., the date it was
 executed and system details). At the minimum, it must have a "date" field.
 Any key-value pairs that are specified under the top-level "info" field will
-be rendered in the validation docs.\preformatted{\{
+be rendered in the validation docs.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\{
     "date": "2021-07-26 12:20:10 EDT",
     "info":
     \{
         "commit": "78f70b9297a7f8b0f2ec2a18d17a9cc6722359c8"
     \}
 \}
-}
+}\if{html}{\out{</div>}}
 
 The \code{mrgvalprep::get_sys_info()} helper can be used to capture various system details and
 write them to a JSON file.
@@ -80,7 +82,9 @@ write them to a JSON file.
 \subsection{Manual tests}{
 
 For manual tests, a directory containing test subdirectories named by
-test ID, one subdirectory per manual test. For example:\preformatted{|-- MAN-ACC-001
+test ID, one subdirectory per manual test. For example:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{|-- MAN-ACC-001
 |   |-- assets_MAN-ACC-001
 |   |   `-- SSH-Access-1.png
 |   `-- test.md
@@ -89,7 +93,7 @@ test ID, one subdirectory per manual test. For example:\preformatted{|-- MAN-ACC
 |   |   |-- Guacamole-UI-1.png
 |   |   `-- Guacamole-UI-2.png
 |   `-- test.md
-}
+}\if{html}{\out{</div>}}
 
 Each subdirectory must adhere to the following:
 \itemize{
@@ -109,7 +113,7 @@ test description, run details, test results, links to images, etc.
 }
 
 The path will be passed to \code{man_test_dir} argument of
-\code{\link[=create_validation_docs]{create_validation_docs()}}.
+\code{\link[=create_metworx_docs]{create_metworx_docs()}}.
 }
 }
 \seealso{

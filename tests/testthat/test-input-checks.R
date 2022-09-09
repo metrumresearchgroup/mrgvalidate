@@ -11,7 +11,8 @@ setup_test_results <- function() {
   readr::write_csv(TEST_RESULTS, "t.csv")
   fs::file_copy(
     file.path(TEST_INPUTS_DIR, "validation-results-sample", "vscode-julia-results.json"),
-    "t.json"
+    "t.json",
+    overwrite = TRUE
   )
 }
 
@@ -42,9 +43,11 @@ test_that("find_missing() returns missing pieces and prints messages", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      res_list <- create_test_framework(product_name = "product",
+                                        specs = SPECS,
+                                        auto_test_dir = getwd()),
       "not mentioned in `specs`")
+    dd <- res_list$dd
     expect_message(
       res_missing <- find_missing(dd),
       "2 missing piece\\(s\\) found\\. Check results")
@@ -70,10 +73,13 @@ test_that("find_missing() returns missing pieces and prints messages", {
 test_that("find_tests_without_reqs() returns tests without reqs", {
   withr::with_tempdir({
     setup_test_results()
+
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      res_list <- create_test_framework(product_name = "product",
+                                        specs = SPECS,
+                                        auto_test_dir = getwd()),
       "not mentioned in `specs`")
+    dd <- res_list$dd
 
     expected <- tibble::tribble(
       ~TestId, ~TestName,
@@ -95,9 +101,11 @@ test_that("find_reqs_with_missing_tests() returns reqs without tests", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
-      dd <- create_validation_docs("product", "1.0", SPECS, getwd(),
-                                   write = FALSE),
+      res_list <- create_test_framework(product_name = "product",
+                                        specs = SPECS,
+                                        auto_test_dir = getwd()),
       "not mentioned in `specs`")
+    dd <- res_list$dd
     expect_equal(
       find_reqs_with_missing_tests(dd),
       tibble::tribble(

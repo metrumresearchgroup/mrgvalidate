@@ -1,0 +1,48 @@
+---
+title: "Testing Plan"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "{Release Name}"
+  version: ""
+  language: NULL
+  auto_tests: ""
+  man_tests: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, results = "asis", ft.keepnext = FALSE)
+library(knitr)
+library(flextable)
+```
+
+# Testing Plan: `r params$product_name` `r params$version`
+
+## Product Release Name or Number: `r params$product_name` `r params$version`
+
+## Scope
+The purpose of this Testing document is to outline the plan to test the Requirements outlined in the `r params$product_name` `r params$version` Requirements Specification document. Both Automated and Manual Testing at the unit level and End to End will be conducted to ensure that all Requirements have been met. Test results will be documented in the Test Results document. All Test results will be time stamped and attested by the tester. As new information becomes available during development, requirements may be added, removed or modified. As a result, corresponding tests will be updated to reflect the appropriate requirements. However, at the time of Validation, all tests will reflect the functionality outlined in the final Requirements Specification document.
+
+## Automated Testing
+Automated testing will be conducted using `metworxinspector`, an R coding language based tooling set. 
+
+### Automated Tests
+The table below outlines the automated tests that will be conducted:
+```{r}
+format_auto_test_plan(params$auto_tests)
+```
+
+<!-- Manual tests -->
+```{r}
+format_man_test_plan(params$man_tests)
+```
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+

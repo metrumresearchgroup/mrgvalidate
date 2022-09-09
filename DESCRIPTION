@@ -1,20 +1,24 @@
 Package: mrgvalidate
 Type: Package
 Title: Create Validation Docs For R Packages
-Version: 1.0.2.7000
+Version: 1.0.2.9000
 Authors@R:
-    c(person(given = "Devin",
-           family = "Pastoor",
-           role = c("aut", "cre"),
-           email = "devin.pastoor@gmail.com"),
-    person(given = "Seth",
+    c(person(given = "Seth",
            family = "Green",
-           role = c("aut"),
+           role = c("aut", "cre"),
            email = "sethg@metrumrg.com"),
+    person(given = "Kyle",
+           family = "Barrett",
+           role = c("aut"),
+           email = "barrettk@metrumrg.com"),
     person(given = "Kyle",
            family = "Meyer",
            role = c("aut"),
            email = "kylem@metrumrg.com"),
+    person(given = "Devin",
+           family = "Pastoor",
+           role = c("aut"),
+           email = "devin.pastoor@gmail.com"),
     person(given = "Kyle T",
            family = "Baron",
            role = c("aut"),
@@ -28,14 +32,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Imports: 
+    checkmate,
     dplyr,
+    flextable,
     fs,
     glue,
     jsonlite,
     knitr,
+    lifecycle,
     magrittr,
+    markdown,
     purrr,
     readr,
     rlang,
@@ -45,5 +53,7 @@ Imports:
     tidyr
 Suggests:
     testthat,
+    officer,
+    kableExtra,
     withr (>= 2.3.0)
 Roxygen: list(markdown = TRUE)

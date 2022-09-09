@@ -14,7 +14,7 @@
 #'
 #' A tibble or data.frame containing the stories, and optionally requirements,
 #' for the software being validated. Will be passed to `specs` argument of
-#' [create_validation_docs()]. Must have the following columns:
+#' [create_package_docs()] or [create_metworx_docs()]. Must have the following columns:
 #'
 #' * StoryId: unique identifier for the story
 #'
@@ -46,7 +46,7 @@
 #'
 #' For automated tests, a directory containing any number of CSVs with the test
 #' results. The path will be passed to `auto_test_dir` argument of
-#' [create_validation_docs()]. A CSV file must have the following columns:
+#' [create_package_docs()] or [create_metworx_docs()]. A CSV file must have the following columns:
 #'
 #' * TestName: a description of the test
 #'
@@ -59,7 +59,7 @@
 #' to convert [testthat::ListReporter] results into the above format.
 #'
 #' Note that if TestName and TestId columns are identical,
-#' [create_validation_docs()] will auto-generate IDs. This is a temporary kludge
+#' [create_package_docs()] / [create_metworx_docs()] will auto-generate IDs. This is a temporary kludge
 #' to support legacy tests and GitHub issues that don't use test IDs.
 #'
 #' Alongside each CSV, there must be a JSON file with the same base name. This
@@ -120,7 +120,7 @@
 #'
 #'
 #' The path will be passed to `man_test_dir` argument of
-#' [create_validation_docs()].
+#' [create_metworx_docs()].
 #'
 #' @seealso `mrgvalprep::parse_testthat_list_reporter()`,
 #'   `mrgvalprep::get_sys_info()`, `mrgvalprep::read_spec_gsheets()`,

@@ -1,0 +1,35 @@
+---
+title: "Release Notes"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "{Release Name}"
+  version: ""
+  repo: NULL
+  release_notes: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Release Notes: `r params$product_name` `r params$version`
+
+## Scope
+
+The purpose of this document is to outline the steps taken to implement the changes outlined in the `r params$product_name` `r params$version` Change Request (CR-###).  All efforts were tracked and facilitated through the use of a Jira ticketing system as outlined in this document. Jira tickets were used to outline the requirements for the new feature.  A label was attached to the issue indicating the estimated risk level.  Code was written to develop the feature and unit tests were created to test that the feature functioned as necessary per the requirements specifications. Unit and end-to-end test scenarios were created and defined to ensure functionality across all developed features and components/modules. All work efforts were conducted to address the business requirements outlined in the Requirements Specification document regarding the User Stories outlined in this document. 
+
+## Release Notes
+```{r}
+format_release_changes(params$release_notes)
+```
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+

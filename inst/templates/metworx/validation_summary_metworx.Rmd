@@ -1,0 +1,50 @@
+---
+title: "Validation Summary Report"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "{Release Name}"
+  version: ""
+  bugs: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Validation Summary Report: `r params$product_name` `r params$version`
+
+## Product Release Name or Number: `r params$product_name` `r params$version`
+
+## Scope
+This document summarizes the activities performed to Validate the `r params$product_name` `r params$version` as set forth in the `r params$product_name` `r params$version` Validation Plan to support deployment into production environments. 
+
+## Development Summary
+Feature development was facilitated through the use of Atlassian Jira Software Project based ticketing system (Jira). Jira operates as a Work Breakdown Structure to facilitate levels of work into manageable blocks that can be assigned to Project Team members programmatically. In Jira, these incremental blocks are called “tickets”. Several ticket types were be used in development of this Release:
+
+ * Jira “Epic” type tickets were used to outline the highest level of the Work Breakdown Structure. Epics contained several related User Stories and work items related to the development of the features reflected in those items. 
+ * Jira “User Story” type tickets were used to represent each feature from the perspective of the Personas identified and to outline all related Functional and Non-Functional requirements for each User Story feature.  A label was attached to each “User Story” type ticket to indicate the estimated risk level.  Code was written to develop each User Story. Unit level and End to End tests were created to test that each feature developed functioned as necessary per the Functional and Non-Functional requirements specifications. 
+ * Jira “Task” type tickets were used to outline development tasks related to achieving the Functional and Non-Functional needs of each User Story. These included technical and/or administrative work items.
+ * Jira “Sub-Task” type tickets were used to outline the smallest level of development tasks related to achieving the Functional and Non-Functional needs of each User Story.These included technical and/or administrative work items.
+ * Jira “Bug” type tickets were used for work related to instances of the platform not working as intended. These included both internally and externally reported bugs. Bug type tickets had associated Tasks or Subtasks related to their investigative findings, testing, and resolution. 
+
+## Testing Summary
+Product features included in this release were defined in the Requirements Specification and Validation Plan as User Stories and testing using the testing strategy outlined in the Testing Plan document. All planned features for this product release were successfully developed and tested using both manual and automatic tests. All requirements outlined in the Requirements Specification and associated tests have been matched and documented in the Traceability Matrix.  The following bugs were resolved in this release: 
+
+```{r}
+cat(params$bugs, sep = "\n")
+```
+
+## Deviations
+
+There were no deviations from the Validation Plan for this release.
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+

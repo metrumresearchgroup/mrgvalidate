@@ -1,0 +1,92 @@
+---
+title: "Validation Plan"
+output:
+  word_document: default
+  pdf_document:
+    latex_engine: xelatex
+number_sections: yes
+params:
+  product_name: "{Release Name}"
+  version: ""
+  repo: NULL
+  release_notes: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "asis", echo=FALSE)
+```
+
+# Validation Plan: `r params$product_name` `r params$version`
+
+## Product Release Name or Number: `r params$product_name` `r params$version`
+
+## Scope
+This document outlines the Validation Plan for the release of `r params$product_name` `r params$version` to support deployment into production environments.  This document outlines the activities that will be performed to Validate this release.
+
+
+## Requirements Specification
+Feature Requirements will be documented as User Stories from the perspective of product user Personas. Each User Story will include documented Functional and Non-Functional Requirements. All Users Stories and associated requirements will be summarized in the Requirements Specification document. Each User Story, and Requirement will be provided a unique identifier. 
+
+
+## Personas
+Personas represented in this release are Users, and Administrators. Users will refer to the internal end users of the platform. In general, these will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
+
+
+## Development Plan
+Feature development is facilitated through the use of Atlassian Jira Software Project based ticketing system (Jira). Jira operates as a Work Breakdown Structure to facilitate levels of work into manageable blocks that can be assigned to Project Team members programmatically. In Jira, these incremental blocks are called “tickets”. Several ticket types will be used in development of this Release:
+
+ * Jira “Epic” type tickets will be used to outline the highest level of the Work Breakdown Structure. Epics may contain several related User Stories and work items related to the development of the features reflected in those items. 
+ * Jira “User Story” type tickets will be used to represent each feature from the perspective of the Personas identified and to outline all related Functional and Non-Functional requirements for each User Story feature.  A label will be attached to each “User Story” type ticket to indicate the estimated risk level.  Code will be written to develop each User Story. Unit level and End to End tests will be created to test that each feature developed functions as necessary per the Functional and Non-Functional requirements specifications. 
+ * Jira “Task” type tickets will be used to outline development tasks related to achieving the Functional and Non-Functional needs of each User Story. These may include work items that are technical or administrative in nature.  
+ * Jira “Sub-Task” type tickets will be used to outline the smallest level of development tasks related to achieving the Functional and Non-Functional needs of each User Story.These may include work items that are technical or administrative in nature.  
+ * Jira “Bug” type tickets will be used for work related to instances of the platform not working as intended. They may include internally or externally reported bugs. Bug type tickets may have associated Tasks or Subtasks related to their investigative findings, testing, and resolution. 
+ 
+
+
+## Testing Plan
+A Testing Plan document will be used to outline how tests will be developed, executed and recorded to ensure that the Requirements outlined in the Requirements Specification document are met. Testing in both development and Validation phases will be conducted using both manual and automatic tests as described in the Testing Plan document. Each test will have a unique identifier. Test results will be formally documented in a Testing Results document. Testing will occur throughout development and again during Validation at which point results will be formally documented and submitted for Validation with the date and time each test was run along with the attestation of the tester.
+
+
+## Traceability Matrix
+A Traceability Matrix will be used to match all tests stated in the Testing Results document to the Requirements outlined in the Requirement Specification document.
+
+
+## Validation Summary
+A Validation Summary document will be developed after Validation is completed to outline the results of the Validation process. All documents involved in the Validation process will be certified by the respective parties involved in their development. Validation certification will be provided by the following roles:
+
+* Tester: Person who conducts the testing set forth in the Testing Plan, documented in the Testing Results document and matched to the User Story Requirements summarized in the Requirements Specification through the Traceability Matrix. 
+* Author: Person who creates the Validation documentation as follows.
+    + Validation Plan: Product Manager
+    + Requirements Specification: Business Analyst
+    + Testing Plan: Business Analyst
+    + Testing Results: Tester
+    + Traceability Matrix: Business Analyst
+    + Validation Summary: Product Manager
+    + Release Notes: Product Manager
+    + Change Management Form: Product Manager
+* Reviewer: Person who reviews all Validation documentation for accuracy and completeness. This will generally be the Product Manager.
+* Approver: Quality Assurance representative responsible for approving the Validation documents and therefore certifying that the Release has been Validated.  
+
+
+## Release Notes
+Release Notes identifying all of the features represented by the User Stories developed in this release and all bugs addressed in this release will be provided along with the Release.
+
+```{r}
+format_release_changes(params$release_notes)
+```
+
+\newpage
+
+```{r}
+make_signature_line()
+```
+
+
+<!-- ## To add:  -->
+<!-- User Stories -->
+<!-- {Story Category/Epic} -->
+<!-- As a {Role}, I want {Functionality} -->
+
+<!-- Bug Addressed -->
+<!-- {Insert Bug description} -->
+

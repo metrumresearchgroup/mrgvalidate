@@ -17,7 +17,7 @@ find_reqs_without_stories(merged_inputs)
 }
 \arguments{
 \item{merged_inputs}{Tibble with stories, requirements and tests, as returned
-by \code{\link[=create_validation_docs]{create_validation_docs()}}.}
+by \code{\link[=create_package_docs]{create_package_docs()}} or \code{\link[=create_metworx_docs]{create_metworx_docs()}}.}
 }
 \value{
 Tibble with the missing items, or, in the case of \code{find_missing()}, a
@@ -42,5 +42,5 @@ and \code{find_reqs_with_missing_tests()} use stories in place of requirements.
 aren't present because it can't do anything sensible without them.
 }
 \seealso{
-\code{\link[=create_validation_docs]{create_validation_docs()}}, \link{input_formats}
+\code{\link[=create_package_docs]{create_package_docs()}}, \code{\link[=create_metworx_docs]{create_metworx_docs()}}, \link{input_formats}
 }
