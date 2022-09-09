@@ -14,7 +14,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(results = "asis", echo=FALSE)
+knitr::opts_chunk$set(results = "asis", echo=FALSE, ft.keepnext = FALSE)
 library(knitr)
 library(flextable)
 ```

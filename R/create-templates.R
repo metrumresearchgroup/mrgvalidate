@@ -1,17 +1,43 @@
-library(stringr)
 
-
+#' Create template docs for packages or metworx
+#'
+#' @param type the type of doc you want to render ("package" or "metworx")
+#' @param output_dir Directory to write the output documents to. Defaults to `system.file(package = "mrgvalidate")`.
+#' @param new_folder Folder within `output_dir` to render docs.
+#'        Mainly useful when generating docs to a system directory that doesn't already exist
+#' @param style_dir Directory to check for a docx style reference
+#' @param cleanup_rmd Whether to delete the copied RMD's after the word documents are generated.
+#'  Defaults to `TRUE`.
+#'
+#' @details
+#'
+#' ## Developer Notes:
+#' - **Note:** This function does **not** call the internal `make_` functions responsible for creating the validation
+#' docs under normal circumstances.
+#'
+#' - `system.file()` wont register nested directories in the file path if the folder doesn't exist. In other words,
+#' `output_dir = system.file("template_renders", package = "mrgvalidate")` would return `""`, and the function would fail
+#' (because `"template_renders"` does not exist within `inst`). Use the `new_folder` argument when rendering to a
+#' new folder within `inst`.
+#'
+#' @export
 create_validation_templates <- function(type = c("package", "metworx"),
                                         output_dir = system.file(package = "mrgvalidate"),
                                         new_folder = "template_renders",
-                                        style_dir = NULL
+                                        style_dir = NULL,
+                                        cleanup_rmd = TRUE
 ){
 
   type <- match.arg(type)
+
   append <- type # used for file naming
   # system.file wont register `template_renders` in file path if the folder doesn't exist
   # Set to there in function instead of argument
-  output_dir <- file.path(output_dir, new_folder)
+  if(!is.null(new_folder)){
+    assert_character(new_folder)
+    output_dir <- file.path(output_dir, new_folder)
+  }
+
   if(!fs::dir_exists(output_dir)) fs::dir_create(output_dir)
 
   # Template Data -----------------------------------------------------------
@@ -75,7 +101,6 @@ create_validation_templates <- function(type = c("package", "metworx"),
     NULL
   }
 
-
   mat_out <- tibble::tibble(`User Story ID` = "[STORY-ID]", `User Story` = "As a [role], I want [functionality] so [value driver]",
                     `Test ID` = paste(rep("[Test Identifier]", 4), collapse = ", "))
 
@@ -97,15 +122,12 @@ As a [role], I want [functionality] so that [value driver].
 
 **Tests**
 
-| Test ID | Test name |
-|----|----|
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-| [Test Identifier] | [Test Name] |
-                      "))
+"))
 
+  test_chunks <- list(
+    tibble::tibble("Test ID" = rep("[Test Identifier]", 5), "Test Name" = rep("[Test Name]", 5)) %>%
+      as.data.frame()
+  )
 
   # Validation Plan ---------------------------------------------------------
 
@@ -203,7 +225,8 @@ As a [role], I want [functionality] so that [value driver].
     out_file,
     params = list(
       roles = roles,
-      spec_chunks = spec_chunks
+      spec_chunks = spec_chunks,
+      test_chunks = test_chunks
     ),
     output_format = rmarkdown::word_document(
       reference_docx = reference_docx),
@@ -253,25 +276,10 @@ As a [role], I want [functionality] so that [value driver].
   )
 
 
-
   ## cleanup RMDs
-  cleanup_rmds(output_dir = output_dir, append = append)
+  if(cleanup_rmd){
+    cleanup_rmds(output_dir = output_dir, append = append)
+  }
 }
 
 
-
-### Create templates
-# Note: you must download the style docs and point `style_dir` to their location for the metrum formatting to work
-
-create_validation_templates(
-  type = "package",
-  new_folder = "template_renders_package",
-  style_dir = style_dir
-)
-
-
-create_validation_templates(
-  type = "metworx",
-  new_folder = "template_renders_metworx",
-  style_dir = style_dir
-)

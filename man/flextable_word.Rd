@@ -4,16 +4,26 @@
 \alias{flextable_word}
 \title{Autofit flextables in word}
 \usage{
-flextable_word(tab, pg_width = 7, column_shrink = NULL)
+flextable_word(tab, pg_width = 7, column_width = NULL)
 }
 \arguments{
 \item{tab}{a flextable object}
 
-\item{pg_width}{width (in inches) of word document}
+\item{pg_width}{width (in inches) of the table. Generally 1 inch less than the default word document (8 in.)}
 
-\item{column_shrink}{character string. If specified, shrink this column before fitting to word document}
+\item{column_width}{named vector, where the column names are assigned to the desired \emph{relative} width.
+If specified, set these column widths before fitting to word document}
+}
+\value{
+a formatted flextable
 }
 \description{
 \code{flextable} by default will make the tables as wide as possible in word. This function will correct the \code{autofit()} feature and make the contents fit.
 }
-\keyword{internal}
+\details{
+column_width is specified using the following convention:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{tab \%>\%
+flextable_word(column_width = c("col1" = 2, "col2" = 3))
+}\if{html}{\out{</div>}}
+}

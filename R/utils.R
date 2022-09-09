@@ -25,14 +25,21 @@ format_spec <- function(x) {
     reqs <- NULL
   }
 
-  tst <- x %>%
-    select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
-  tst_tab <- knitr::kable(tst, format="markdown")
+
   c(header,
     bod, "\n\n",
     "**Product risk**: ", risk, "\n\n",
     if(is.null(reqs)) "" else c("**Requirements**\n", reqs, "\n\n"),
-    "**Tests**\n\n", tst_tab)
+    "**Tests**\n\n")
+}
+
+#' format tests for inclusion in requirements specification document
+#' @param x A single row from the stories df in [make_requirements()]
+#' @keywords internal
+format_req_tests <- function(x){
+  tst <- x %>%
+    select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
+  return(tst)
 }
 
 #' Return reference docx file whose name matches current output file.
@@ -106,24 +113,38 @@ get_template <- function(
 #' `flextable` by default will make the tables as wide as possible in word. This function will correct the `autofit()` feature and make the contents fit.
 #'
 #' @param tab a flextable object
-#' @param pg_width width (in inches) of word document
-#' @param column_shrink character string. If specified, shrink this column before fitting to word document
+#' @param pg_width width (in inches) of the table. Generally 1 inch less than the default word document (8 in.)
+#' @param column_width named vector, where the column names are assigned to the desired _relative_ width.
+#'        If specified, set these column widths before fitting to word document
 #'
-#' @importFrom flextable flextable_dim width
-#' @importFrom checkmate assert_true assert_character
-#' @keywords internal
-flextable_word <- function(tab, pg_width = 7, column_shrink = NULL){
+#' @details
+#' column_width is specified using the following convention:
+#'
+#' ```
+#' tab %>%
+#' flextable_word(column_width = c("col1" = 2, "col2" = 3))
+#' ```
+#'
+#' @importFrom flextable flextable_dim width fontsize
+#' @importFrom checkmate assert_true assert_character assert_numeric
+#'
+#' @return a formatted flextable
+#'
+#' @export
+flextable_word <- function(tab, pg_width = 7, column_width = NULL){
 
   tab_out <- tab %>% as.data.frame() %>% flextable() %>%
     theme_vanilla() %>% autofit()
 
-  if(!is.null(column_shrink)){
-    assert_character(column_shrink)
-    assert_true(all(column_shrink %in% names(tab)))
-    tab_out <- width(tab_out, glue("{column_shrink}"), width = 2.5)
+  if(!is.null(column_width)){
+    assert_character(names(column_width))
+    assert_true(all(names(column_width) %in% names(tab)))
+    assert_numeric(column_width)
+    tab_out <- width(tab_out, glue("{names(column_width)}"), width = column_width)
   }
 
-  tab_out <- width(tab_out, width = dim(tab_out)$widths*pg_width /(flextable_dim(tab_out)$widths))
+  tab_out <- width(tab_out, width = dim(tab_out)$widths*pg_width /(flextable_dim(tab_out)$widths)) %>%
+    fontsize(size = 10, part = "all")
   return(tab_out)
 }
 
