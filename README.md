@@ -3,7 +3,7 @@ The purpose of the `mrgvalidate` package is to generate 7 specific documents tha
 
 * release-notes.docx
 * validation-plan.docx
-* validation-testing.docx
+* testing-plan.docx
 * requirements-specification.docx
 * traceability-matrix.docx
 * testing-results.docx
