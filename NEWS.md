@@ -1,4 +1,4 @@
-# Development
+# mrgvalidate 2.0.0
 
 ## New Features
  - Overhaul of entire package (is not backwards compatible).
