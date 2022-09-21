@@ -17,9 +17,11 @@ knitr::opts_chunk$set(
 )
 library(knitr)
 library(kableExtra)
-if (interactive()) {
-  devtools::load_all()
-}
+library(dplyr)
+library(tidyr)
+# if (interactive()) {
+#   devtools::load_all()
+# }
 ```
 
 # Introduction
@@ -28,7 +30,7 @@ The purpose of the `mrgvalidate` package is to generate 7 specific documents tha
 
 * release-notes.docx
 * validation-plan.docx
-* validation-testing.docx
+* testing-plan.docx
 * requirements-specification.docx
 * traceability-matrix.docx
 * testing-results.docx
