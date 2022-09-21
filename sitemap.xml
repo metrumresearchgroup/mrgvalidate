@@ -1,28 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/404.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/articles/basic-usage.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/authors.html</loc>
+  </url>
+  <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/index.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/auto_testing_text.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/check_input.html</loc>
   </url>
   <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/check_test_input.html</loc>
   </url>
   <url>
-    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html</loc>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/cleanup_rmds.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/create_metworx_docs.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/create_test_framework.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_templates.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/extract_bug_section.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/filter_unlinked_tests.html</loc>
   </url>
   <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/find_missing.html</loc>
   </url>
   <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/flextable_word.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_auto_test_plan.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_auto_tests_results.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_man_test_plan.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_man_test_results.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_release_changes.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_req_tests.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_requirements.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_rmd_name.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_roles.html</loc>
+  </url>
+  <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/format_val_info.html</loc>
   </url>
   <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/get_reference_docx.html</loc>
   </url>
   <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/get_template.html</loc>
+  </url>
+  <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/has_req_cols.html</loc>
   </url>
   <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/join_specs_to_tests.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_release_notes.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_requirements.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_signature_line.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_testing_plan.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_testing_results.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_traceability_matrix.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_validation_plan.html</loc>
+  </url>
+  <url>
+    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/make_validation_summary.html</loc>
   </url>
   <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/mrgvalidate.html</loc>
@@ -38,14 +146,5 @@
   </url>
   <url>
     <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/read_manual_test_results.html</loc>
-  </url>
-  <url>
-    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/write_requirements.html</loc>
-  </url>
-  <url>
-    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/write_traceability_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://metrumresearchgroup.github.io/mrgvalidate/reference/write_validation_testing.html</loc>
   </url>
 </urlset>

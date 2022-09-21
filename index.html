@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,20 +33,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mrgvalidate</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/basic-usage.html">Basic Usage of mrgvalidate</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -52,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/metrumresearchgroup/mrgvalidate">
+  <a href="https://github.com/metrumresearchgroup/mrgvalidate" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -69,55 +77,80 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="mrgvalidate" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#mrgvalidate" class="anchor"></a>mrgvalidate</h1></div>
-<p>The purpose of the <code>mrgvalidate</code> package is to generate three specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:</p>
+
+<div class="section level1">
+<div class="page-header"><h1 id="mrgvalidate">mrgvalidate<a class="anchor" aria-label="anchor" href="#mrgvalidate"></a>
+</h1></div>
+<p>The purpose of the <code>mrgvalidate</code> package is to generate 7 specific documents that are necessary for the software validation process at Metrum Research Group. Those documents are:</p>
 <ul>
+<li>release-notes.docx</li>
+<li>validation-plan.docx</li>
+<li>testing-plan.docx</li>
 <li>requirements-specification.docx</li>
-<li>validation-testing.docx</li>
 <li>traceability-matrix.docx</li>
+<li>testing-results.docx</li>
+<li>validation-summary.docx</li>
 </ul>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install from source by <a href="https://github.com/metrumresearchgroup/mrgvalidate/releases">pulling the tarball</a> or use:</p>
-<pre><code>devtools::install_github("metrumresearchgroup/mrgvalidate")</code></pre>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install from source by <a href="https://github.com/metrumresearchgroup/mrgvalidate/releases" class="external-link">pulling the tarball</a> or use:</p>
+<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"metrumresearchgroup/mrgvalidate"</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
-<p>If all input data conforms to what is described in <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html"><code>?mrgvalidate::input_formats</code></a> you should only have to run this single line:</p>
-<pre><code>create_validation_docs(
-  product_name = "Fake Product", 
-  version = "vFake", 
-  specs = spec_df,           # a tibble containing stories and requirements to validate
-  auto_test_dir = "some_dir" # directory containing automated test results
-)</code></pre>
-<p>By default, this call will write <code>.md</code> and <code>.docx</code> files for all three documents into your working directory. See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/create_validation_docs.html"><code>?create_validation_docs</code></a> for other arguments to tweak how and where the documents are rendered.</p>
-<div id="preprocessing-and-formatting-input-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#preprocessing-and-formatting-input-data" class="anchor"></a>Preprocessing and formatting input data</h3>
-<p><code>mrgvalidate</code> requires a specific format for the input data. <a href="https://github.com/metrumresearchgroup/mrgvalprep">The <code>mrgvalprep</code> package</a> exists to transform a variety of common data sources into the format required by <code>mrgvalidate</code>. <strong>Please see the <a href="https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html"><code>mrgvalprep</code> Basic Usage vignette</a> for details</strong> on several different formats and use cases.</p>
 </div>
-<div id="input-checkers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#input-checkers" class="anchor"></a>Input checkers</h3>
+<div class="section level1">
+<h1 id="generating-the-docs">Generating the docs<a class="anchor" aria-label="anchor" href="#generating-the-docs"></a>
+</h1>
+<p>By default, these calls (<code><a href="reference/create_package_docs.html">create_package_docs()</a></code> and <code><a href="reference/create_metworx_docs.html">create_metworx_docs()</a></code>) will write <code>.docx</code> files for all seven documents into your working directory. Parameterized <code>.Rmd</code> files are first copied over, but are removed at the end (you can override this with the argument <code>cleanup_rmd = FALSE</code>). If all input data conforms to what is described in <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/input_formats.html"><code>?mrgvalidate::input_formats</code></a>, you should only have to write a single a line.</p>
+<p>The <code>spec_df</code> object and test directories below are created by helper functions in the <a href="https://github.com/metrumresearchgroup/mrgvalprep" class="external-link"><code>mrgvalprep</code></a> package. See the <a href="https://metrumresearchgroup.github.io/mrgvalprep/reference/index.html" class="external-link">function documentation</a> and <a href="https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html" class="external-link">“Basic Usage” vignette</a> for more details.</p>
+<div class="section level2">
+<h2 id="usage-packages">Usage: Packages<a class="anchor" aria-label="anchor" href="#usage-packages"></a>
+</h2>
+<pre><code><span><span class="fu"><a href="reference/create_package_docs.html">create_package_docs</a></span><span class="op">(</span></span>
+<span>  product_name <span class="op">=</span> <span class="st">"Fake Product"</span>, </span>
+<span>  version <span class="op">=</span> <span class="st">"vFake"</span>, </span>
+<span>  repo_url <span class="op">=</span> <span class="st">"git@github.com:org/package.git"</span>,</span>
+<span>  specs <span class="op">=</span> <span class="va">spec_df</span>,                <span class="co"># a tibble containing stories and requirements to validate</span></span>
+<span>  release_notes_file <span class="op">=</span> <span class="st">"NEWS.md"</span>, <span class="co"># file path to a formatted markdown doc of release notes.</span></span>
+<span>  auto_test_dir <span class="op">=</span> <span class="st">"some_dir"</span>,     <span class="co"># directory containing automated test results</span></span>
+<span>  style_dir <span class="op">=</span> <span class="st">"style_ref_dir"</span>     <span class="co"># Directory that has style references for the generated docx files</span></span>
+<span><span class="op">)</span></span></code></pre>
+<p>See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/create_package_docs.html"><code>?create_package_docs</code></a> for other arguments to tweak how and where the documents are rendered. The contents of the <code>release_notes_file</code> file should be filtered to <em>just</em> the current version via <a href="https://github.com/metrumresearchgroup/mrgvalprep" class="external-link"><code>mrgvalprep</code></a>.</p>
+</div>
+<div class="section level2">
+<h2 id="usage-metworx-platform-experimental">Usage: Metworx Platform (experimental)<a class="anchor" aria-label="anchor" href="#usage-metworx-platform-experimental"></a>
+</h2>
+<pre><code><span><span class="fu"><a href="reference/create_metworx_docs.html">create_metworx_docs</a></span><span class="op">(</span></span>
+<span>  product_name <span class="op">=</span> <span class="st">"Fake Product"</span>, </span>
+<span>  version <span class="op">=</span> <span class="st">"vFake"</span>, </span>
+<span>  specs <span class="op">=</span> <span class="va">spec_df</span>,                <span class="co"># a tibble containing stories and requirements to validate</span></span>
+<span>  release_notes_file <span class="op">=</span> <span class="st">"NEWS.md"</span>, <span class="co"># file path to a formatted markdown doc of release notes.</span></span>
+<span>  auto_test_dir <span class="op">=</span> <span class="st">"some_dir"</span>,     <span class="co"># directory containing automated test results</span></span>
+<span>  man_test_dir <span class="op">=</span> <span class="st">"some_dir"</span>,      <span class="co"># directory containing automated test results</span></span>
+<span>  style_dir <span class="op">=</span> <span class="st">"style_ref_dir"</span>     <span class="co"># Directory that has style references for the generated docx files</span></span>
+<span><span class="op">)</span></span></code></pre>
+<p>See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/create_metworx_docs.html"><code>?create_metworx_docs</code></a> for other arguments to tweak how and where the documents are rendered.</p>
+<div class="section level3">
+<h3 id="preprocessing-and-formatting-input-data">Preprocessing and formatting input data<a class="anchor" aria-label="anchor" href="#preprocessing-and-formatting-input-data"></a>
+</h3>
+<p><code>mrgvalidate</code> requires a specific format for the input data. <a href="https://github.com/metrumresearchgroup/mrgvalprep" class="external-link">The <code>mrgvalprep</code> package</a> exists to transform a variety of common data sources into the format required by <code>mrgvalidate</code>. <strong>Please see the <a href="https://metrumresearchgroup.github.io/mrgvalprep/articles/basic_usage.html" class="external-link"><code>mrgvalprep</code> Basic Usage vignette</a> for details</strong> on several different formats and use cases.</p>
+</div>
+<div class="section level3">
+<h3 id="input-checkers">Input checkers<a class="anchor" aria-label="anchor" href="#input-checkers"></a>
+</h3>
 <p>There are several helper functions for checking the linkage between stories/requirements and tests. See <a href="https://metrumresearchgroup.github.io/mrgvalidate/reference/find_missing.html"><code>?find_missing</code></a> for details.</p>
 </div>
 </div>
-<div id="development" class="section level2">
-<h2 class="hasAnchor">
-<a href="#development" class="anchor"></a>Development</h2>
-<p><code>mrgvalidate</code> uses <a href="https://github.com/metrumresearchgroup/pkgr">pkgr</a> to manage development dependencies and <a href="https://rstudio.github.io/renv/">renv</a> to provide isolation. To replicate this environment,</p>
-<ol>
+<div class="section level2">
+<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
+</h2>
+<p><code>mrgvalidate</code> uses <a href="https://github.com/metrumresearchgroup/pkgr" class="external-link">pkgr</a> to manage development dependencies and <a href="https://rstudio.github.io/renv/" class="external-link">renv</a> to provide isolation. To replicate this environment,</p>
+<ol style="list-style-type: decimal">
 <li><p>clone the repo</p></li>
 <li><p>install pkgr</p></li>
 <li>
 <p>open package in an R session and run <code>renv::init(bare = TRUE)</code></p>
-<ul>
-<li>install <code>renv</code> &gt; 0.8.3-4 into default <code><a href="https://rdrr.io/r/base/libPaths.html">.libPaths()</a></code> if not already installed</li>
-</ul>
+<ul><li>install <code>renv</code> &gt; 0.8.3-4 into default <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code> if not already installed</li></ul>
 </li>
 <li><p>run <code>pkgr install</code> in terminal within package directory</p></li>
 <li><p>restart session</p></li>
@@ -125,38 +158,53 @@
 <p>Then, launch R with the repo as the working directory (open the project in RStudio). renv will activate and find the project library.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Devin Pastoor <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Seth Green <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html#citation">Citing mrgvalidate</a></li>
+</ul>
+</div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Seth Green <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Kyle Barrett <br><small class="roles"> Author </small>  </li>
 <li>Kyle Meyer <br><small class="roles"> Author </small>  </li>
+<li>Devin Pastoor <br><small class="roles"> Author </small>  </li>
 <li>Kyle T Baron <br><small class="roles"> Author </small>  </li>
 <li>Sean Wilson <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Devin Pastoor, Seth Green, Kyle Meyer, Kyle T Baron, Sean Wilson.</p>
+  <p></p>
+<p>Developed by Seth Green, Kyle Barrett, Kyle Meyer, Devin Pastoor, Kyle T Baron, Sean Wilson.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -164,6 +212,8 @@
 
   
 
+
+  
 
   </body>
 </html>
