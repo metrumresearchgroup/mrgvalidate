@@ -29,14 +29,14 @@ Feature Requirements will be documented as User Stories from the perspective of 
 
 
 ## Personas
-Personas represented in this release are Users, and Administrators. Users will refer to the internal end users of the platform. In general, these will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
+Personas represented in this release are Users, and Administrators. Users will refer to the internal end users of the platform. These will be scientists and statisticians. Administrators will refer to those responsible for ensuring that the platform operates as intended within the policies and standards of their respective organization.
 
 
 ## Development Plan
 Feature development is facilitated through the use of Atlassian Jira Software Project based ticketing system (Jira). Jira operates as a Work Breakdown Structure to facilitate levels of work into manageable blocks that can be assigned to Project Team members programmatically. In Jira, these incremental blocks are called “tickets”. Several ticket types will be used in development of this Release:
 
  * Jira “Epic” type tickets will be used to outline the highest level of the Work Breakdown Structure. Epics may contain several related User Stories and work items related to the development of the features reflected in those items. 
- * Jira “User Story” type tickets will be used to represent each feature from the perspective of the Personas identified and to outline all related Functional and Non-Functional requirements for each User Story feature.  A label will be attached to each “User Story” type ticket to indicate the estimated risk level.  Code will be written to develop each User Story. Unit level and End to End tests will be created to test that each feature developed functions as necessary per the Functional and Non-Functional requirements specifications. 
+ * Jira “User Story” type tickets will be used to represent each feature from the perspective of the Personas identified and to outline all related Functional and Non-Functional requirements for each User Story feature.  A label will be attached to each “User Story” type ticket to indicate a risk level.  Code will be written to develop each User Story. Unit level and End to End tests will be created to test that each feature developed functions as necessary per the Functional and Non-Functional requirements specifications. 
  * Jira “Task” type tickets will be used to outline development tasks related to achieving the Functional and Non-Functional needs of each User Story. These may include work items that are technical or administrative in nature.  
  * Jira “Sub-Task” type tickets will be used to outline the smallest level of development tasks related to achieving the Functional and Non-Functional needs of each User Story.These may include work items that are technical or administrative in nature.  
  * Jira “Bug” type tickets will be used for work related to instances of the platform not working as intended. They may include internally or externally reported bugs. Bug type tickets may have associated Tasks or Subtasks related to their investigative findings, testing, and resolution. 

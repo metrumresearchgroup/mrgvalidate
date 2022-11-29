@@ -168,7 +168,7 @@ make_signature_line <- function(){
 <br>
 
 #########
-**Authored by:**
+**Authored by Tester:**
 
 <br>
 
