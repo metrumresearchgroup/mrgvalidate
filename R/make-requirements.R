@@ -39,8 +39,7 @@ make_requirements <- function(
 
   df_story <- df %>%
     filter(!is.na(.data$StoryId)) %>%
-    unnest(.data$tests) %>%
-    distinct(.data$StoryId, .data$TestId, .keep_all = TRUE)
+    unnest(.data$tests)
 
   tests_by_story <- df_story %>%
     group_by(.data$StoryId) %>%

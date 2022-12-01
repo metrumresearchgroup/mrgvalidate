@@ -38,6 +38,8 @@ format_spec <- function(x) {
 #' @keywords internal
 format_req_tests <- function(x){
   tst <- x %>%
+    arrange(.data$TestId) %>%
+    distinct(.data$TestId, .keep_all = TRUE) %>%
     select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
   return(tst)
 }
