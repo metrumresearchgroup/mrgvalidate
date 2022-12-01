@@ -143,6 +143,6 @@ test_that("find_reqs_without_stories() returns reqs without stories", {
 test_that("find_reqs_without_stories() errors if input lacks req columns", {
   expect_error(
     find_reqs_without_stories(
-      select(SPECS, -RequirementId, -RequirementDescription),
-    class = "mrgvalidate_input_error"))
+      select(SPECS, -RequirementId, -RequirementDescription)),
+    class = "mrgvalidate_input_error")
 })
