@@ -1,0 +1,133 @@
+CMD-R001:
+  description: create_metworx_docs() renders markdown
+  tests:
+  - VAL-CMD-001
+CMD-R002:
+  description: create_metworx_docs() returns data df
+  tests:
+  - VAL-CMD-002
+CMD-R003:
+  description: create_metworx_docs() drops missing test types
+  tests:
+  - VAL-CMD-003
+CMD-R004:
+  description: create_metworx_docs() works with no requirements
+  tests:
+  - VAL-CMD-004
+CMD-R005:
+  description: create_metworx_docs() can auto-assign test IDs
+  tests:
+  - VAL-CMD-005
+CMD-R006:
+  description: create_metworx_docs() drops orphan test IDs from testing docs
+  tests:
+  - VAL-CMD-006
+CMD-R007:
+  description: create_metworx_docs() works if passed style_dir and output_dir
+  tests:
+  - VAL-CMD-007
+CPD-R001:
+  description: create_package_docs() renders markdown
+  tests:
+  - VAL-CPD-001
+CPD-R002:
+  description: create_package_docs() returns data df
+  tests:
+  - VAL-CPD-002
+CPD-R003:
+  description: create_package_docs() drops missing test types
+  tests:
+  - VAL-CPD-003
+CPD-R004:
+  description: create_package_docs() works with no requirements
+  tests:
+  - VAL-CPD-004
+CPD-R005:
+  description: create_package_docs() can auto-assign test IDs
+  tests:
+  - VAL-CPD-005
+CPD-R006:
+  description: create_package_docs() drops orphan test IDs from testing docs
+  tests:
+  - VAL-CPD-006
+CPD-R007:
+  description: create_package_docs() works if passed style_dir and output_dir
+  tests:
+  - VAL-CPD-007
+CPD-R008:
+  description: create_package_docs() changes test plan automated test section based
+    on language
+  tests:
+  - VAL-CPD-008
+TMPL-R001:
+  description: create_validation_templates() renders package templates
+  tests:
+  - VAL-TMPL-001
+TMPL-R002:
+  description: create_validation_templates() renders metworx templates
+  tests:
+  - VAL-TMPL-002
+INPT-R001:
+  description: check_test_input() filters NA IDs
+  tests:
+  - VAL-INPT-001
+INPT-R002:
+  description: check_test_input() aborts on repeated IDs
+  tests:
+  - VAL-INPT-002
+INPT-R003:
+  description: find_missing() returns missing pieces and prints messages
+  tests:
+  - VAL-INPT-003
+INPT-R004:
+  description: find_tests_without_reqs() returns tests without reqs
+  tests:
+  - VAL-INPT-004
+INPT-R005:
+  description: find_reqs_with_missing_tests() returns reqs without tests
+  tests:
+  - VAL-INPT-005
+INPT-R006:
+  description: find_reqs_without_stories() returns reqs without stories
+  tests:
+  - VAL-INPT-006
+INPT-R007:
+  description: find_reqs_without_stories() errors if input lacks req columns
+  tests:
+  - VAL-INPT-007
+RES-R001:
+  description: read_csv_test_results() can read test results
+  tests:
+  - VAL-RES-001
+RES-R002:
+  description: read_csv_test_results() gives helpful error if no CSVs are found
+  tests:
+  - VAL-RES-002
+RES-R003:
+  description: read_csv_test_results() errors if JSON sidecar is missing
+  tests:
+  - VAL-RES-003
+RES-R004:
+  description: read_manual_test_results() works correctly
+  tests:
+  - VAL-RES-004
+RES-R005:
+  description: read_manual_test_results() gives helpful error on empty input
+  tests:
+  - VAL-RES-005
+RES-R006:
+  description: read_manual_test_results() errors out if missing required attributes
+  tests:
+  - VAL-RES-006
+UTL-R001:
+  description: get_reference_docx() returns default if file doesn't exist
+  tests:
+  - VAL-UTL-001
+UTL-R002:
+  description: get_reference_docx() returns an absolute path
+  tests:
+  - VAL-UTL-002
+UTL-R003:
+  description: extract_bug_section() works correctly
+  tests:
+  - VAL-UTL-003
