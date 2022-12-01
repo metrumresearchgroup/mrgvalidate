@@ -23,7 +23,7 @@ SPECS <- tibble::tribble(
   "st003", "story three", "req003", "req three", NA
 )
 
-test_that("check_test_input() filters NA IDs", {
+test_that("check_test_input() filters NA IDs [VAL-INPT-001]", {
   input <- TEST_RESULTS %>%
     dplyr::add_row(TestId = NA, TestName = "t4", passed = 1, failed = 0)
   expect_warning(res <- check_test_input(input),
@@ -31,7 +31,7 @@ test_that("check_test_input() filters NA IDs", {
   expect_equal(res, TEST_RESULTS)
 })
 
-test_that("check_test_input() aborts on repeated IDs", {
+test_that("check_test_input() aborts on repeated IDs [VAL-INPT-002]", {
   input <- TEST_RESULTS %>%
     dplyr::add_row(TestId = "FOO-BAR-001", TestName = "t4",
                    passed = 1, failed = 0)
@@ -39,7 +39,7 @@ test_that("check_test_input() aborts on repeated IDs", {
                class = "mrgvalidate_input_error")
 })
 
-test_that("find_missing() returns missing pieces and prints messages", {
+test_that("find_missing() returns missing pieces and prints messages [VAL-INPT-003]", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
@@ -70,7 +70,7 @@ test_that("find_missing() returns missing pieces and prints messages", {
   })
 })
 
-test_that("find_tests_without_reqs() returns tests without reqs", {
+test_that("find_tests_without_reqs() returns tests without reqs [VAL-INPT-004]", {
   withr::with_tempdir({
     setup_test_results()
 
@@ -97,7 +97,7 @@ test_that("find_tests_without_reqs() returns tests without reqs", {
   })
 })
 
-test_that("find_reqs_with_missing_tests() returns reqs without tests", {
+test_that("find_reqs_with_missing_tests() returns reqs without tests [VAL-INPT-005]", {
   withr::with_tempdir({
     setup_test_results()
     expect_warning(
@@ -122,7 +122,7 @@ test_that("find_reqs_with_missing_tests() returns reqs without tests", {
   })
 })
 
-test_that("find_reqs_without_stories() returns reqs without stories", {
+test_that("find_reqs_without_stories() returns reqs without stories [VAL-INPT-006]", {
   expect_equal(
     find_reqs_without_stories(
       dplyr::mutate(SPECS,
@@ -140,7 +140,7 @@ test_that("find_reqs_without_stories() returns reqs without stories", {
                    RequirementDescription = character(0)))
 })
 
-test_that("find_reqs_without_stories() errors if input lacks req columns", {
+test_that("find_reqs_without_stories() errors if input lacks req columns [VAL-INPT-007]", {
   expect_error(
     find_reqs_without_stories(
       select(SPECS, -RequirementId, -RequirementDescription)),

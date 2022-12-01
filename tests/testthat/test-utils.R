@@ -1,5 +1,5 @@
 
-test_that("get_reference_docx() returns default if file doesn't exist", {
+test_that("get_reference_docx() returns default if file doesn't exist [VAL-UTL-001]", {
   withr::with_tempdir({
     # Always "default" if style_dir is NULL.
     expect_equal(get_reference_docx("doesn't matter", NULL), "default")
@@ -8,7 +8,7 @@ test_that("get_reference_docx() returns default if file doesn't exist", {
   })
 })
 
-test_that("get_reference_docx() returns an absolute path", {
+test_that("get_reference_docx() returns an absolute path [VAL-UTL-002]", {
   withr::with_tempdir({
     file.create("base.docx")
     expect_true(fs::is_absolute_path(get_reference_docx("base.md", ".")))
@@ -16,7 +16,7 @@ test_that("get_reference_docx() returns an absolute path", {
 })
 
 
-test_that("extract_bug_section() works correctly", {
+test_that("extract_bug_section() works correctly [VAL-UTL-003]", {
   release_notes_file <- file.path(TEST_INPUTS_DIR, "release_notes_sample.md")
   release_notes <- readLines(release_notes_file)
 

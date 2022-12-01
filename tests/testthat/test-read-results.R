@@ -1,4 +1,4 @@
-test_that("read_csv_test_results() can read test results", {
+test_that("read_csv_test_results() can read test results [VAL-RES-001]", {
   output_dir <- file.path(TEST_INPUTS_DIR, "validation-results-sample")
   tres <- read_csv_test_results(output_dir)
 
@@ -17,14 +17,14 @@ test_that("read_csv_test_results() can read test results", {
                                   "^[0-9]+\\-[0-9]+\\-[0-9]+"))
 })
 
-test_that("read_csv_test_results() gives helpful error if no CSVs are found", {
+test_that("read_csv_test_results() gives helpful error if no CSVs are found [VAL-RES-002]", {
   withr::with_tempdir({
     expect_error(read_csv_test_results(getwd()),
                  class = "mrgvalidate_input_error")
   })
 })
 
-test_that("read_csv_test_results() errors if JSON sidecar is missing", {
+test_that("read_csv_test_results() errors if JSON sidecar is missing [VAL-RES-003]", {
   withr::with_tempdir({
     file.create("dummy.csv")
     expect_error(read_csv_test_results(getwd()),
@@ -32,7 +32,7 @@ test_that("read_csv_test_results() errors if JSON sidecar is missing", {
   })
 })
 
-test_that("read_manual_test_results() works correctly", {
+test_that("read_manual_test_results() works correctly [VAL-RES-004]", {
   output_dir <- file.path(TEST_INPUTS_DIR, "manual-tests-sample")
   res_df <- read_manual_test_results(output_dir)
 
@@ -47,14 +47,14 @@ test_that("read_manual_test_results() works correctly", {
   })
 })
 
-test_that("read_manual_test_results() gives helpful error on empty input", {
+test_that("read_manual_test_results() gives helpful error on empty input [VAL-RES-005]", {
   withr::with_tempdir({
     expect_error(read_manual_test_results(getwd()),
                  class = "mrgvalidate_input_error")
   })
 })
 
-test_that("read_manual_test_results() errors out if missing required attributes", {
+test_that("read_manual_test_results() errors out if missing required attributes [VAL-RES-006]", {
   output_dir <- file.path(TEST_INPUTS_DIR, "manual-tests-sample")
   test_dir <- file.path(tempdir(), "mrgvalidate-read-results")
   on.exit(fs::dir_delete(test_dir))
