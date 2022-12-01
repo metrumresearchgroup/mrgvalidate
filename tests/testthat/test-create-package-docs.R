@@ -69,7 +69,7 @@ test_that("create_package_docs() renders markdown", {
     expect_true(any(grepl(test_ids[i], mat_text$text)))
   }
   expect_false(any(str_detect(mat_text$text, "LINE2!!")))
-  expect_equal(sum(str_count(mat_text$text, "MXI-VSC-001")), 1)
+  expect_equal(sum(str_count(mat_text$text, "MXI-VSC-002")), 1)
 
   val_sum_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_SUM_FILE, product_name, "Rmd")))
   expect_true(grepl(boiler_text$VAL_SUM_BOILER, val_sum_text, fixed = TRUE))
