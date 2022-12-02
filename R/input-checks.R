@@ -87,10 +87,10 @@ find_tests_without_reqs <- function(merged_inputs) {
   }
 
   merged_inputs %>%
-    unnest(.data$tests) %>%
+    unnest("tests") %>%
     filter(!is.na(.data$TestId)) %>%
     filter(is.na((.data[[id_col]]))) %>%
-    select(.data$TestId, .data$TestName) %>%
+    select("TestId", "TestName") %>%
     arrange(.data$TestId)
 }
 
@@ -108,12 +108,12 @@ find_reqs_with_missing_tests <- function(merged_inputs) {
   }
 
   merged_inputs %>%
-    unnest(.data$tests) %>%
+    unnest("tests") %>%
     # Checking that just TestId is NA isn't sufficient because TestId comes from
     # the join of the requirements and test results.
     filter(is.na(.data$passed)) %>%
     filter(!is.na(.data$TestId)) %>%
-    select(.data[[id_col]], .data[[desc_col]], .data$TestId) %>%
+    select(.data[[id_col]], .data[[desc_col]], "TestId") %>%
     arrange(.data[[id_col]], .data$TestId)
 }
 
@@ -130,7 +130,7 @@ find_reqs_without_stories <- function(merged_inputs) {
   merged_inputs %>%
     filter(!is.na(.data$RequirementId)) %>%
     filter(is.na(.data$StoryId)) %>%
-    select(.data$RequirementId, .data$RequirementDescription) %>%
+    select("RequirementId", "RequirementDescription") %>%
     arrange(.data$RequirementId)
 }
 

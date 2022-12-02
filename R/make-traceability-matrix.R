@@ -38,7 +38,7 @@ make_traceability_matrix <- function(
 
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%
-    unnest(cols = c(.data$tests)) %>%
+    unnest(cols = "tests") %>%
     filter(!is.na(.data$passed))
 
   mat <- if ("RequirementId" %in% names(mat)) {
@@ -54,9 +54,9 @@ make_traceability_matrix <- function(
 
   mat_out <- select(
     mat,
-    `User Story ID` = .data$StoryId,
-    `User Story` = .data$description,
-    `Test ID` = .data$test_ids,
+    `User Story ID` = "StoryId",
+    `User Story` = "description",
+    `Test ID` = "test_ids",
   )
 
   if (isTRUE(word_document)) {

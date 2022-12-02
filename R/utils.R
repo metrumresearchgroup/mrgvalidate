@@ -39,7 +39,7 @@ format_req_tests <- function(x){
   tst <- x %>%
     arrange(.data$TestId) %>%
     distinct(.data$TestId, .keep_all = TRUE) %>%
-    select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
+    select(`Test ID` = "TestId", `Test name` = "TestName")
   return(tst)
 }
 

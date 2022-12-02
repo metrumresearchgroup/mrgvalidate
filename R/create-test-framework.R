@@ -41,14 +41,14 @@ create_test_framework <- function(
              # "assertion".
              passed = 1L,
              failed = 0L) %>%
-      rename(man_test_content = .data$content)
+      rename(man_test_content = "content")
   }
 
   tests <- check_test_input(bind_rows(results))
 
   dd <- specs %>%
-    unnest(.data$TestIds) %>%
-    rename(TestId = .data$TestIds)  %>%
+    unnest("TestIds") %>%
+    rename(TestId = "TestIds")  %>%
     full_join(tests, by = "TestId")
 
   # Kludge to support legacy tests/specs without IDs.
@@ -70,9 +70,9 @@ issues/tests. For new tests, please assign test IDs. ")
   # End of kludge.
 
   dd <- nest(dd,
-             tests = c(.data$TestId, .data$TestName,
-                       .data$passed, .data$failed, .data$man_test_content,
-                       .data$result_file))
+             tests = c("TestId", "TestName",
+                       "passed", "failed", "man_test_content",
+                       "result_file"))
 
   tests <- filter_unlinked_tests(dd, tests)
 
