@@ -6,7 +6,6 @@
 #' @importFrom tidyr unnest
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
-#' @importFrom rlang .data
 #' @importFrom stringr str_extract str_trim
 #' @importFrom fs dir_exists dir_create
 #' @param product_name The name of the product you are validating, to be included in the output document.

@@ -6,7 +6,6 @@
 #' format a story for inclusion in output documents
 #' @importFrom dplyr arrange distinct pull select
 #' @importFrom knitr kable
-#' @importFrom rlang .data
 #' @importFrom stringr str_squish
 #' @param x A single row from the stories df in [make_requirements()]
 #' @keywords internal
