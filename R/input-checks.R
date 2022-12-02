@@ -97,6 +97,7 @@ find_tests_without_reqs <- function(merged_inputs) {
 #' @rdname find_missing
 #' @importFrom dplyr arrange filter select
 #' @importFrom tidyr unnest
+#' @importFrom tidyselect all_of
 #' @export
 find_reqs_with_missing_tests <- function(merged_inputs) {
   if (has_req_cols(merged_inputs)) {
@@ -113,7 +114,7 @@ find_reqs_with_missing_tests <- function(merged_inputs) {
     # the join of the requirements and test results.
     filter(is.na(.data$passed)) %>%
     filter(!is.na(.data$TestId)) %>%
-    select(.data[[id_col]], .data[[desc_col]], "TestId") %>%
+    select(all_of(c(id_col, desc_col)), "TestId") %>%
     arrange(.data[[id_col]], .data$TestId)
 }
 

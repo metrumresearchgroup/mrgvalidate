@@ -50,7 +50,8 @@ Imports:
     rmarkdown,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests:
     testthat,
     officer,
