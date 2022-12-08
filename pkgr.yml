@@ -6,6 +6,9 @@ Packages:
   - devtools
   - pkgdown
   - officer
+  # for validating mrgvalidate
+  - here
+  - desc
 
 Repos:
   - CRAN: https://cran.rstudio.com
