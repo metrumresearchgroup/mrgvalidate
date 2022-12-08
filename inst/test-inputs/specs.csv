@@ -1,7 +1,0 @@
-StoryId,StoryName,StoryDescription,ProductRisk,RequirementId,RequirementDescription
-JUL-S001,Julia,"As a User, I want to have access to the latest version of Julia.",medium,JUL-R001,"On the current Metworx platform, users should be able to use the current version of Julia"
-UTL-S001,Linux Utilities,"As a User, I want to use “basic” Linux utilities (e.g. curl/wget/less/jq/etc).",low,UTL-R001,Users should have access to the basic tools and utilities relevant to general-use within a Linux environment.
-VSC-S001,VSCode,"As a user, I want to have access to Visual Studio, and that a pre-selected list of extensions are available to me.",medium,VSC-R001,"VSCode (Visual Studio) Desktop is available on the remote desktop to users."
-VSC-S001,VSCode,"As a user, I want to have access to Visual Studio, and that a pre-selected list of extensions are available to me.",medium,VSC-R002,"VSCode Desktop should have the following pre-selected extensions successfully connected..."
-ADM-S001,Pleasant UX,"As an Administrator, I want to ensure that the user has an attractive desktop.",Low,AMD-R001,Desktop should have a mountain on it
-ADM-S001,Pleasant UX,"As an Administrator, I want to ensure that the user has an attractive desktop.",Low,AMD-R001,Desktop should have the ocean on it
