@@ -95,6 +95,12 @@ INPT-R007:
   description: find_reqs_without_stories() errors if input lacks req columns
   tests:
   - VAL-INPT-007
+CTF-R001:
+  description: create_test_framework() returns unified data from linking specs and tests
+  tests:
+  - VAL-INPT-003
+  - VAL-INPT-004
+  - VAL-INPT-005
 RES-R001:
   description: read_csv_test_results() can read test results
   tests:
@@ -119,15 +125,59 @@ RES-R006:
   description: read_manual_test_results() errors out if missing required attributes
   tests:
   - VAL-RES-006
-UTL-R001:
-  description: get_reference_docx() returns default if file doesn't exist
+DOCS-R001:
+  description: create_package_docs() creates a valid release-notes.docx file
   tests:
-  - VAL-UTL-001
-UTL-R002:
-  description: get_reference_docx() returns an absolute path
+  - VAL-CPD-001
+DOCS-R002:
+  description: create_package_docs() creates a valid validation-plan.docx file
   tests:
-  - VAL-UTL-002
-UTL-R003:
-  description: extract_bug_section() works correctly
+  - VAL-CPD-001
+DOCS-R003:
+  description: create_package_docs() creates a valid testing-plan.docx file
   tests:
-  - VAL-UTL-003
+  - VAL-CPD-001
+DOCS-R004:
+  description: create_package_docs() creates a valid requirements-specification.docx file
+  tests:
+  - VAL-CPD-001
+DOCS-R005:
+  description: create_package_docs() creates a valid traceability-matrix.docx file
+  tests:
+  - VAL-CPD-001
+DOCS-R006:
+  description: create_package_docs() creates a valid testing-results.docx file
+  tests:
+  - VAL-CPD-001
+DOCS-R007:
+  description: create_package_docs() creates a valid validation-summary.docx file
+  tests:
+  - VAL-CPD-001
+DOCS-R008:
+  description: create_metworx_docs() creates a valid release-notes.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R009:
+  description: create_metworx_docs() creates a valid validation-plan.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R010:
+  description: create_metworx_docs() creates a valid testing-plan.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R011:
+  description: create_metworx_docs() creates a valid requirements-specification.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R012:
+  description: create_metworx_docs() creates a valid traceability-matrix.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R013:
+  description: create_metworx_docs() creates a valid testing-results.docx file
+  tests:
+  - VAL-CMD-001
+DOCS-R014:
+  description: create_metworx_docs() creates a valid validation-summary.docx file
+  tests:
+  - VAL-CMD-001
