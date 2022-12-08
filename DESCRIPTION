@@ -32,7 +32,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 Imports: 
     checkmate,
     dplyr,
@@ -50,7 +50,8 @@ Imports:
     rmarkdown,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    tidyselect
 Suggests:
     testthat,
     officer,

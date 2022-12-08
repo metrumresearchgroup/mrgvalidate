@@ -7,7 +7,7 @@
 #' `.docx` format. Specifications for input data can be found on the
 #' [input_formats] help page. The companion `mrgvalprep` package contains
 #' helpers for formatting input data to the specification in [input_formats].
-#' @importFrom rlang abort warn inform %||%
+#' @importFrom rlang abort warn inform %||% .data
 #' @importFrom lifecycle badge
 #' @name mrgvalidate
 NULL

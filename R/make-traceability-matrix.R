@@ -6,7 +6,6 @@
 #' @importFrom tidyr unnest
 #' @importFrom glue glue
 #' @importFrom rmarkdown render
-#' @importFrom rlang .data
 #' @importFrom stringr str_extract str_trim
 #' @importFrom fs dir_exists dir_create
 #' @param product_name The name of the product you are validating, to be included in the output document.
@@ -39,7 +38,7 @@ make_traceability_matrix <- function(
 
   mat <- df %>%
     filter(!is.na(.data$StoryId)) %>%
-    unnest(cols = c(.data$tests)) %>%
+    unnest(cols = "tests") %>%
     filter(!is.na(.data$passed))
 
   mat <- if ("RequirementId" %in% names(mat)) {
@@ -55,9 +54,9 @@ make_traceability_matrix <- function(
 
   mat_out <- select(
     mat,
-    `User Story ID` = .data$StoryId,
-    `User Story` = .data$description,
-    `Test ID` = .data$test_ids,
+    `User Story ID` = "StoryId",
+    `User Story` = "description",
+    `Test ID` = "test_ids",
   )
 
   if (isTRUE(word_document)) {

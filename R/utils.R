@@ -6,7 +6,6 @@
 #' format a story for inclusion in output documents
 #' @importFrom dplyr arrange distinct pull select
 #' @importFrom knitr kable
-#' @importFrom rlang .data
 #' @importFrom stringr str_squish
 #' @param x A single row from the stories df in [make_requirements()]
 #' @keywords internal
@@ -40,7 +39,7 @@ format_req_tests <- function(x){
   tst <- x %>%
     arrange(.data$TestId) %>%
     distinct(.data$TestId, .keep_all = TRUE) %>%
-    select(`Test ID` = .data$TestId, `Test name` = .data$TestName)
+    select(`Test ID` = "TestId", `Test name` = "TestName")
   return(tst)
 }
 
