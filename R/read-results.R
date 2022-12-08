@@ -105,5 +105,5 @@ read_manual_test_results <- function(test_output_dir) {
 
 
   # Return
-  results %>% select(-.data$executor)
+  results %>% select(-"executor")
 }

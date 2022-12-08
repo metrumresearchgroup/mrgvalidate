@@ -47,10 +47,10 @@ make_testing_results <- function(
     auto_tests <- auto_tests %>%
       filter(.data$result_file == .x) %>%
       select(
-        `Test ID` = .data$TestId,
-        `Test name` = .data$TestName,
-        .data$passed,
-        .data$failed
+        `Test ID` = "TestId",
+        `Test name` = "TestName",
+        "passed",
+        "failed"
       )
   }) %>% setNames(names(auto_info))
 

@@ -6,7 +6,6 @@
 #' @importFrom knitr kable
 #' @importFrom rmarkdown render
 #' @importFrom fs dir_exists dir_create
-#' @importFrom rlang .data
 #' @param product_name The product you are validating, to be included in the output document.
 #' @param version The version number of the product you are validating, to be included in the output document.
 #' @param df Tibble containing stories, requirements, and tests. Created in
@@ -39,7 +38,7 @@ make_requirements <- function(
 
   df_story <- df %>%
     filter(!is.na(.data$StoryId)) %>%
-    unnest(.data$tests)
+    unnest("tests")
 
   tests_by_story <- df_story %>%
     group_by(.data$StoryId) %>%

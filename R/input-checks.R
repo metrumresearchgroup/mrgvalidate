@@ -8,7 +8,6 @@
 #' @return Tibble with NA tests IDs removed.
 #' @seealso [create_package_docs()], [create_metworx_docs()], [input_formats]
 #' @importFrom dplyr filter
-#' @importFrom rlang .data
 check_test_input <- function(tests) {
   na_test_ids <- sum(is.na(tests$TestId))
   if (na_test_ids > 0) {
@@ -78,7 +77,6 @@ find_missing <- function(merged_inputs) {
 
 #' @rdname find_missing
 #' @importFrom dplyr arrange filter select
-#' @importFrom rlang .data
 #' @importFrom tidyr unnest
 #' @export
 find_tests_without_reqs <- function(merged_inputs) {
@@ -89,17 +87,17 @@ find_tests_without_reqs <- function(merged_inputs) {
   }
 
   merged_inputs %>%
-    unnest(.data$tests) %>%
+    unnest("tests") %>%
     filter(!is.na(.data$TestId)) %>%
     filter(is.na((.data[[id_col]]))) %>%
-    select(.data$TestId, .data$TestName) %>%
+    select("TestId", "TestName") %>%
     arrange(.data$TestId)
 }
 
 #' @rdname find_missing
 #' @importFrom dplyr arrange filter select
-#' @importFrom rlang .data
 #' @importFrom tidyr unnest
+#' @importFrom tidyselect all_of
 #' @export
 find_reqs_with_missing_tests <- function(merged_inputs) {
   if (has_req_cols(merged_inputs)) {
@@ -111,18 +109,17 @@ find_reqs_with_missing_tests <- function(merged_inputs) {
   }
 
   merged_inputs %>%
-    unnest(.data$tests) %>%
+    unnest("tests") %>%
     # Checking that just TestId is NA isn't sufficient because TestId comes from
     # the join of the requirements and test results.
     filter(is.na(.data$passed)) %>%
     filter(!is.na(.data$TestId)) %>%
-    select(.data[[id_col]], .data[[desc_col]], .data$TestId) %>%
+    select(all_of(c(id_col, desc_col)), "TestId") %>%
     arrange(.data[[id_col]], .data$TestId)
 }
 
 #' @rdname find_missing
 #' @importFrom dplyr arrange filter select
-#' @importFrom rlang .data
 #' @export
 find_reqs_without_stories <- function(merged_inputs) {
   if (!has_req_cols(merged_inputs)) {
@@ -134,7 +131,7 @@ find_reqs_without_stories <- function(merged_inputs) {
   merged_inputs %>%
     filter(!is.na(.data$RequirementId)) %>%
     filter(is.na(.data$StoryId)) %>%
-    select(.data$RequirementId, .data$RequirementDescription) %>%
+    select("RequirementId", "RequirementDescription") %>%
     arrange(.data$RequirementId)
 }
 

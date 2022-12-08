@@ -20,7 +20,6 @@
 #' @importFrom purrr map_chr
 #' @importFrom stringr str_pad
 #' @importFrom tidyr nest unnest
-#' @importFrom rlang .data
 #'
 #' @seealso [create_package_docs()]
 #'
