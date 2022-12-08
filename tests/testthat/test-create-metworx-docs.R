@@ -3,7 +3,7 @@ library(officer)
 
 product_name <- "metworx_TEST"
 
-test_that("create_metworx_docs() renders markdown [VAL-CMD-001]", {
+test_that("create_metworx_docs() renders markdown to docx [VAL-CMD-001]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)

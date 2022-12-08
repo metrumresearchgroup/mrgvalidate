@@ -3,7 +3,7 @@ library(officer)
 
 product_name <- "package_TEST"
 
-test_that("create_package_docs() renders markdown [VAL-CPD-001]", {
+test_that("create_package_docs() renders markdown to docx [VAL-CPD-001]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
