@@ -12,6 +12,7 @@ create_package_docs(
   specs,
   release_notes_file,
   auto_test_dir = NULL,
+  man_test_dir = NULL,
   style_dir = NULL,
   output_dir = getwd(),
   write = TRUE,
@@ -37,6 +38,9 @@ entry in the \code{NEWS.md} file.}
 
 \item{auto_test_dir}{Path to directory containing \code{.csv} and \code{.json} files with
 results from automated tests. See \link{input_formats}.}
+
+\item{man_test_dir}{Path to directory containing \code{.md} files and screenshots for
+results from manual tests. See \link{input_formats}.}
 
 \item{style_dir}{Directory that has style references for the generated docx
 files. When generating each output file, Pandoc will be instructed to use

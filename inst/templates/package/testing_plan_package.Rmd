@@ -38,6 +38,11 @@ The table below outlines the automated tests that will be conducted:
 format_auto_test_plan(params$auto_tests)
 ```
 
+<!-- Manual tests -->
+```{r}
+format_man_test_plan(params$man_tests)
+```
+
 \newpage
 
 ```{r}
