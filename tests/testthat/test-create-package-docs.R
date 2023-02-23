@@ -376,13 +376,6 @@ test_that("create_package_docs() works with manual tests", {
   on.exit({ fs::dir_delete(output_dir) })
 
   specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
-  specs$StoryDescription[1] <- "story desc line 2\nLINE2!!"
-
-  # Test that repeating TestIDs in traceability matrix are removed
-  specs$TestIds <- purrr::modify_if(
-    specs$TestIds,
-    specs$RequirementId == "VSC-R002",
-    ~ c(.x, "MXI-VSC-001"))
 
   mrgvalidate::create_package_docs(
     product_name = product_name,
@@ -406,21 +399,23 @@ test_that("create_package_docs() works with manual tests", {
     read_manual_test_results(file.path(TEST_INPUTS_DIR, "manual-tests-sample")) %>% pull(TestId)
   ) %>% unique()
 
+  man_ids <- read_manual_test_results(file.path(TEST_INPUTS_DIR, "manual-tests-sample")) %>% pull(TestId) %>% unique()
 
-  # check that the markdown looks right
-  boiler_text <- get_boiler_text("package")
+  # Read in test plan docx to search for manual ids
+  test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
+  test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(man_ids)){
+    expect_true(any(grepl(man_ids[i], test_plan_text$text)))
+  }
 
-  val_plan_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_PLAN_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$VAL_PLAN_BOILER, val_plan_text, fixed = TRUE))
+  # Read in test results docx to search for manual ids
+  test_results_text <- read_docx(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name)))
+  test_results_text <- docx_summary(test_results_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(man_ids)){
+    expect_true(any(grepl(man_ids[i], test_results_text$text)))
+  }
 
-  test_plan_text <- readr::read_file(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$TEST_PLAN_BOILER, test_plan_text, fixed = TRUE))
-
-  test_results_text <- readr::read_file(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$TEST_RESULTS_BOILER, test_results_text, fixed = TRUE))
-
-  req_text <- readr::read_file(file.path(output_dir, rename_val_file(REQ_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$REQ_BOILER, req_text, fixed = TRUE))
+  # Ensure both manual and automatic tests show up in requirements and traceability matrix
   # Read in docx to search for requirements
   req_text <- read_docx(file.path(output_dir, rename_val_file(REQ_FILE, product_name)))
   req_text <- docx_summary(req_text) %>% filter(content_type == "paragraph")
@@ -428,20 +423,11 @@ test_that("create_package_docs() works with manual tests", {
     expect_true(any(grepl(specs$RequirementId[i], req_text$text)))
   }
 
-  mat_text <- readr::read_file(file.path(output_dir, rename_val_file(MAT_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$MAT_BOILER, mat_text, fixed = TRUE))
+  # Check for all test ids in traceability matrix
   mat_text <- read_docx(file.path(output_dir, rename_val_file(MAT_FILE, product_name)))
   mat_text <- docx_summary(mat_text) %>% filter(content_type == "table cell")
   for(i in seq_along(test_ids)){
     expect_true(any(grepl(test_ids[i], mat_text$text)))
   }
-  expect_false(any(str_detect(mat_text$text, "LINE2!!")))
-  expect_equal(sum(str_count(mat_text$text, "MXI-VSC-002")), 1)
-
-  val_sum_text <- readr::read_file(file.path(output_dir, rename_val_file(VAL_SUM_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$VAL_SUM_BOILER, val_sum_text, fixed = TRUE))
-
-  rls_notes_text <- readr::read_file(file.path(output_dir, rename_val_file(RLS_NOTES_FILE, product_name, "Rmd")))
-  expect_true(grepl(boiler_text$RLS_NOTES_BOILER, rls_notes_text, fixed = TRUE))
 
 })

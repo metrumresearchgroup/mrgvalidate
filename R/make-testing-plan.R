@@ -59,6 +59,7 @@ make_testing_plan <- function(
 
   # write manual test outputs
   man_tests <- filter(tests, .data$test_type == "manual")
+
   if (nrow(man_tests) != 0) {
     man_tests <- pull(man_tests, .data$man_test_content) %>%
       # Remove Results from manual tests (everything after run details)
@@ -69,6 +70,9 @@ make_testing_plan <- function(
         str_trim(.x)
       }) %>%
       map(~ glue("\n{.x}\n\n"))
+  }else{
+    # Change to NULL if no manual tests exist (used in helper functions)
+    man_tests <- NULL
   }
 
   if (isTRUE(word_document)) {
