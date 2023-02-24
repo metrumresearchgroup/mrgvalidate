@@ -8,8 +8,8 @@ number_sections: yes
 params:
   product_name: "{Release Name}"
   version: ""
-  auto_tests: ""
-  man_tests: ""
+  auto_tests: NULL
+  man_tests: NULL
   val_info: ""
 ---
 
