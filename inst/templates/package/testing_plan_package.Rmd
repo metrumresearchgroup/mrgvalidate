@@ -9,8 +9,8 @@ params:
   product_name: "{Release Name}"
   version: ""
   language: "R"
-  auto_tests: ""
-  man_tests: ""
+  auto_tests: NULL
+  man_tests: NULL
 ---
 
 ```{r setup, include=FALSE}
@@ -36,6 +36,11 @@ auto_testing_text(params$language)
 The table below outlines the automated tests that will be conducted:
 ```{r}
 format_auto_test_plan(params$auto_tests)
+```
+
+<!-- Manual tests -->
+```{r}
+format_man_test_plan(params$man_tests)
 ```
 
 \newpage

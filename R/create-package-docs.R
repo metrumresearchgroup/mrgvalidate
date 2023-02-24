@@ -15,6 +15,8 @@
 #'   entry in the `NEWS.md` file.
 #' @param auto_test_dir Path to directory containing `.csv` and `.json` files with
 #'   results from automated tests. See [input_formats].
+#' @param man_test_dir Path to directory containing `.md` files and screenshots for
+#'   results from manual tests. See [input_formats].
 #' @param style_dir Directory that has style references for the generated docx
 #'   files. When generating each output file, Pandoc will be instructed to use
 #'   the reference file from this directory that has the same base name (if it
@@ -46,6 +48,7 @@ create_package_docs <- function
   specs,
   release_notes_file,
   auto_test_dir = NULL,
+  man_test_dir = NULL,
   style_dir = NULL,
   output_dir = getwd(),
   write = TRUE,
@@ -57,7 +60,7 @@ create_package_docs <- function
   test_data <- create_test_framework(product_name = product_name,
                                      specs = specs,
                                      auto_test_dir = auto_test_dir,
-                                     man_test_dir = NULL)
+                                     man_test_dir = man_test_dir)
 
   # Error out here and call find_missing
   input <- check_input(test_data$dd)

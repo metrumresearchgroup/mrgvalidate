@@ -10,8 +10,6 @@
 #' @param release_notes_file file path to a formatted markdown doc of release notes.
 #'   This should contain two top-level headers for "Changes and New Features" and
 #'   "Bug Fixes".
-#' @param man_test_dir Path to directory containing `.md` files and screenshots for
-#'   results from manual tests. See [input_formats].
 #' @param roles A data frame of user roles that, if specified, is inserted into
 #'   the requirements document.
 #'

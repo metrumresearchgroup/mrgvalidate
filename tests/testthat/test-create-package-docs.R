@@ -365,3 +365,69 @@ test_that("create_package_docs() changes test plan automated test section based 
 
   expect_true(any(str_detect(test_plan_text, test_plan_boiler_plate)))
 })
+
+
+
+test_that("create_package_docs() works with manual tests", {
+  # set up clean docs output dir
+  output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
+  if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
+  fs::dir_create(output_dir)
+  on.exit({ fs::dir_delete(output_dir) })
+
+  specs <- readRDS(file.path(TEST_INPUTS_DIR, "specs.RDS"))
+
+  mrgvalidate::create_package_docs(
+    product_name = product_name,
+    version = "vFAKE",
+    repo_url = "git@github.com:metrumresearchgroup/mrgvalidate.git",
+    specs = specs,
+    release_notes_file = file.path(TEST_INPUTS_DIR, "release_notes_sample.md"),
+    auto_test_dir = file.path(TEST_INPUTS_DIR, "validation-results-sample"),
+    man_test_dir = file.path(TEST_INPUTS_DIR, "manual-tests-sample"),
+    output_dir = output_dir,
+    write = TRUE,
+    cleanup_rmd = FALSE
+  )
+
+  # check that files exist
+  check_files(product_name, output_dir)
+
+  # get TestId's we expect to see
+  test_ids <- c(
+    read_csv_test_results(file.path(TEST_INPUTS_DIR, "validation-results-sample"))$results %>% pull(TestId),
+    read_manual_test_results(file.path(TEST_INPUTS_DIR, "manual-tests-sample")) %>% pull(TestId)
+  ) %>% unique()
+
+  man_ids <- read_manual_test_results(file.path(TEST_INPUTS_DIR, "manual-tests-sample")) %>% pull(TestId) %>% unique()
+
+  # Read in test plan docx to search for manual ids
+  test_plan_text <- read_docx(file.path(output_dir, rename_val_file(TEST_PLAN_FILE, product_name)))
+  test_plan_text <- docx_summary(test_plan_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(man_ids)){
+    expect_true(any(grepl(man_ids[i], test_plan_text$text)))
+  }
+
+  # Read in test results docx to search for manual ids
+  test_results_text <- read_docx(file.path(output_dir, rename_val_file(TEST_RESULTS_FILE, product_name)))
+  test_results_text <- docx_summary(test_results_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(man_ids)){
+    expect_true(any(grepl(man_ids[i], test_results_text$text)))
+  }
+
+  # Ensure both manual and automatic tests show up in requirements and traceability matrix
+  # Read in docx to search for requirements
+  req_text <- read_docx(file.path(output_dir, rename_val_file(REQ_FILE, product_name)))
+  req_text <- docx_summary(req_text) %>% filter(content_type == "paragraph")
+  for(i in seq_along(specs$RequirementId)){
+    expect_true(any(grepl(specs$RequirementId[i], req_text$text)))
+  }
+
+  # Check for all test ids in traceability matrix
+  mat_text <- read_docx(file.path(output_dir, rename_val_file(MAT_FILE, product_name)))
+  mat_text <- docx_summary(mat_text) %>% filter(content_type == "table cell")
+  for(i in seq_along(test_ids)){
+    expect_true(any(grepl(test_ids[i], mat_text$text)))
+  }
+
+})
