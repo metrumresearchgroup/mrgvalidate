@@ -2,7 +2,7 @@
 library(stringr)
 library(officer)
 
-test_that("create_validation_templates() renders package templates", {
+test_that("create_validation_templates() renders package templates [VAL-TMPL-001]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-templates")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -50,7 +50,7 @@ test_that("create_validation_templates() renders package templates", {
 })
 
 
-test_that("create_validation_templates() renders metworx templates", {
+test_that("create_validation_templates() renders metworx templates [VAL-TMPL-002]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-templates")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)

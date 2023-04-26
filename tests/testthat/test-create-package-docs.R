@@ -3,7 +3,7 @@ library(officer)
 
 product_name <- "package_TEST"
 
-test_that("create_package_docs() renders markdown", {
+test_that("create_package_docs() renders markdown to docx [VAL-CPD-001]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -80,7 +80,7 @@ test_that("create_package_docs() renders markdown", {
 })
 
 
-test_that("create_package_docs() returns data df", {
+test_that("create_package_docs() returns data df [VAL-CPD-002]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -114,7 +114,7 @@ test_that("create_package_docs() returns data df", {
 
 })
 
-test_that("create_package_docs() drops missing test types", {
+test_that("create_package_docs() drops missing test types [VAL-CPD-003]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -140,7 +140,7 @@ test_that("create_package_docs() drops missing test types", {
     "Required links between tests and/or requirements are missing. Returning missing information", fixed = TRUE)
 })
 
-test_that("create_package_docs() works with no requirements", {
+test_that("create_package_docs() works with no requirements [VAL-CPD-004]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -182,7 +182,7 @@ test_that("create_package_docs() works with no requirements", {
   expect_false(any(str_detect(req_text, "Requirements")))
 })
 
-test_that("create_package_docs() can auto-assign test IDs", {
+test_that("create_package_docs() can auto-assign test IDs [VAL-CPD-005]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -234,7 +234,7 @@ test_that("create_package_docs() can auto-assign test IDs", {
   }
 })
 
-test_that("create_package_docs() drops orphan test IDs from testing docs", {
+test_that("create_package_docs() drops orphan test IDs from testing docs [VAL-CPD-006]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -276,7 +276,7 @@ test_that("create_package_docs() drops orphan test IDs from testing docs", {
   expect_false(str_detect(test_text, "t002"))
 })
 
-test_that("create_package_docs() works if passed style_dir and output_dir", {
+test_that("create_package_docs() works if passed style_dir and output_dir [VAL-CPD-007]", {
   withr::with_tempdir({
     # Set up a directory of reference .docx files.
     fs::dir_create("style-refs")
@@ -313,7 +313,7 @@ test_that("create_package_docs() works if passed style_dir and output_dir", {
 })
 
 
-test_that("create_package_docs() changes test plan automated test section based on language", {
+test_that("create_package_docs() changes test plan automated test section based on language [VAL-CPD-008]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)

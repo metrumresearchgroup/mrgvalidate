@@ -1,0 +1,81 @@
+MRGVAL-S001:
+  name: Build validation documents for packages
+  description: As a user, I want to create validation documents for a software package.
+  ProductRisk: High
+  requirements:
+  - DOCS-R001
+  - DOCS-R002
+  - DOCS-R003
+  - DOCS-R004
+  - DOCS-R005
+  - DOCS-R006
+  - DOCS-R007
+  - CPD-R001
+  - CPD-R002
+  - CPD-R003
+  - CPD-R004
+  - CPD-R005
+  - CPD-R006
+  - CPD-R007
+  - CPD-R008
+
+MRGVAL-S002:
+  name: Build validation documents for platform
+  description: As a user, I want to create validation documents for a software platform.
+  ProductRisk: High
+  requirements:
+  - DOCS-R008
+  - DOCS-R009
+  - DOCS-R010
+  - DOCS-R011
+  - DOCS-R012
+  - DOCS-R013
+  - DOCS-R014
+  - CMD-R001
+  - CMD-R002
+  - CMD-R003
+  - CMD-R004
+  - CMD-R005
+  - CMD-R006
+  - CMD-R007
+
+MRGVAL-S003:
+  name: Check validation inputs
+  description: >
+    As a user, I want to check that the input data for creating validation documents
+    correctly links stories, requirements, and tests.
+  ProductRisk: Medium
+  requirements:
+  - INPT-R001
+  - INPT-R002
+  - INPT-R003
+  - INPT-R004
+  - INPT-R005
+  - INPT-R006
+  - INPT-R007
+
+MRGVAL-S004:
+  name: Create unified validation data
+  description: >
+    As a user, I want to be able to access the unified validation data created by
+    linking stories, requirements, and tests.
+  ProductRisk: Medium
+  requirements:
+  - CTF-R001
+  - RES-R001
+  - RES-R002
+  - RES-R003
+  - RES-R004
+  - RES-R005
+  - RES-R006
+
+MRGVAL-S005:
+  name: Create template documents
+  description: >
+    As a user, I want to create template documents that look like the real validation documents,
+    but contain empty content. In other words, documents that are not for validating
+    any particular software but only for previewing the document structure and format.
+  ProductRisk: Medium
+  requirements:
+  - TMPL-R001
+  - TMPL-R002

@@ -3,7 +3,7 @@ library(officer)
 
 product_name <- "metworx_TEST"
 
-test_that("create_metworx_docs() renders markdown", {
+test_that("create_metworx_docs() renders markdown to docx [VAL-CMD-001]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -72,7 +72,7 @@ test_that("create_metworx_docs() renders markdown", {
 })
 
 
-test_that("create_metworx_docs() returns data df", {
+test_that("create_metworx_docs() returns data df [VAL-CMD-002]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -106,7 +106,7 @@ test_that("create_metworx_docs() returns data df", {
 
 })
 
-test_that("create_metworx_docs() drops missing test types", {
+test_that("create_metworx_docs() drops missing test types [VAL-CMD-003]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -149,7 +149,7 @@ test_that("create_metworx_docs() drops missing test types", {
   expect_true(str_detect(val_text_man, "Manual Test Results"))
 })
 
-test_that("create_metworx_docs() works with no requirements", {
+test_that("create_metworx_docs() works with no requirements [VAL-CMD-004]", {
   # set up clean docs output dir
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
@@ -190,7 +190,7 @@ test_that("create_metworx_docs() works with no requirements", {
 
 })
 
-test_that("create_metworx_docs() can auto-assign test IDs", {
+test_that("create_metworx_docs() can auto-assign test IDs [VAL-CMD-005]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -240,7 +240,7 @@ test_that("create_metworx_docs() can auto-assign test IDs", {
   }
 })
 
-test_that("create_metworx_docs() drops orphan test IDs from testing docs", {
+test_that("create_metworx_docs() drops orphan test IDs from testing docs [VAL-CMD-006]", {
   output_dir <- file.path(tempdir(), "mrgvalidate-create-validation-docs")
   if (fs::dir_exists(output_dir)) fs::dir_delete(output_dir)
   fs::dir_create(output_dir)
@@ -280,7 +280,7 @@ test_that("create_metworx_docs() drops orphan test IDs from testing docs", {
   expect_false(str_detect(test_text, "t002"))
 })
 
-test_that("create_metworx_docs() works if passed style_dir and output_dir", {
+test_that("create_metworx_docs() works if passed style_dir and output_dir [VAL-CMD-007]", {
   withr::with_tempdir({
     # Set up a directory of reference .docx files.
     fs::dir_create("style-refs")
